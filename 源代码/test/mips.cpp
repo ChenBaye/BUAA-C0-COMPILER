@@ -1,3 +1,11 @@
+/*
+ * mips.c
+ *
+ *  Created on: 2018å¹´1æœˆ8æ—¥
+ *      Author: ChenShuwei
+ */
+
+
 #include"grammar.h"
 #include"getsym.h"
 #include"midcode.h"
@@ -9,59 +17,59 @@
 
 #define functabsize 64
 #define parasize 50
-//Ò»¸öº¯ÊıµÄÔËĞĞÕ»
-//´æ´¢Êı¾İÀàĞÍ¡¢id¡¢Öµ
+//ä¸€ä¸ªå‡½æ•°çš„è¿è¡Œæ ˆ
+//å­˜å‚¨æ•°æ®ç±»å‹ã€idã€å€¼
 struct data{
 	char id[tokensize];		//id
-	int addr;				//µØÖ·
-	int type;				//ÀàĞÍ,Óë·ûºÅ±íÏàÍ¬
+	int addr;				//åœ°å€
+	int type;				//ç±»å‹,ä¸ç¬¦å·è¡¨ç›¸åŒ
 };
 struct funcstack{	
-	struct data data_area[tabsize];	//´æ´¢º¯ÊıÖĞµÄ±äÁ¿(º¬ÁÙÊ±±äÁ¿)¡¢³£Á¿
-	int returnvalue;					//·µ»ØÖµ								
-	int returnaddr;						//·µ»ØµØÖ·							
-	int fp;						//ÉÏÒ»¸öº¯ÊıÔËĞĞÕ»µÄÕ»¶¥	
+	struct data data_area[tabsize];	//å­˜å‚¨å‡½æ•°ä¸­çš„å˜é‡(å«ä¸´æ—¶å˜é‡)ã€å¸¸é‡
+	int returnvalue;					//è¿”å›å€¼								
+	int returnaddr;						//è¿”å›åœ°å€							
+	int fp;						//ä¸Šä¸€ä¸ªå‡½æ•°è¿è¡Œæ ˆçš„æ ˆé¡¶	
 	
-	int data_arealen;					//dataÊıÁ¿	
+	int data_arealen;					//dataæ•°é‡	
 };		
-//º¯ÊıµÄÔËĞĞÕ»½á¹¹,Êı¾İÏòfp·½Ïò
+//å‡½æ•°çš„è¿è¡Œæ ˆç»“æ„,æ•°æ®å‘fpæ–¹å‘
 
 //+
-//+-------------	<------sp		µÍµØÖ·
+//+-------------	<------sp		ä½åœ°å€
 //+	data area
 //+		...		
 //+		...		
 //+		...
 //+		...
 //+-------------	<------fp-12
-//+	·µ»ØÖµ(fp-12)
+//+	è¿”å›å€¼(fp-12)
 //+-------------	<------fp-8
-//+	·µ»ØµØÖ·(fp-8)
+//+	è¿”å›åœ°å€(fp-8)
 //+-------------	<------fp-4
-//+	ÉÏÒ»¸öº¯ÊıµÄfpµÄÖµ(fp-4)
-//+-------------	<------fp£¨ÉÏÒ»¸öº¯ÊıµÄspÖµ£©		¸ßµØÖ·			sp=fp+16+sizeof(data_area)
+//+	ä¸Šä¸€ä¸ªå‡½æ•°çš„fpçš„å€¼(fp-4)
+//+-------------	<------fpï¼ˆä¸Šä¸€ä¸ªå‡½æ•°çš„spå€¼ï¼‰		é«˜åœ°å€			sp=fp+16+sizeof(data_area)
 // +	(fp)
 //+
 
-//´æ´¢Ã¿¸öº¯ÊıµÄËùÓĞ±äÁ¿¡¢³£Á¿
+//å­˜å‚¨æ¯ä¸ªå‡½æ•°çš„æ‰€æœ‰å˜é‡ã€å¸¸é‡
 struct newtab{
 	struct tabentry tab[tabsize];
 	int tablen;
 };
 
-struct newtab functab[functabsize];		//Ã¿¸öº¯ÊıµÄ·ûºÅ±í
-int funcsize[functabsize]={0};			//Ã¿¸öº¯ÊıµÄsize
+struct newtab functab[functabsize];		//æ¯ä¸ªå‡½æ•°çš„ç¬¦å·è¡¨
+int funcsize[functabsize]={0};			//æ¯ä¸ªå‡½æ•°çš„size
 
-struct data STRING[100];		//×î¶à100¸ö×Ö·û´® idÎª×Ö·û´®Öµ,ÏÂ±êÎª×Ö·û´®±àºÅ
-FILE* mipsfile;					//mips´úÂëÎÄ¼şÖ¸Õë
-int strnum=0;					//²úÉú×Ö·û´®µÄ´úºÅ
+struct data STRING[100];		//æœ€å¤š100ä¸ªå­—ç¬¦ä¸² idä¸ºå­—ç¬¦ä¸²å€¼,ä¸‹æ ‡ä¸ºå­—ç¬¦ä¸²ç¼–å·
+FILE* mipsfile;					//mipsä»£ç æ–‡ä»¶æŒ‡é’ˆ
+int strnum=0;					//äº§ç”Ÿå­—ç¬¦ä¸²çš„ä»£å·
 
-struct tabentry PARA[parasize];		//´æ´¢²ÎÊıtype=0 Êı×Ö£¬type=1 È«¾ÖÁ¿£¬type=2 ¾Ö²¿Á¿
-int paranum=0;					//¼ÇÂ¼ÓĞ¼¸¸ö²ÎÊı
+struct tabentry PARA[parasize];		//å­˜å‚¨å‚æ•°type=0 æ•°å­—ï¼Œtype=1 å…¨å±€é‡ï¼Œtype=2 å±€éƒ¨é‡
+int paranum=0;					//è®°å½•æœ‰å‡ ä¸ªå‚æ•°
 
 
 
-//¿ú¿×ÓÅ»¯£¬É¾³ımips´úÂëÖĞ¶àÓàµÄlwÓï¾ä
+//çª¥å­”ä¼˜åŒ–ï¼Œåˆ é™¤mipsä»£ç ä¸­å¤šä½™çš„lwè¯­å¥
 void deletelw(){
 	char buffer1[1024]={'\0'};
 	char buffer2[1024]={'\0'};
@@ -79,22 +87,22 @@ void deletelw(){
 
 	while (strcmp(buffer1,"Label_end:\n")!=0) 
 	{ 
-        fgets(buffer1,1024,mipsfile);  //¶ÁÈ¡Ò»ĞĞ
+        fgets(buffer1,1024,mipsfile);  //è¯»å–ä¸€è¡Œ
 		//printf("%s\n",buffer1);
-		fprintf(tempfile,"%s",buffer1);//¿½±´µ½tempfile
+		fprintf(tempfile,"%s",buffer1);//æ‹·è´åˆ°tempfile
 
-		if(buffer1[1]=='s' && buffer1[2]=='w'){		//¶Áµ½swÓï¾ä
-			strcpy(buffer2,buffer1);				//±£´æswÓï¾ä
-			if(!feof(mipsfile)){							//Èç¹û´ËÊ±Ã»µ½mips.txtÎÄ¼ş½áÎ²
-				fgets(buffer1,1024,mipsfile);				//¶ÁÈ¡ÏÂÒ»ĞĞ£¬¿ÉÄÜÊÇlw
+		if(buffer1[1]=='s' && buffer1[2]=='w'){		//è¯»åˆ°swè¯­å¥
+			strcpy(buffer2,buffer1);				//ä¿å­˜swè¯­å¥
+			if(!feof(mipsfile)){							//å¦‚æœæ­¤æ—¶æ²¡åˆ°mips.txtæ–‡ä»¶ç»“å°¾
+				fgets(buffer1,1024,mipsfile);				//è¯»å–ä¸‹ä¸€è¡Œï¼Œå¯èƒ½æ˜¯lw
 				char c=buffer1[1];
-				buffer1[1]='s';						//°Ñlw¸Ä³ÉswºóÈç¹ûÇ°ºó×Ö·û´®ÏàµÈ
+				buffer1[1]='s';						//æŠŠlwæ”¹æˆswåå¦‚æœå‰åå­—ç¬¦ä¸²ç›¸ç­‰
 				if(strcmp(buffer1,buffer2)==0){
 
 				}
 				else{
 					buffer1[1]=c;
-					fprintf(tempfile,"%s",buffer1);		//¿½±´µ½tempfile
+					fprintf(tempfile,"%s",buffer1);		//æ‹·è´åˆ°tempfile
 				}
 			}
 			
@@ -115,11 +123,11 @@ void deletelw(){
 		printf("can not open this file.");
 	}
 
-	//½«temp.txt¿½±´µ½mips.txt
+	//å°†temp.txtæ‹·è´åˆ°mips.txt
 	memset(buffer1,0,1024);
 	while (strcmp(buffer1,"Label_end:\n")!=0) 
 	{ 
-        fgets(buffer1,1024,tempfile);  //¶ÁÈ¡Ò»ĞĞ
+        fgets(buffer1,1024,tempfile);  //è¯»å–ä¸€è¡Œ
 		fprintf(mipsfile,"%s",buffer1);
 	}
 
@@ -130,17 +138,17 @@ void deletelw(){
 
 
 
-//Ïòº¯Êı·ûºÅ±íÖĞ²åÈëÖĞ¼ä±äÁ¿
+//å‘å‡½æ•°ç¬¦å·è¡¨ä¸­æ’å…¥ä¸­é—´å˜é‡
 void addnewsym(char* id,int funcnum){
 	int symnum=0;
 	int i=0;
 	for(i=0;i<functab[funcnum].tablen;i++){
-		if(strcmp(id,functab[funcnum].tab[i].id)==0){	//ÖĞ¼ä±äÁ¿ÒÑ¾­Ìî±í
+		if(strcmp(id,functab[funcnum].tab[i].id)==0){	//ä¸­é—´å˜é‡å·²ç»å¡«è¡¨
 			return;
 		}
 	}
-	//Ã»ÕÒµ½£¬ÔÚÄ©Î²Ìí¼ÓÖĞ¼ä±äÁ¿µÄ±íÏî
-	//±íÂúÁË
+	//æ²¡æ‰¾åˆ°ï¼Œåœ¨æœ«å°¾æ·»åŠ ä¸­é—´å˜é‡çš„è¡¨é¡¹
+	//è¡¨æ»¡äº†
 	if(functab[funcnum].tablen>=tabsize){
 		errormessage(OUTOFTAB_ERROR,line,no);
 		return;
@@ -153,16 +161,16 @@ void addnewsym(char* id,int funcnum){
 	functab[funcnum].tab[symnum].size=4;
 	functab[funcnum].tab[symnum].type=0;
 	functab[funcnum].tab[symnum].addr=funcsize[funcnum];
-	funcsize[funcnum]+=4;				//º¯Êısize+4
+	funcsize[funcnum]+=4;				//å‡½æ•°size+4
 	functab[funcnum].tablen++;
 	return;
 }
 
-//´òÓ¡º¯Êı·ûºÅ±íµÄÄÚÈİ
+//æ‰“å°å‡½æ•°ç¬¦å·è¡¨çš„å†…å®¹
 void printfunctab(){
 	int i=0;
 	int j=0;
-	//´òÓ¡Êı¾İÇø
+	//æ‰“å°æ•°æ®åŒº
 	printf("****************************FUNC TAB****************************\n");
 	for(i=0;i<funclen;i++){
 		printf("****************************%s\n",tab[funcindex[i]].id);
@@ -178,7 +186,7 @@ void printfunctab(){
 }
 
 
-//²úÉú×Ö·û´®±êºÅ
+//äº§ç”Ÿå­—ç¬¦ä¸²æ ‡å·
 void getstrname(char* strname){
 	if(strnum==100){
 		printf("******************ERROR******************\n");
@@ -190,8 +198,8 @@ void getstrname(char* strname){
 }
 
 
-//³õÊ¼»¯È«¾Ö±äÁ¿¡¢³£Á¿¡¢×Ö·û´®£¬ÒÔ¼°mips´úÂëµÄ.data¶Î
-//¼ÆËãÃ¿¸öº¯ÊıÖĞ³öÏÖµÄÖĞ¼ä±äÁ¿£¬ÌîÈë¸÷¸öº¯ÊıµÄ·ûºÅ±í
+//åˆå§‹åŒ–å…¨å±€å˜é‡ã€å¸¸é‡ã€å­—ç¬¦ä¸²ï¼Œä»¥åŠmipsä»£ç çš„.dataæ®µ
+//è®¡ç®—æ¯ä¸ªå‡½æ•°ä¸­å‡ºç°çš„ä¸­é—´å˜é‡ï¼Œå¡«å…¥å„ä¸ªå‡½æ•°çš„ç¬¦å·è¡¨
 void mips_init(){				
 	int i=0;
 	int j=0;
@@ -201,7 +209,7 @@ void mips_init(){
 	int funcnum=0;
 	fprintf(mipsfile,".data\n");
 
-	//±éÀú·ûºÅ±í£¬½«È«¾Ö±äÁ¿(Ã»ÓĞ³£Á¿)Éú³É.data¶Î,char¡¢int¾ùÎªÎª4×Ö½Ú
+	//éå†ç¬¦å·è¡¨ï¼Œå°†å…¨å±€å˜é‡(æ²¡æœ‰å¸¸é‡)ç”Ÿæˆ.dataæ®µ,charã€intå‡ä¸ºä¸º4å­—èŠ‚
 	for(i=0;i<globallen;i++){
 		if(tab[i].type==0){		//int
 			fprintf(mipsfile,"\t%s:.word %d\n",tab[i].id,tab[i].len);		//id:.word len
@@ -209,43 +217,43 @@ void mips_init(){
 		else if(tab[i].type==1){	//char
 			fprintf(mipsfile,"\t%s:.word %d\n",tab[i].id,tab[i].len);		//id:.word len
 		}
-		else if(tab[i].type==4){	//intÊı×é
+		else if(tab[i].type==4){	//intæ•°ç»„
 			fprintf(mipsfile,"\t%s:.word 0:%d\n",tab[i].id,tab[i].len);		//id:.word 0:len
 		}
-		else if(tab[i].type==5){						//charÊı×é
+		else if(tab[i].type==5){						//charæ•°ç»„
 			fprintf(mipsfile,"\t%s:.word 0:%d\n",tab[i].id,tab[i].len);		//id:.word 0:len
 		}
 	}
 
-	//±éÀúÖĞ¼ä´úÂë£¬
-	//1.Îª×Ö·û´®ÉêÇë¿Õ¼ä
-	//2.¼ÆËãÃ¿¸öº¯ÊıµÄsize£¬ÎªËùÓĞÖĞ¼ä±äÁ¿ÉêÇë¿Õ¼ä
+	//éå†ä¸­é—´ä»£ç ï¼Œ
+	//1.ä¸ºå­—ç¬¦ä¸²ç”³è¯·ç©ºé—´
+	//2.è®¡ç®—æ¯ä¸ªå‡½æ•°çš„sizeï¼Œä¸ºæ‰€æœ‰ä¸­é—´å˜é‡ç”³è¯·ç©ºé—´
 	for(i=0;i<midlen;i++){
 		if(mid[i].type==PRINTSTROP){			//print string
-			//½«×Ö·û´®¼°±êºÅ´æÈëstring,Êı×éÏÂ±ê¼´ÎªÆä±êºÅ
+			//å°†å­—ç¬¦ä¸²åŠæ ‡å·å­˜å…¥string,æ•°ç»„ä¸‹æ ‡å³ä¸ºå…¶æ ‡å·
 			strcpy(STRING[strnum].id,mid[i].op1);
 			char strname[tokensize]={'\0'};
 			getstrname(strname);	//strnum++
 			fprintf(mipsfile,"\t%s:.asciiz \"%s\"\n",strname,mid[i].op1);	//str:.asciiz ""
-			//¹²ÓĞstrnum¸ö×Ö·û´®
+			//å…±æœ‰strnumä¸ªå­—ç¬¦ä¸²
 		}
-		else if(mid[i].type==INTFUNCDEF || mid[i].type==CHARFUNCDEF || mid[i].type==VOIDFUNCDEF){//º¯Êı¶¨Òå
-			//ÕÒµ½º¯ÊıÔÚ·ûºÅ±íµÄË÷Òı
+		else if(mid[i].type==INTFUNCDEF || mid[i].type==CHARFUNCDEF || mid[i].type==VOIDFUNCDEF){//å‡½æ•°å®šä¹‰
+			//æ‰¾åˆ°å‡½æ•°åœ¨ç¬¦å·è¡¨çš„ç´¢å¼•
 			for(j=0;j<funclen;j++){
 				if(strcmp(tab[funcindex[j]].id,mid[i].op1)==0){
 					index=funcindex[j];
-					funcnum=j;							//µÚj¸öº¯Êı
+					funcnum=j;							//ç¬¬jä¸ªå‡½æ•°
 					if(j>=functabsize){
-						//·ûºÅ±íÒç³ö
+						//ç¬¦å·è¡¨æº¢å‡º
 						errormessage(OUTOFTAB_ERROR,line,no);
 						return;
 					}
 
 					if(j+1<funclen){
-						nextindex=funcindex[j+1];		//ºóÃæ»¹ÓĞº¯Êı
+						nextindex=funcindex[j+1];		//åé¢è¿˜æœ‰å‡½æ•°
 					}
 					else{
-						nextindex=tablen;				//ÊÇ×îºóÒ»¸öº¯Êı ¼´main
+						nextindex=tablen;				//æ˜¯æœ€åä¸€ä¸ªå‡½æ•° å³main
 					}
 					break;
 				}
@@ -253,34 +261,34 @@ void mips_init(){
 
 			functab[funcnum].tablen=0;
 			for(j=index+1,k=0;j<nextindex;j++,k++){
-				//¿½±´ÒÑÓĞ·ûºÅ
+				//æ‹·è´å·²æœ‰ç¬¦å·
 				functab[funcnum].tab[k].type=tab[j].type;
 				functab[funcnum].tab[k].addr=tab[j].addr;
 				functab[funcnum].tab[k].len=tab[j].len;
 				functab[funcnum].tab[k].lev=tab[j].lev;
 				functab[funcnum].tab[k].size=tab[j].size;
 				strcpy(functab[funcnum].tab[k].id,tab[j].id);
-				funcsize[funcnum]=tab[index].size;				//¿½±´º¯Êısize
+				funcsize[funcnum]=tab[index].size;				//æ‹·è´å‡½æ•°size
 				functab[funcnum].tablen++;
 			}
 
 		}
-		//ÒÔÏÂ¼¸ÖÖÖĞ¼ä´úÂëÀàĞÍ£¬ÎªÖĞ¼ä±äÁ¿µÚÒ»´Î³öÏÖ´¦
+		//ä»¥ä¸‹å‡ ç§ä¸­é—´ä»£ç ç±»å‹ï¼Œä¸ºä¸­é—´å˜é‡ç¬¬ä¸€æ¬¡å‡ºç°å¤„
 		else if(mid[i].type==VARASSIGN || 
 			   (mid[i].type>=1 && mid[i].type<=4) ||
 				mid[i].type==ARRUSE ||
 				mid[i].type==FUNCRET){
 			
-			if(mid[i].op1!=NULL && mid[i].op1[0]=='$'){			//ÖĞ¼ä±äÁ¿
-				addnewsym(mid[i].op1,funcnum);					//Ïòº¯Êı·ûºÅ±íÖĞ²åÈëÖĞ¼ä±äÁ¿
+			if(mid[i].op1!=NULL && mid[i].op1[0]=='$'){			//ä¸­é—´å˜é‡
+				addnewsym(mid[i].op1,funcnum);					//å‘å‡½æ•°ç¬¦å·è¡¨ä¸­æ’å…¥ä¸­é—´å˜é‡
 			}
 
 			if(mid[i].op2!=NULL && mid[i].op2[0]=='$'){
-				addnewsym(mid[i].op2,funcnum);					//Ïòº¯Êı·ûºÅ±íÖĞ²åÈëÖĞ¼ä±äÁ¿
+				addnewsym(mid[i].op2,funcnum);					//å‘å‡½æ•°ç¬¦å·è¡¨ä¸­æ’å…¥ä¸­é—´å˜é‡
 			}
 
 			if(mid[i].result!=NULL && mid[i].result[0]=='$'){
-				addnewsym(mid[i].result,funcnum);					//Ïòº¯Êı·ûºÅ±íÖĞ²åÈëÖĞ¼ä±äÁ¿
+				addnewsym(mid[i].result,funcnum);					//å‘å‡½æ•°ç¬¦å·è¡¨ä¸­æ’å…¥ä¸­é—´å˜é‡
 			}
 		}
 	}
@@ -292,26 +300,26 @@ void mips_init(){
 }
 
 
-//·µ»Ø0£¬¾Ö²¿±äÁ¿£»·µ»Ø1£¬È«¾Ö±äÁ¿
+//è¿”å›0ï¼Œå±€éƒ¨å˜é‡ï¼›è¿”å›1ï¼Œå…¨å±€å˜é‡
 int getaddr(char* id,int isarr,int funcnum,char* addr){
 	int i=0;
-	//ÏÈ±éÀúµ±Ç°º¯ÊıµÄÊı¾İÇø, µ±Ç°º¯ÊıµÄ·ûºÅ±íÎªfunctab[funcnum]
+	//å…ˆéå†å½“å‰å‡½æ•°çš„æ•°æ®åŒº, å½“å‰å‡½æ•°çš„ç¬¦å·è¡¨ä¸ºfunctab[funcnum]
 	for(i=0;i<functab[funcnum].tablen;i++){
-		if(strcmp(id,functab[funcnum].tab[i].id)==0){		//¶Áµ½ÏàÍ¬±äÁ¿Ãû
+		if(strcmp(id,functab[funcnum].tab[i].id)==0){		//è¯»åˆ°ç›¸åŒå˜é‡å
 			if((isarr==1 && (functab[funcnum].tab[i].type==4 || functab[funcnum].tab[i].type==5)) 
 				|| (isarr==0 && functab[funcnum].tab[i].type!=4 && functab[funcnum].tab[i].type!=5)){
-				//ÊÇ¾Ö²¿±äÁ¿£¬µØÖ·ÏÈ×ª³É×Ö·û´®
-				//addrÖ»ÊÇÏà¶Ôº¯ÊıµØÖ·
+				//æ˜¯å±€éƒ¨å˜é‡ï¼Œåœ°å€å…ˆè½¬æˆå­—ç¬¦ä¸²
+				//addråªæ˜¯ç›¸å¯¹å‡½æ•°åœ°å€
 				sprintf(addr,"%d",functab[funcnum].tab[i].addr);
 				return 0;
 			}
 		}
 	}
 
-	//ÔÙ±éÀúÈ«¾ÖÕ»Çø(·ûºÅ±íµÄÈ«¾ÖÁ¿)
+	//å†éå†å…¨å±€æ ˆåŒº(ç¬¦å·è¡¨çš„å…¨å±€é‡)
 	for(i=0;i<globallen;i++){
 		if(strcmp(tab[i].id,id)==0){
-			//±êÊ¶·ûÏàÍ¬ÇÒÀàĞÍÏàÍ¬
+			//æ ‡è¯†ç¬¦ç›¸åŒä¸”ç±»å‹ç›¸åŒ
 			if((isarr==1 && (tab[i].type==4 || tab[i].type==5))
 				|| (isarr==0 && tab[i].type!=4 && tab[i].type!=5)){
 				sprintf(addr,"%s",id);
@@ -320,7 +328,7 @@ int getaddr(char* id,int isarr,int funcnum,char* addr){
 		}
 	}
 	
-	//µ½ÕâÀïÊ±Ç°ÃæÒÑ¾­±¨´í 
+	//åˆ°è¿™é‡Œæ—¶å‰é¢å·²ç»æŠ¥é”™ 
 	printf("************************************ERROR************************************\n");
 	printf("in mips.c:the ID is not defined\n %s",id);
 	
@@ -330,7 +338,7 @@ int getaddr(char* id,int isarr,int funcnum,char* addr){
 
 
 
-//Îª¾Ö²¿³£Á¿ÔÚÕ»ÉÏ¸³³õÖµ const int/char = x
+//ä¸ºå±€éƒ¨å¸¸é‡åœ¨æ ˆä¸Šèµ‹åˆå€¼ const int/char = x
 /*
 void mips_localconst(int index,int funcnum){
 	if(mid[index].type==CONSTINTDEF){
@@ -343,7 +351,7 @@ void mips_localconst(int index,int funcnum){
 	int i=0;
 	char addr[200]={'\0'};
 	int temp=getaddr(mid[index].op1,0,funcnum,addr);
-	//²éÕÒ¾Ö²¿³£Á¿µÄÖµ
+	//æŸ¥æ‰¾å±€éƒ¨å¸¸é‡çš„å€¼
 	for(i=0;i<functab[funcnum].tablen;i++){
 		if(strcmp(mid[index].op1,functab[funcnum].tab[i].id)==0){
 			fprintf(mipsfile,"\tli $t0 %d\n",functab[funcnum].tab[i].len);
@@ -357,36 +365,36 @@ void mips_localconst(int index,int funcnum){
 */
 
 
-//²úÉú¼Ó·¨Ö¸ÁîÈı¸ö²Ù×÷ÊıÒ»¶¨²»ÊÇÊı×é
-void mips_add(int index,int funcnum){		// result=op1+op2,op1µ½$t0,op2µ½$t1,resultµ½$t0
+//äº§ç”ŸåŠ æ³•æŒ‡ä»¤ä¸‰ä¸ªæ“ä½œæ•°ä¸€å®šä¸æ˜¯æ•°ç»„
+void mips_add(int index,int funcnum){		// result=op1+op2,op1åˆ°$t0,op2åˆ°$t1,resultåˆ°$t0
 	char op1_addr[200]={'\0'};
 	char op2_addr[200]={'\0'};
 	char result_addr[200]={'\0'};
 	int ret=0;
-	//²Ù×÷Êı1ÎªÊı×Ö»ò±êÊ¶·û
+	//æ“ä½œæ•°1ä¸ºæ•°å­—æˆ–æ ‡è¯†ç¬¦
 	if(isrealnum(mid[index].op1)){
 		fprintf(mipsfile,"\tli $t0 %s\n",mid[index].op1);			//li $t0 op1
 	}
 	else{
-		ret=getaddr(mid[index].op1,0,funcnum,op1_addr);						//²éÑ¯µØÖ·
-		if(ret==1){//È«¾ÖÁ¿
+		ret=getaddr(mid[index].op1,0,funcnum,op1_addr);						//æŸ¥è¯¢åœ°å€
+		if(ret==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $t0 %s\n",op1_addr);				//lw $t0 op1_addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $t0 %s($sp)\n",op1_addr);		//lw $t0 op1_addr($sp)
 		}
 	}
 
-	//²Ù×÷Êı2ÎªÊı×Ö»ò±êÊ¶·û
+	//æ“ä½œæ•°2ä¸ºæ•°å­—æˆ–æ ‡è¯†ç¬¦
 	if(isrealnum(mid[index].op2)){
 		fprintf(mipsfile,"\tli $t1 %s\n",mid[index].op2);		//li $t1 op2
 	}
 	else{
 		ret=getaddr(mid[index].op2,0,funcnum,op2_addr);
-		if(ret==1){//È«¾ÖÁ¿
+		if(ret==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $t1 %s\n",op2_addr);				//lw $t1 op2_addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $t1 %s($sp)\n",op2_addr);		//lw $t1 op2_addr($sp)
 		}
 	}
@@ -394,45 +402,45 @@ void mips_add(int index,int funcnum){		// result=op1+op2,op1µ½$t0,op2µ½$t1,resul
 	fprintf(mipsfile,"\tadd $t0 $t0 $t1\n");						//add $t0 $t0 $t1
 	ret=getaddr(mid[index].result,0,funcnum,result_addr);
 
-	if(ret==1){//È«¾ÖÁ¿
+	if(ret==1){//å…¨å±€é‡
 		fprintf(mipsfile,"\tsw $t0 %s\n",result_addr);				//sw $t0 result_addr
 	}
-	else{		//¾Ö²¿Á¿
+	else{		//å±€éƒ¨é‡
 		fprintf(mipsfile,"\tsw $t0 %s($sp)\n",result_addr);			//sw $t0 result_addr($sp)
 	}
 }
 
-//²úÉú¼õ·¨Ö¸ÁîÈı¸ö²Ù×÷ÊıÒ»¶¨²»ÊÇÊı×é
-void mips_sub(int index,int funcnum){		// result=op1-op2,op1µ½$t0,op2µ½$t1,resultµ½$t0
+//äº§ç”Ÿå‡æ³•æŒ‡ä»¤ä¸‰ä¸ªæ“ä½œæ•°ä¸€å®šä¸æ˜¯æ•°ç»„
+void mips_sub(int index,int funcnum){		// result=op1-op2,op1åˆ°$t0,op2åˆ°$t1,resultåˆ°$t0
 	char op1_addr[200]={'\0'};
 	char op2_addr[200]={'\0'};
 	char result_addr[200]={'\0'};
 	int ret=0;
-	//²Ù×÷Êı1ÎªÊı×Ö»ò±êÊ¶·û
+	//æ“ä½œæ•°1ä¸ºæ•°å­—æˆ–æ ‡è¯†ç¬¦
 	if(isrealnum(mid[index].op1)){
 		fprintf(mipsfile,"\tli $t0 %s\n",mid[index].op1);			//li $t0 op1
 	}
 	else{
-		ret=getaddr(mid[index].op1,0,funcnum,op1_addr);						//²éÑ¯µØÖ·
-		if(ret==1){//È«¾ÖÁ¿
+		ret=getaddr(mid[index].op1,0,funcnum,op1_addr);						//æŸ¥è¯¢åœ°å€
+		if(ret==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $t0 %s\n",op1_addr);				//lw $t0 op1_addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $t0 %s($sp)\n",op1_addr);		//lw $t0 op1_addr($sp)
 		}
 		
 	}
 
-	//²Ù×÷Êı2ÎªÊı×Ö»ò±êÊ¶·û
+	//æ“ä½œæ•°2ä¸ºæ•°å­—æˆ–æ ‡è¯†ç¬¦
 	if(isrealnum(mid[index].op2)){
 		fprintf(mipsfile,"\tli $t1 %s\n",mid[index].op2);		//li $t1 op2
 	}
 	else{
 		ret=getaddr(mid[index].op2,0,funcnum,op2_addr);
-		if(ret==1){//È«¾ÖÁ¿
+		if(ret==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $t1 %s\n",op2_addr);				//lw $t1 op2_addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $t1 %s($sp)\n",op2_addr);		//lw $t1 op2_addr($sp)
 		}
 	}
@@ -440,45 +448,45 @@ void mips_sub(int index,int funcnum){		// result=op1-op2,op1µ½$t0,op2µ½$t1,resul
 	fprintf(mipsfile,"\tsub $t0 $t0 $t1\n");						//sub $t0 $t0 $t1
 	ret=getaddr(mid[index].result,0,funcnum,result_addr);
 
-	if(ret==1){//È«¾ÖÁ¿
+	if(ret==1){//å…¨å±€é‡
 		fprintf(mipsfile,"\tsw $t0 %s\n",result_addr);				//sw $t0 result_addr
 	}
-	else{		//¾Ö²¿Á¿
+	else{		//å±€éƒ¨é‡
 		fprintf(mipsfile,"\tsw $t0 %s($sp)\n",result_addr);			//sw $t0 result_addr($sp)
 	}
 }
 
-//²úÉú³Ë·¨Ö¸ÁîÈı¸ö²Ù×÷ÊıÒ»¶¨²»ÊÇÊı×é
-void mips_mul(int index,int funcnum){		// result=op1*op2,op1µ½$t0,op2µ½$t1,resultµ½$t0
+//äº§ç”Ÿä¹˜æ³•æŒ‡ä»¤ä¸‰ä¸ªæ“ä½œæ•°ä¸€å®šä¸æ˜¯æ•°ç»„
+void mips_mul(int index,int funcnum){		// result=op1*op2,op1åˆ°$t0,op2åˆ°$t1,resultåˆ°$t0
 	char op1_addr[200]={'\0'};
 	char op2_addr[200]={'\0'};
 	char result_addr[200]={'\0'};
 	int ret=0;
-	//²Ù×÷Êı1ÎªÊı×Ö»ò±êÊ¶·û
+	//æ“ä½œæ•°1ä¸ºæ•°å­—æˆ–æ ‡è¯†ç¬¦
 	if(isrealnum(mid[index].op1)){
 		fprintf(mipsfile,"\tli $t0 %s\n",mid[index].op1);			//li $t0 op1
 	}
 	else{
-		ret=getaddr(mid[index].op1,0,funcnum,op1_addr);						//²éÑ¯µØÖ·
-		if(ret==1){//È«¾ÖÁ¿
+		ret=getaddr(mid[index].op1,0,funcnum,op1_addr);						//æŸ¥è¯¢åœ°å€
+		if(ret==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $t0 %s\n",op1_addr);				//lw $t0 op1_addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $t0 %s($sp)\n",op1_addr);		//lw $t0 op1_addr($sp)
 		}
 		
 	}
 
-	//²Ù×÷Êı2ÎªÊı×Ö»ò±êÊ¶·û
+	//æ“ä½œæ•°2ä¸ºæ•°å­—æˆ–æ ‡è¯†ç¬¦
 	if(isrealnum(mid[index].op2)){
 		fprintf(mipsfile,"\tli $t1 %s\n",mid[index].op2);			//li $t1 op2
 	}
 	else{
 		ret=getaddr(mid[index].op2,0,funcnum,op2_addr);
-		if(ret==1){//È«¾ÖÁ¿
+		if(ret==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $t1 %s\n",op2_addr);				//lw $t1 op2_addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $t1 %s($sp)\n",op2_addr);		//lw $t1 op2_addr($sp)
 		}
 	}
@@ -487,46 +495,46 @@ void mips_mul(int index,int funcnum){		// result=op1*op2,op1µ½$t0,op2µ½$t1,resul
 	fprintf(mipsfile,"\tmflo $t0\n");								//mflo $t0
 	ret=getaddr(mid[index].result,0,funcnum,result_addr);
 
-	if(ret==1){//È«¾ÖÁ¿
+	if(ret==1){//å…¨å±€é‡
 		fprintf(mipsfile,"\tsw $t0 %s\n",result_addr);				//sw $t0 result_addr
 	}
-	else{		//¾Ö²¿Á¿
+	else{		//å±€éƒ¨é‡
 		fprintf(mipsfile,"\tsw $t0 %s($sp)\n",result_addr);			//sw $t0 result_addr($sp)
 	}
 	
 }
 
-//²úÉú³ı·¨Ö¸ÁîÈı¸ö²Ù×÷ÊıÒ»¶¨²»ÊÇÊı×é
-void mips_div(int index,int funcnum){		// result=op1¡¢op2,op1µ½$t0,op2µ½$t1,resultµ½$t0
+//äº§ç”Ÿé™¤æ³•æŒ‡ä»¤ä¸‰ä¸ªæ“ä½œæ•°ä¸€å®šä¸æ˜¯æ•°ç»„
+void mips_div(int index,int funcnum){		// result=op1ã€op2,op1åˆ°$t0,op2åˆ°$t1,resultåˆ°$t0
 	char op1_addr[200]={'\0'};
 	char op2_addr[200]={'\0'};
 	char result_addr[200]={'\0'};
 	int ret=0;
-	//²Ù×÷Êı1ÎªÊı×Ö»ò±êÊ¶·û
+	//æ“ä½œæ•°1ä¸ºæ•°å­—æˆ–æ ‡è¯†ç¬¦
 	if(isrealnum(mid[index].op1)){
 		fprintf(mipsfile,"\tli $t0 %s\n",mid[index].op1);			//li $t0 op1
 	}
 	else{
-		ret=getaddr(mid[index].op1,0,funcnum,op1_addr);						//²éÑ¯µØÖ·
-		if(ret==1){//È«¾ÖÁ¿
+		ret=getaddr(mid[index].op1,0,funcnum,op1_addr);						//æŸ¥è¯¢åœ°å€
+		if(ret==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $t0 %s\n",op1_addr);				//lw $t0 op1_addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $t0 %s($sp)\n",op1_addr);		//lw $t0 op1_addr($sp)
 		}
 		
 	}
 
-	//²Ù×÷Êı2ÎªÊı×Ö»ò±êÊ¶·û
+	//æ“ä½œæ•°2ä¸ºæ•°å­—æˆ–æ ‡è¯†ç¬¦
 	if(isrealnum(mid[index].op2)){
 		fprintf(mipsfile,"\tli $t1 %s\n",mid[index].op2);			//li $t1 op2
 	}
 	else{
 		ret=getaddr(mid[index].op2,0,funcnum,op2_addr);
-		if(ret==1){//È«¾ÖÁ¿
+		if(ret==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $t1 %s\n",op2_addr);				//lw $t1 op2_addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $t1 %s($sp)\n",op2_addr);		//lw $t1 op2_addr($sp)
 		}
 	}
@@ -535,56 +543,56 @@ void mips_div(int index,int funcnum){		// result=op1¡¢op2,op1µ½$t0,op2µ½$t1,resu
 	fprintf(mipsfile,"\tmflo $t0\n");								//mflo $t0
 	ret=getaddr(mid[index].result,0,funcnum,result_addr);
 
-	if(ret==1){//È«¾ÖÁ¿
+	if(ret==1){//å…¨å±€é‡
 		fprintf(mipsfile,"\tsw $t0 %s\n",result_addr);				//sw $t0 result_addr
 	}
-	else{		//¾Ö²¿Á¿
+	else{		//å±€éƒ¨é‡
 		fprintf(mipsfile,"\tsw $t0 %s($sp)\n",result_addr);			//sw $t0 result_addr($sp)
 	}
 }
 
 
-//º¯Êı¶¨Òå
-void mips_funcdef(int index,int funcnum){				//ÉèÖÃº¯Êılabel
+//å‡½æ•°å®šä¹‰
+void mips_funcdef(int index,int funcnum){				//è®¾ç½®å‡½æ•°label
 	fprintf(mipsfile,"%s:\n",mid[index].op1);			//function:
-	if(strcmp(mid[index].op1,"main")==0){				//mainº¯Êı²»Òª±£´æ·µ»ØµØÖ·
+	if(strcmp(mid[index].op1,"main")==0){				//mainå‡½æ•°ä¸è¦ä¿å­˜è¿”å›åœ°å€
 		return;
 	}
-	fprintf(mipsfile,"\tsw $ra -8($fp)\n");			//sw $ra -8($fp)±£´æ·µ»ØµØÖ·
-	fprintf(mipsfile,"\tsw $0 -12($fp)\n");			//sw 0 -12($fp)½«·µ»ØÖµÖÃÎª0
+	fprintf(mipsfile,"\tsw $ra -8($fp)\n");			//sw $ra -8($fp)ä¿å­˜è¿”å›åœ°å€
+	fprintf(mipsfile,"\tsw $0 -12($fp)\n");			//sw 0 -12($fp)å°†è¿”å›å€¼ç½®ä¸º0
 
 }														
 
 
-//µ÷ÓÃº¯Êıfuncnum
+//è°ƒç”¨å‡½æ•°funcnum
 void mips_funccall(int index,int funcnum){
 	int i=0;
 	int j=0;
-	fprintf(mipsfile,"\tsw $fp -4($sp)\n");	//sw $fp -4($sp)±£´æÉÏÒ»¸öº¯ÊıµÄ$fp
+	fprintf(mipsfile,"\tsw $fp -4($sp)\n");	//sw $fp -4($sp)ä¿å­˜ä¸Šä¸€ä¸ªå‡½æ•°çš„$fp
 
-	//½«fpÖÃÓÚĞÂµÄÕ»¶¥£¬new_fp=old_sp
+	//å°†fpç½®äºæ–°çš„æ ˆé¡¶ï¼Œnew_fp=old_sp
 	fprintf(mipsfile,"\tmove $fp $sp\n");	//move $fp $sp
 
-	//·ÖÁ½²½½«$spÖÃÓÚĞÂµÄÕ»µ× new_sp=old_sp-12-sizeof(func)
+	//åˆ†ä¸¤æ­¥å°†$spç½®äºæ–°çš„æ ˆåº• new_sp=old_sp-12-sizeof(func)
 	fprintf(mipsfile,"\tsubi $sp $sp 12\n");					//subi $sp $sp 12
 	fprintf(mipsfile,"\tsubi $sp $sp %d\n",funcsize[funcnum]);	//subi $sp $sp sizeof(func)
 
 
-	//´¦Àí²ÎÊı
+	//å¤„ç†å‚æ•°
 	//fprintf(mipsfile,"#function para\n");
-	//´Óµ¹ÊıµÚlen¸ö¿ªÊ¼
+	//ä»å€’æ•°ç¬¬lenä¸ªå¼€å§‹
 	for(i=paranum-tab[funcindex[funcnum]].len,j=0;i<paranum && j<tab[funcindex[funcnum]].len;i++,j++){
-		if(PARA[i].type==0){			//²ÎÊıÊÇÊı×Ö
+		if(PARA[i].type==0){			//å‚æ•°æ˜¯æ•°å­—
 			fprintf(mipsfile,"\tli $t0 %s\n",PARA[i].id);	//li $t0 para
 		}
-		else if(PARA[i].type==1){		//ÊÇÈ«¾ÖÁ¿
+		else if(PARA[i].type==1){		//æ˜¯å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $t0 %s\n",PARA[i].id);	//lw $t0 addr
 		}
 		else{
-			fprintf(mipsfile,"\tlw $t0 %s($fp)\n",PARA[i].id);//lw $t0 addr($fp)ÏÖÔÚµÄfpÊÇµ±Ê±µÄsp
+			fprintf(mipsfile,"\tlw $t0 %s($fp)\n",PARA[i].id);//lw $t0 addr($fp)ç°åœ¨çš„fpæ˜¯å½“æ—¶çš„sp
 		}
 		fprintf(mipsfile,"\tsw $t0 %d($sp)\n",j*4);			//sw $t0 j*4($sp)
-		memset(PARA[i].id,0,tokensize);						//³öÕ»
+		memset(PARA[i].id,0,tokensize);						//å‡ºæ ˆ
 	}
 	paranum=paranum-tab[funcindex[funcnum]].len;
 	//fprintf(mipsfile,"#function para end\n");
@@ -592,7 +600,7 @@ void mips_funccall(int index,int funcnum){
 }
 
 
-//º¯Êı´«²Î(push para)
+//å‡½æ•°ä¼ å‚(push para)
 void mips_pushpara(int index,int funcnum){
 	int  temp=0;
 	char addr[200]={'\0'};
@@ -603,145 +611,145 @@ void mips_pushpara(int index,int funcnum){
 		exit(0);
 	}
 
-	//Èç¹û²ÎÊıÊÇ¸öÊı×Ö,Ö±½ÓÈëÕ»
+	//å¦‚æœå‚æ•°æ˜¯ä¸ªæ•°å­—,ç›´æ¥å…¥æ ˆ
 	if(isrealnum(mid[index].op1)){
-		PARA[paranum].type=0;					//ÊÇÊı×Ö
-		strcpy(PARA[paranum].id,mid[index].op1);//¿½±´Êı×Ö
+		PARA[paranum].type=0;					//æ˜¯æ•°å­—
+		strcpy(PARA[paranum].id,mid[index].op1);//æ‹·è´æ•°å­—
 		paranum++;
 	}
-	//·ñÔò²éÕÒµØÖ·,ÔÙÈëÕ»,²ÎÊı²»¿ÉÄÜÊÇÊı×é³ÉÔ±
+	//å¦åˆ™æŸ¥æ‰¾åœ°å€,å†å…¥æ ˆ,å‚æ•°ä¸å¯èƒ½æ˜¯æ•°ç»„æˆå‘˜
 	else{
 		temp=getaddr(mid[index].op1,0,funcnum,addr);
-		if(temp==0){		//¾Ö²¿±äÁ¿,²ÎÊıÎ»ÓÚº¯Êı·ûºÅ±íµÄ¿ªÍ·
-							//ÔÚµ÷ÓÃº¯Êıºó£¬´¦Àí²ÎÊı£¬Òò´Ë±»µ÷ÓÃº¯ÊıµÄfpÊÇÖ®Ç°µÄsp
+		if(temp==0){		//å±€éƒ¨å˜é‡,å‚æ•°ä½äºå‡½æ•°ç¬¦å·è¡¨çš„å¼€å¤´
+							//åœ¨è°ƒç”¨å‡½æ•°åï¼Œå¤„ç†å‚æ•°ï¼Œå› æ­¤è¢«è°ƒç”¨å‡½æ•°çš„fpæ˜¯ä¹‹å‰çš„sp
 			PARA[paranum].type=2;
 		}
-		else{				//È«¾Ö±äÁ¿£¬Ãû×Ö¼´ÊÇµØÖ·
+		else{				//å…¨å±€å˜é‡ï¼Œåå­—å³æ˜¯åœ°å€
 			PARA[paranum].type=1;
 		}
-		strcpy(PARA[paranum].id,addr);		//¿½±´µØÖ·
+		strcpy(PARA[paranum].id,addr);		//æ‹·è´åœ°å€
 		paranum++;
 	}
 	
 }
 
 
-//return value»òreturn value
+//return valueæˆ–return value
 void mips_retvalue(int index,int funcnum){
 	int temp=0;
 	char addr[200]={'\0'};
-	if(mid[index].type==RETNULLOP){			//·µ»ØNULL
+	if(mid[index].type==RETNULLOP){			//è¿”å›NULL
 
 	}
-	else{									//·µ»Øvalue	
-		//·µ»ØÖµÊÇÒ»¸öÊı×Ö
+	else{									//è¿”å›value	
+		//è¿”å›å€¼æ˜¯ä¸€ä¸ªæ•°å­—
 		if(isrealnum(mid[index].op1)){
 			fprintf(mipsfile,"\tli $t0 %s\n",mid[index].op1);		//li $t0 op1
-			fprintf(mipsfile,"\tsw $t0 -12($fp)\n");			//sw $t0 -12($fp) ·µ»ØÖµµØÖ·Îªfp-12
+			fprintf(mipsfile,"\tsw $t0 -12($fp)\n");			//sw $t0 -12($fp) è¿”å›å€¼åœ°å€ä¸ºfp-12
 		}
 		else{
 			temp=getaddr(mid[index].op1,0,funcnum,addr);
-			if(temp==1){//È«¾ÖÁ¿£¬±êÊ¶·û¼´ÎªµØÖ·
+			if(temp==1){//å…¨å±€é‡ï¼Œæ ‡è¯†ç¬¦å³ä¸ºåœ°å€
 				fprintf(mipsfile,"\tlw $t0 %s\n",addr);		//lw $t0 addr
 				fprintf(mipsfile,"\tsw $t0 -12($fp)\n");	//sw $t0 -12($fp)
 			}
-			else{		//¾Ö²¿Á¿,ĞèÒª¼ÓÉÏsp¼Ä´æÆ÷µÄÖµ
+			else{		//å±€éƒ¨é‡,éœ€è¦åŠ ä¸Šspå¯„å­˜å™¨çš„å€¼
 				fprintf(mipsfile,"\tlw $t0 %s($sp)\n",addr);//lw $t0 addr($sp)
 				fprintf(mipsfile,"\tsw $t0 -12($fp)\n");	//sw $t0 -12($fp)
 			}
 		}
 	}
 
-	//Èç¹û´ËÊ±ÊÇmainº¯Êı
+	//å¦‚æœæ­¤æ—¶æ˜¯mainå‡½æ•°
 	if(funcnum==funclen-1){
-		fprintf(mipsfile,"\tj Label_end\n");		//Ö±½ÓÌøµ½º¯Êı½áÎ²µÄlabel
+		fprintf(mipsfile,"\tj Label_end\n");		//ç›´æ¥è·³åˆ°å‡½æ•°ç»“å°¾çš„label
 	}
 	else{
 		fprintf(mipsfile,"\tmove $sp $fp\n");		//move $sp $fp		sp=fp
-		fprintf(mipsfile,"\tlw $ra -8($fp)\n");		//lw $ra -8($fp)	´ÓÕ»ÉÏÈ¡·µ»ØµØÖ·µ½$ra
-		fprintf(mipsfile,"\tlw $fp -4($fp)\n");		//lw $fp -4($fp)	´ÓÕ»ÉÏÈ¡ÉÏÒ»¸öº¯ÊıµÄfp
-		fprintf(mipsfile,"\tjr $ra\n");				//jr $ra			Ìø×ªµ½·µ»ØµØÖ·
+		fprintf(mipsfile,"\tlw $ra -8($fp)\n");		//lw $ra -8($fp)	ä»æ ˆä¸Šå–è¿”å›åœ°å€åˆ°$ra
+		fprintf(mipsfile,"\tlw $fp -4($fp)\n");		//lw $fp -4($fp)	ä»æ ˆä¸Šå–ä¸Šä¸€ä¸ªå‡½æ•°çš„fp
+		fprintf(mipsfile,"\tjr $ra\n");				//jr $ra			è·³è½¬åˆ°è¿”å›åœ°å€
 	}
 }
 
 
-//±äÁ¿¸³ÖµÓï¾äop1=op2
+//å˜é‡èµ‹å€¼è¯­å¥op1=op2
 void mips_varassign(int index,int funcnum){
 	char addr1[200]={'\0'};
 	char addr2[200]={'\0'};
 	int temp=0;
-	if(isrealnum(mid[index].op2)){		//op2ÊÇÊı×Ö
+	if(isrealnum(mid[index].op2)){		//op2æ˜¯æ•°å­—
 		fprintf(mipsfile,"\tli $t0 %s\n",mid[index].op2);	//li $t0 op2
 	}
 	else{
 		temp=getaddr(mid[index].op2,0,funcnum,addr1);
-		if(temp==0){		//op2¾Ö²¿±äÁ¿
+		if(temp==0){		//op2å±€éƒ¨å˜é‡
 			fprintf(mipsfile,"\tlw $t0 %s($sp)\n",addr1);	//lw $t0 addr1($sp)
 		}
-		else{				//op2È«¾Ö±äÁ¿
+		else{				//op2å…¨å±€å˜é‡
 			fprintf(mipsfile,"\tlw $t0 %s\n",addr1);		//lw $t0 addr1
 		}
 	}
 
 	temp=getaddr(mid[index].op1,0,funcnum,addr2);
-	if(temp==0){//op1¾Ö²¿±äÁ¿
+	if(temp==0){//op1å±€éƒ¨å˜é‡
 		fprintf(mipsfile,"\tsw $t0 %s($sp)\n",addr2);	//sw $t0 addr2($sp)
 	}
-	else{		//op1È«¾Ö±äÁ¿
+	else{		//op1å…¨å±€å˜é‡
 		fprintf(mipsfile,"\tsw $t0 %s\n",addr2);		//sw $t0 addr2
 	}
 }
 
 
-//ÎªÊı×é¸³Öµop1[op2] = result
+//ä¸ºæ•°ç»„èµ‹å€¼op1[op2] = result
 void mips_arrassign(int index,int funcnum){
 	char addr1[200]={'\0'};
 	char addr2[200]={'\0'};
 	char res_addr[200]={'\0'};
 	int temp=0;
 	//op1->$t0
-	//×¢Òâ£¬´Ë´¦ÓÃlaÖ¸Áî£¬ÒòÎªĞèÒªµÄÊÇop1µÄµØÖ·,¶ø·Çop1µØÖ·ÖĞµÄÖµ
+	//æ³¨æ„ï¼Œæ­¤å¤„ç”¨laæŒ‡ä»¤ï¼Œå› ä¸ºéœ€è¦çš„æ˜¯op1çš„åœ°å€,è€Œéop1åœ°å€ä¸­çš„å€¼
 	temp=getaddr(mid[index].op1,1,funcnum,addr1);
-	if(temp==0){//¾Ö²¿±äÁ¿
+	if(temp==0){//å±€éƒ¨å˜é‡
 		fprintf(mipsfile,"\tla $t0 %s($sp)\n",addr1);		//la $t0 addr1($sp)
 	}
-	else{		//È«¾Ö±äÁ¿
+	else{		//å…¨å±€å˜é‡
 		fprintf(mipsfile,"\tla $t0 %s\n",addr1);			//la $t0 addr1
 	}
 
 	//op2->$t1
-	if(isrealnum(mid[index].op2)){		//op2ÊÇÊı×Ö
+	if(isrealnum(mid[index].op2)){		//op2æ˜¯æ•°å­—
 		fprintf(mipsfile,"\tli $t1 %s\n",mid[index].op2);	//li $t1 op2
 	}
 	else{
 		temp=getaddr(mid[index].op2,0,funcnum,addr2);
-		if(temp==0){		//op2¾Ö²¿±äÁ¿
+		if(temp==0){		//op2å±€éƒ¨å˜é‡
 			fprintf(mipsfile,"\tlw $t1 %s($sp)\n",addr2);	//lw $t1 addr2($sp)
 		}
-		else{				//op2È«¾Ö±äÁ¿
+		else{				//op2å…¨å±€å˜é‡
 			fprintf(mipsfile,"\tlw $t1 %s\n",addr2);		//lw $t1 addr2
 		}
 	}
-	//¼ÆËã op2*4
+	//è®¡ç®— op2*4
 	fprintf(mipsfile,"\tli $t2 4\n");				//li $t2 4
 	fprintf(mipsfile,"\tmul $t1 $t1 $t2\n");		//mul $t1 $t1 $t2
 
 	//result->$t2
-	if(isrealnum(mid[index].result)){		//resultÊÇÊı×Ö
+	if(isrealnum(mid[index].result)){		//resultæ˜¯æ•°å­—
 		fprintf(mipsfile,"\tli $t2 %s\n",mid[index].result);	//li $t2 result
 	}
 	else{
 		temp=getaddr(mid[index].result,0,funcnum,res_addr);
-		if(temp==0){		//result¾Ö²¿±äÁ¿
+		if(temp==0){		//resultå±€éƒ¨å˜é‡
 			fprintf(mipsfile,"\tlw $t2 %s($sp)\n",res_addr);	//lw $t2 res_addr($sp)
 		}
-		else{				//resultÈ«¾Ö±äÁ¿
+		else{				//resultå…¨å±€å˜é‡
 			fprintf(mipsfile,"\tlw $t2 %s\n",res_addr);			//lw $t2 res_addr
 		}
 	}
 
 	//op1[op2]=result	
-	//ÏÈ¼ÆËãop1[op2]µØÖ·=op1+4*op2
+	//å…ˆè®¡ç®—op1[op2]åœ°å€=op1+4*op2
 	//					=$t0 + $t1
 	fprintf(mipsfile,"\tadd $t1 $t1 $t0\n");			//add $t1 $t1 $t0
 	fprintf(mipsfile,"\tsw $t2 0($t1)\n");				//sw $t2 0($t1)
@@ -749,66 +757,66 @@ void mips_arrassign(int index,int funcnum){
 }
 
 
-//Êı×éÖµ¸³¸ø·ÇÊı×é±äÁ¿result = op1[op2]
+//æ•°ç»„å€¼èµ‹ç»™éæ•°ç»„å˜é‡result = op1[op2]
 void mips_arruse(int index,int funcnum){
 	char addr1[200]={'\0'};
 	char addr2[200]={'\0'};
 	char res_addr[200]={'\0'};
 	int temp=0;
 	//op1->$t0
-	//×¢Òâ£¬´Ë´¦ÓÃlaÖ¸Áî£¬ÒòÎªĞèÒªµÄÊÇop1µÄµØÖ·,¶ø·Çop1µØÖ·ÖĞµÄÖµ
+	//æ³¨æ„ï¼Œæ­¤å¤„ç”¨laæŒ‡ä»¤ï¼Œå› ä¸ºéœ€è¦çš„æ˜¯op1çš„åœ°å€,è€Œéop1åœ°å€ä¸­çš„å€¼
 	temp=getaddr(mid[index].op1,1,funcnum,addr1);
-	if(temp==0){//¾Ö²¿±äÁ¿
+	if(temp==0){//å±€éƒ¨å˜é‡
 		fprintf(mipsfile,"\tla $t0 %s($sp)\n",addr1);		//la $t0 addr1($sp)
 	}
-	else{		//È«¾Ö±äÁ¿
+	else{		//å…¨å±€å˜é‡
 		fprintf(mipsfile,"\tla $t0 %s\n",addr1);			//la $t0 addr1
 	}
 
 	//op2->$t1
-	if(isrealnum(mid[index].op2)){		//op2ÊÇÊı×Ö
+	if(isrealnum(mid[index].op2)){		//op2æ˜¯æ•°å­—
 		fprintf(mipsfile,"\tli $t1 %s\n",mid[index].op2);	//li $t1 op2
 	}
 	else{
 		temp=getaddr(mid[index].op2,0,funcnum,addr2);
-		if(temp==0){		//op2¾Ö²¿±äÁ¿
+		if(temp==0){		//op2å±€éƒ¨å˜é‡
 			fprintf(mipsfile,"\tlw $t1 %s($sp)\n",addr2);	//lw $t1 addr2($sp)
 		}
-		else{				//op2È«¾Ö±äÁ¿
+		else{				//op2å…¨å±€å˜é‡
 			fprintf(mipsfile,"\tlw $t1 %s\n",addr2);		//lw $t1 addr2
 		}
 	}
-	//¼ÆËã op2*4
+	//è®¡ç®— op2*4
 	fprintf(mipsfile,"\tli $t2 4\n");				//li $t2 4
 	fprintf(mipsfile,"\tmul $t1 $t1 $t2\n");		//mul $t1 $t1 $t2
 	
 
 	//result=op1[op2]	
-	//ÏÈ¼ÆËãop1[op2]µØÖ·´æÔÚ$t1
+	//å…ˆè®¡ç®—op1[op2]åœ°å€å­˜åœ¨$t1
 	fprintf(mipsfile,"\tadd $t1 $t1 $t0\n");			//add $t1 $t1 $t0
-	//ÔÙÈ¡op1[op2]µÄÖµ,´æÔÚ$t0
+	//å†å–op1[op2]çš„å€¼,å­˜åœ¨$t0
 	fprintf(mipsfile,"\tlw $t0 0($t1)\n");				//lw $t0 0($t1)
 
 	
 	temp=getaddr(mid[index].result,0,funcnum,res_addr);
-	if(temp==0){		//result¾Ö²¿±äÁ¿
+	if(temp==0){		//resultå±€éƒ¨å˜é‡
 		fprintf(mipsfile,"\tsw $t0 %s($sp)\n",res_addr);	//sw $t0 res_addr($sp)
 	}
-	else{				//resultÈ«¾Ö±äÁ¿
+	else{				//resultå…¨å±€å˜é‡
 		fprintf(mipsfile,"\tsw $t0 %s\n",res_addr);			//sw $t0 res_addr
 	}
 
 }
 
 
-//´òÓ¡×Ö·û´® print str
+//æ‰“å°å­—ç¬¦ä¸² print str
 void mips_printstr(int index){
 	int i=0;
-	char strname[200]={'\0'};	//.data¶ÎµÄ×Ö·û´®Ãû×Ö
+	char strname[200]={'\0'};	//.dataæ®µçš„å­—ç¬¦ä¸²åå­—
 	for(i=0;i<strnum;i++){
 		if(strcmp(STRING[i].id,mid[index].op1)==0){
-			fprintf(mipsfile,"\tli $v0 4\n");			//ÖÃ$v0=4
-			fprintf(mipsfile,"\tla $a0 $string_%d\n",i);//ÖÃ$a0=$string_i
+			fprintf(mipsfile,"\tli $v0 4\n");			//ç½®$v0=4
+			fprintf(mipsfile,"\tla $a0 $string_%d\n",i);//ç½®$a0=$string_i
 			fprintf(mipsfile,"\tsyscall\n");			//syscall
 			break;
 		}
@@ -816,21 +824,21 @@ void mips_printstr(int index){
 }
 
 
-//´òÓ¡ÕûÊı print integer
+//æ‰“å°æ•´æ•° print integer
 void mips_printint(int index,int funcnum){
 	int temp=0;
 	char addr[200]={'\0'};
-	fprintf(mipsfile,"\tli $v0 1\n");			//ÖÃ$v0=1
+	fprintf(mipsfile,"\tli $v0 1\n");			//ç½®$v0=1
 	
-	if(isrealnum(mid[index].op1)){				//op1ÊÇÊı×Ö
+	if(isrealnum(mid[index].op1)){				//op1æ˜¯æ•°å­—
 		fprintf(mipsfile,"\tli $a0 %s\n",mid[index].op1);		//li $a0 op1
 	}
 	else{
-		temp=getaddr(mid[index].op1,0,funcnum,addr);				//²éÑ¯µØÖ·
-		if(temp==1){//È«¾ÖÁ¿
+		temp=getaddr(mid[index].op1,0,funcnum,addr);				//æŸ¥è¯¢åœ°å€
+		if(temp==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $a0 %s\n",addr);				//lw $a0 addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $a0 %s($sp)\n",addr);		//lw $a0 addr($sp)
 		}
 	}
@@ -838,21 +846,21 @@ void mips_printint(int index,int funcnum){
 }
 
 
-//´òÓ¡×Ö·û print char
+//æ‰“å°å­—ç¬¦ print char
 void mips_printchar(int index,int funcnum){
 	int temp=0;
 	char addr[200]={'\0'};
-	fprintf(mipsfile,"\tli $v0 11\n");			//ÖÃ$v0=11
+	fprintf(mipsfile,"\tli $v0 11\n");			//ç½®$v0=11
 	
-	if(isrealnum(mid[index].op1)){				//op1ÊÇÊı×Ö
+	if(isrealnum(mid[index].op1)){				//op1æ˜¯æ•°å­—
 		fprintf(mipsfile,"\tli $a0 %s\n",mid[index].op1);		//li $a0 op1
 	}
 	else{
-		temp=getaddr(mid[index].op1,0,funcnum,addr);				//²éÑ¯µØÖ·
-		if(temp==1){//È«¾ÖÁ¿
+		temp=getaddr(mid[index].op1,0,funcnum,addr);				//æŸ¥è¯¢åœ°å€
+		if(temp==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $a0 %s\n",addr);				//lw $a0 addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $a0 %s($sp)\n",addr);		//lw $a0 addr($sp)
 		}
 	}
@@ -860,162 +868,162 @@ void mips_printchar(int index,int funcnum){
 }
 
 
-//¶ÁÈ¡ scan a(a²»ÊÇÊı×é) 
-//aÎª int
+//è¯»å– scan a(aä¸æ˜¯æ•°ç»„) 
+//aä¸º int
 void mips_scanint(int index,int funcnum){
 	int temp=0;
 	char addr[200]={'\0'};
-	fprintf(mipsfile,"\tli $v0 5\n");			//ÖÃ$v0=5(read integer) 
+	fprintf(mipsfile,"\tli $v0 5\n");			//ç½®$v0=5(read integer) 
 	fprintf(mipsfile,"\tsyscall\n");			//syscall
 	
-	temp=getaddr(mid[index].op1,0,funcnum,addr);				//²éÑ¯µØÖ·
-	if(temp==1){//È«¾ÖÁ¿
+	temp=getaddr(mid[index].op1,0,funcnum,addr);				//æŸ¥è¯¢åœ°å€
+	if(temp==1){//å…¨å±€é‡
 		fprintf(mipsfile,"\tsw $v0 %s\n",addr);				//sw $v0 addr
 	}
-	else{		//¾Ö²¿Á¿
+	else{		//å±€éƒ¨é‡
 		fprintf(mipsfile,"\tsw $v0 %s($sp)\n",addr);		//sw $v0 addr($sp)
 	}
 }
 
 
 
-//¶ÁÈ¡ scan a(a²»ÊÇÊı×é) 
-//aÎª char
+//è¯»å– scan a(aä¸æ˜¯æ•°ç»„) 
+//aä¸º char
 void mips_scanchar(int index,int funcnum){
 	int temp=0;
 	char addr[200]={'\0'};
-	fprintf(mipsfile,"\tli $v0 12\n");			//ÖÃ$v0=12(read character)
+	fprintf(mipsfile,"\tli $v0 12\n");			//ç½®$v0=12(read character)
 	fprintf(mipsfile,"\tsyscall\n");			//syscall
 	
-	temp=getaddr(mid[index].op1,0,funcnum,addr);				//²éÑ¯µØÖ·
-	if(temp==1){//È«¾ÖÁ¿
+	temp=getaddr(mid[index].op1,0,funcnum,addr);				//æŸ¥è¯¢åœ°å€
+	if(temp==1){//å…¨å±€é‡
 		fprintf(mipsfile,"\tsw $v0 %s\n",addr);				//sw $v0 addr
 	}
-	else{		//¾Ö²¿Á¿
+	else{		//å±€éƒ¨é‡
 		fprintf(mipsfile,"\tsw $v0 %s($sp)\n",addr);		//sw $v0 addr($sp)
 	}
 }
 
 
-//op1=RET ½«±»µ÷ÓÃº¯ÊıµÄ·µ»ØÖµ¸³¸ø±äÁ¿
+//op1=RET å°†è¢«è°ƒç”¨å‡½æ•°çš„è¿”å›å€¼èµ‹ç»™å˜é‡
 void mips_funcret(int index,int funcnum){
 	int temp=0;
 	char addr[200]={'\0'};
-	fprintf(mipsfile,"\tlw $t0 -12($sp)\n");			//lw $t0 -12($sp)	µ±Ç°sp¼´Îª±»µ÷ÓÃº¯ÊıµÄfp
-	temp=getaddr(mid[index].op1,0,funcnum,addr);				//²éÑ¯µØÖ·
-	if(temp==1){//È«¾ÖÁ¿
+	fprintf(mipsfile,"\tlw $t0 -12($sp)\n");			//lw $t0 -12($sp)	å½“å‰spå³ä¸ºè¢«è°ƒç”¨å‡½æ•°çš„fp
+	temp=getaddr(mid[index].op1,0,funcnum,addr);				//æŸ¥è¯¢åœ°å€
+	if(temp==1){//å…¨å±€é‡
 		fprintf(mipsfile,"\tsw $t0 %s\n",addr);				//sw $t0 addr
 	}
-	else{		//¾Ö²¿Á¿
+	else{		//å±€éƒ¨é‡
 		fprintf(mipsfile,"\tsw $t0 %s($sp)\n",addr);		//sw $t0 addr($sp)
 	}
 }
 
 
 
-//ÉÏÒ»¸ö±í´ïÊ½Îª0(false)£¬Ìø×ª
+//ä¸Šä¸€ä¸ªè¡¨è¾¾å¼ä¸º0(false)ï¼Œè·³è½¬
 void mips_bz(int index,int funcnum){
 	char op1_addr[200]={'\0'};
 	char op2_addr[200]={'\0'};
 	char result_addr[200]={'\0'};
 	int ret=0;
-	//¶ÔÉÏÒ»¸öÖĞ¼ä´úÂë´¦Àí
+	//å¯¹ä¸Šä¸€ä¸ªä¸­é—´ä»£ç å¤„ç†
 
 
-	//ÊÇ ·ÃÎÊÊı×é + - * /
+	//æ˜¯ è®¿é—®æ•°ç»„ + - * /
 	if(mid[index-1].type==ARRUSE || (mid[index-1].type>=1 && mid[index-1].type<=4)){
 		ret=getaddr(mid[index-1].result,0,funcnum,result_addr);
-		if(ret==1){//È«¾ÖÁ¿
+		if(ret==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $t0 %s\n",result_addr);				//lw $t0 result_addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $t0 %s($sp)\n",result_addr);			//lw $t0 result_addr($sp)
 		}
 	}
-	//ÊÇº¯Êı·µ»ØÖµ op1=RET
+	//æ˜¯å‡½æ•°è¿”å›å€¼ op1=RET
 	else if(mid[index-1].type==FUNCRET){
-		ret=getaddr(mid[index-1].op1,0,funcnum,op1_addr);			//²éÑ¯µØÖ·
-		if(ret==1){//È«¾ÖÁ¿
+		ret=getaddr(mid[index-1].op1,0,funcnum,op1_addr);			//æŸ¥è¯¢åœ°å€
+		if(ret==1){//å…¨å±€é‡
 			fprintf(mipsfile,"\tlw $t0 %s\n",op1_addr);				//lw $t0 op1_addr
 		}
-		else{		//¾Ö²¿Á¿
+		else{		//å±€éƒ¨é‡
 			fprintf(mipsfile,"\tlw $t0 %s($sp)\n",op1_addr);		//lw $t0 op1_addr($sp)
 		}
 	}
 	// > < == != >= <=
 	else{
-		//²Ù×÷Êı1ÎªÊı×Ö»ò±êÊ¶·û
+		//æ“ä½œæ•°1ä¸ºæ•°å­—æˆ–æ ‡è¯†ç¬¦
 		if(isrealnum(mid[index-1].op1)){
 			fprintf(mipsfile,"\tli $t0 %s\n",mid[index-1].op1);			//li $t0 op1
 		}
 		else{
-			ret=getaddr(mid[index-1].op1,0,funcnum,op1_addr);			//²éÑ¯µØÖ·
-			if(ret==1){//È«¾ÖÁ¿
+			ret=getaddr(mid[index-1].op1,0,funcnum,op1_addr);			//æŸ¥è¯¢åœ°å€
+			if(ret==1){//å…¨å±€é‡
 				fprintf(mipsfile,"\tlw $t0 %s\n",op1_addr);				//lw $t0 op1_addr
 			}
-			else{		//¾Ö²¿Á¿
+			else{		//å±€éƒ¨é‡
 				fprintf(mipsfile,"\tlw $t0 %s($sp)\n",op1_addr);		//lw $t0 op1_addr($sp)
 			}
 		}
 
-		//²Ù×÷Êı2ÎªÊı×Ö»ò±êÊ¶·û,
+		//æ“ä½œæ•°2ä¸ºæ•°å­—æˆ–æ ‡è¯†ç¬¦,
 		if(isrealnum(mid[index-1].op2)){
 			fprintf(mipsfile,"\tli $t1 %s\n",mid[index-1].op2);		//li $t1 op2
 		}
 		else{
 			ret=getaddr(mid[index-1].op2,0,funcnum,op2_addr);
-			if(ret==1){//È«¾ÖÁ¿
+			if(ret==1){//å…¨å±€é‡
 				fprintf(mipsfile,"\tlw $t1 %s\n",op2_addr);				//lw $t1 op2_addr
 			}
-			else{		//¾Ö²¿Á¿
+			else{		//å±€éƒ¨é‡
 				fprintf(mipsfile,"\tlw $t1 %s($sp)\n",op2_addr);		//lw $t1 op2_addr($sp)
 			}
 		}
 	}
 	
 
-	//ÉÏÒ»¸öÊ½×ÓÊÇº¯Êı·µ»ØÖµ op1=RET
+	//ä¸Šä¸€ä¸ªå¼å­æ˜¯å‡½æ•°è¿”å›å€¼ op1=RET
 	if(mid[index-1].type==FUNCRET){
 		fprintf(mipsfile,"\tbeqz $t0 %s\n",mid[index].op1);						//beqz op1	
 	}
-	//ÉÏÒ»¸öÊ½×ÓÊÇ+ - * /
+	//ä¸Šä¸€ä¸ªå¼å­æ˜¯+ - * /
 	else if(mid[index-1].type>=1 && mid[index-1].type<=4){
 		fprintf(mipsfile,"\tbeqz $t0 %s\n",mid[index].op1);						//beqz op1	
 	}
-	//ÉÏÒ»¸öÊ½×ÓÊÇ±äÁ¿¸³Öµ op1=op2
+	//ä¸Šä¸€ä¸ªå¼å­æ˜¯å˜é‡èµ‹å€¼ op1=op2
 	else if(mid[index-1].type==VARASSIGN){								//branch if equal zero
 		fprintf(mipsfile,"\tbeqz $t0 %s\n",mid[index].op1);						//beqz op1		
 	}
-	//ÉÏÒ»¸öÊ½×ÓÊÇÊı×éÊ¹ÓÃ result = op1[op2]
+	//ä¸Šä¸€ä¸ªå¼å­æ˜¯æ•°ç»„ä½¿ç”¨ result = op1[op2]
 	else if(mid[index-1].type==ARRUSE){
 		fprintf(mipsfile,"\tbeqz $t0 %s\n",mid[index].op1);						//beqz op1
 	}
-	//ÉÏÒ»¸öÊ½×ÓÊÇ>= op1>=op2
+	//ä¸Šä¸€ä¸ªå¼å­æ˜¯>= op1>=op2
 	else if(mid[index-1].type==BIGEQLOP){							//branch if less than
 		fprintf(mipsfile,"\tblt $t0 $t1 %s\n",mid[index].op1);				//blt $t0 $t1 op1
 	}
-	//ÉÏÒ»¸öÊ½×ÓÊÇ<= op1<=op2
+	//ä¸Šä¸€ä¸ªå¼å­æ˜¯<= op1<=op2
 	else if(mid[index-1].type==SMALLEQLOP){							//branch if greater than			
 		fprintf(mipsfile,"\tbgt $t0 $t1 %s\n",mid[index].op1);				//bgt $t0 $t1 op1
 	}
-	//ÉÏÒ»¸öÊ½×ÓÊÇ== op1==op2
+	//ä¸Šä¸€ä¸ªå¼å­æ˜¯== op1==op2
 	else if(mid[index-1].type==EQUALOP){							//branch if no equal
 		fprintf(mipsfile,"\tbne $t0 $t1 %s\n",mid[index].op1);				//bne $t0 $t1 op1
 	}
-	//ÉÏÒ»¸öÊ½×ÓÊÇ!= op1!=op2
+	//ä¸Šä¸€ä¸ªå¼å­æ˜¯!= op1!=op2
 	else if(mid[index-1].type==NOTEQLOP){							//branch if equal
 		fprintf(mipsfile,"\tbeq $t0 $t1 %s\n",mid[index].op1);				//beq $t0 $t1 op1
 	}
-	//ÉÏÒ»¸öÊ½×ÓÊÇ> op1>op2
+	//ä¸Šä¸€ä¸ªå¼å­æ˜¯> op1>op2
 	else if(mid[index-1].type==BIGOP){								//branch if less of equal
 		fprintf(mipsfile,"\tble $t0 $t1 %s\n",mid[index].op1);				//ble $t0 $t1 op1
 	}
-	//ÉÏÒ»¸öÊ½×ÓÊÇ< op1<op2
+	//ä¸Šä¸€ä¸ªå¼å­æ˜¯< op1<op2
 	else if(mid[index-1].type==SMALLOP){							//branch if greater of equal
 		fprintf(mipsfile,"\tbge $t0 $t1 %s\n",mid[index].op1);				//bge $t0 $t1 op1
 	}
 	else{
-		//²»¿ÉÄÜµ½ÕâÀï
+		//ä¸å¯èƒ½åˆ°è¿™é‡Œ
 		printf("bz error\n %d",index);
 	}
 }
@@ -1025,9 +1033,9 @@ void mips(){
 	int i=0;
 	int funcnum=-1;			
 
-	mips_init();			//ÉèÖÃ.dataÇø,Ìî³äº¯Êı·ûºÅ±í
+	mips_init();			//è®¾ç½®.dataåŒº,å¡«å……å‡½æ•°ç¬¦å·è¡¨
 
-	//printfunctab();			//´òÓ¡·ûºÅ±í
+	//printfunctab();			//æ‰“å°ç¬¦å·è¡¨
 	for(i=0;i<midlen;i++){
 		if(mid[i].type==ADDOP){			//+
 			//fprintf(mipsfile,"#%s = %s + %s\n",mid[i].result,mid[i].op1,mid[i].op2);
@@ -1046,17 +1054,17 @@ void mips(){
 			mips_div(i,funcnum);
 		}
 		else if((mid[i].type==CONSTINTDEF || mid[i].type==CONSTCHARDEF) && funcnum!=-1){
-			//½ö½öÕë¶Ô¾Ö²¿³£Á¿£¬ÒòÎªÈ«¾Ö³£¡¢±äÁ¿ÒÑ¾­ÔÚ.data¶Î·ÖÅäÁË¿Õ¼ä
-			//¾Ö²¿³£Á¿³õÊ¼»¯
+			//ä»…ä»…é’ˆå¯¹å±€éƒ¨å¸¸é‡ï¼Œå› ä¸ºå…¨å±€å¸¸ã€å˜é‡å·²ç»åœ¨.dataæ®µåˆ†é…äº†ç©ºé—´
+			//å±€éƒ¨å¸¸é‡åˆå§‹åŒ–
 			//mips_localconst(i,funcnum);
 		}
-		else if(mid[i].type==INTFUNCDEF //º¯Êı¶¨Òå
+		else if(mid[i].type==INTFUNCDEF //å‡½æ•°å®šä¹‰
 			|| mid[i].type==CHARFUNCDEF 
 			|| mid[i].type==VOIDFUNCDEF){
 			funcnum++;
 			mips_funcdef(i,funcnum);
 		}
-		else if(mid[i].type==FUNCCALL){	//º¯Êıµ÷ÓÃ
+		else if(mid[i].type==FUNCCALL){	//å‡½æ•°è°ƒç”¨
 			//fprintf(mipsfile,"#call %s\n",mid[i].op1);
 			int temp=0;
 			int j=0;
@@ -1066,63 +1074,63 @@ void mips(){
 					break;
 				}
 			}
-			//tempÎª±»µ÷ÓÃº¯ÊıµÄË÷Òı
+			//tempä¸ºè¢«è°ƒç”¨å‡½æ•°çš„ç´¢å¼•
 			mips_funccall(i,temp);
 		}
-		else if(mid[i].type==PARAOP){	//º¯Êı´«²Î
+		else if(mid[i].type==PARAOP){	//å‡½æ•°ä¼ å‚
 			//fprintf(mipsfile,"#push %s\n",mid[i].op1);
 			mips_pushpara(i,funcnum);
 		}
-		else if(mid[i].type==RETEXPOP || mid[i].type==RETNULLOP){	//return (a); »ò return NULL
+		else if(mid[i].type==RETEXPOP || mid[i].type==RETNULLOP){	//return (a); æˆ– return NULL
 			//fprintf(mipsfile,"#return value\n");
 			mips_retvalue(i,funcnum);
 		}
-		else if(mid[i].type==VARASSIGN){							//Îª±äÁ¿¸³Öµop1 = op2
+		else if(mid[i].type==VARASSIGN){							//ä¸ºå˜é‡èµ‹å€¼op1 = op2
 			//fprintf(mipsfile,"#%s = %s\n",mid[i].op1,mid[i].op2);
 			mips_varassign(i,funcnum);
 		}
-		else if(mid[i].type==ARRASSIGN){							//ÎªÊı×é¸³Öµop1[op2] = result
+		else if(mid[i].type==ARRASSIGN){							//ä¸ºæ•°ç»„èµ‹å€¼op1[op2] = result
 			//fprintf(mipsfile,"#%s[%s] = %s\n",mid[i].op1,mid[i].op2,mid[i].result);	
 			mips_arrassign(i,funcnum);
 		}
-		else if(mid[i].type==ARRUSE){								//Êı×é¸³¸ø·ÇÊı×é±äÁ¿result = op1[op2]
+		else if(mid[i].type==ARRUSE){								//æ•°ç»„èµ‹ç»™éæ•°ç»„å˜é‡result = op1[op2]
 			//fprintf(mipsfile,"#%s = %s[%s]\n",mid[i].result,mid[i].op1,mid[i].op2);
 			mips_arruse(i,funcnum);
 		}
-		else if(mid[i].type==PRINTSTROP){							//´òÓ¡×Ö·û´® print string
+		else if(mid[i].type==PRINTSTROP){							//æ‰“å°å­—ç¬¦ä¸² print string
 			//fprintf(mipsfile,"#print %s\n",mid[i].op1);	
 			mips_printstr(i);
-			//ºóÈıÌõÎª»»ĞĞ
+			//åä¸‰æ¡ä¸ºæ¢è¡Œ
 			//fprintf(mipsfile,"\tli $v0 11\n");
 			//fprintf(mipsfile,"\tli $a0 10\n");
 			//fprintf(mipsfile,"\tsyscall\n");
 		}
-		else if(mid[i].type==PRINTINTOP){							//´òÓ¡ÕûÊı print integer
+		else if(mid[i].type==PRINTINTOP){							//æ‰“å°æ•´æ•° print integer
 			//fprintf(mipsfile,"#print %s\n",mid[i].op1);
 			mips_printint(i,funcnum);
-			//ºóÈıÌõÎª»»ĞĞ
+			//åä¸‰æ¡ä¸ºæ¢è¡Œ
 			//fprintf(mipsfile,"\tli $v0 11\n");
 			//fprintf(mipsfile,"\tli $a0 10\n");
 			//fprintf(mipsfile,"\tsyscall\n");
 		}
-		else if(mid[i].type==PRINTCHAROP){							//´òÓ¡×Ö·û print char
+		else if(mid[i].type==PRINTCHAROP){							//æ‰“å°å­—ç¬¦ print char
 			//fprintf(mipsfile,"#print %s\n",mid[i].op1);
 			mips_printchar(i,funcnum);
-			//ºóÈıÌõÎª»»ĞĞ
+			//åä¸‰æ¡ä¸ºæ¢è¡Œ
 			//fprintf(mipsfile,"\tli $v0 11\n");
 			//fprintf(mipsfile,"\tli $a0 10\n");
 			//fprintf(mipsfile,"\tsyscall\n");
 		}
-		else if(mid[i].type==PRINTLINE){							//»»ĞĞ
+		else if(mid[i].type==PRINTLINE){							//æ¢è¡Œ
 			fprintf(mipsfile,"\tli $v0 11\n");
 			fprintf(mipsfile,"\tli $a0 10\n");
 			fprintf(mipsfile,"\tsyscall\n");
 		}
-		else if(mid[i].type==SCANINTOP){							//¶ÁÈ¡ scan a(int)
+		else if(mid[i].type==SCANINTOP){							//è¯»å– scan a(int)
 			//fprintf(mipsfile,"#scan int %s\n",mid[i].op1);
 			mips_scanint(i,funcnum);
 		}
-		else if(mid[i].type==SCANCHAROP){							//¶ÁÈ¡ scan a(char)
+		else if(mid[i].type==SCANCHAROP){							//è¯»å– scan a(char)
 			//fprintf(mipsfile,"#scan char %s\n",mid[i].op1);
 			mips_scanchar(i,funcnum);
 		}
@@ -1130,7 +1138,7 @@ void mips(){
 			//fprintf(mipsfile,"#%s = RET\n",mid[i].op1);
 			mips_funcret(i,funcnum);								//t1=RET
 		}
-		else if(mid[i].type==SETLABEL){								//ÉèÖÃlabel
+		else if(mid[i].type==SETLABEL){								//è®¾ç½®label
 			fprintf(mipsfile,"%s:\n",mid[i].op1);					//label:
 		}
 		else if(mid[i].type==GOTOOP){
@@ -1138,7 +1146,7 @@ void mips(){
 		}
 		else if(mid[i].type==BZOP){
 			//fprintf(mipsfile,"#BZ %s\n",mid[i].op1);
-			mips_bz(i,funcnum);										//Îª0£¬ÔòÌø×ª
+			mips_bz(i,funcnum);										//ä¸º0ï¼Œåˆ™è·³è½¬
 		}
 		else{
 			continue;
@@ -1156,38 +1164,38 @@ void mips(){
 int main(void){
 	char* path=(char *)malloc(50*sizeof(char));
 	int isoptimalize=0;
-	printf("path of file:");			//ÊäÈë²âÊÔ³ÌĞòµÄ¾ø¶ÔÂ·¾¶
+	printf("path of file:");			//è¾“å…¥æµ‹è¯•ç¨‹åºçš„ç»å¯¹è·¯å¾„
 	scanf("%s",path);
 	printf("is optimalize?(1/0)");
 	scanf("%d",&isoptimalize);
 	fp=fopen(path,"r");
-	grammarfile=fopen("grammar.txt","w");		//Óï·¨·ÖÎö½á¹ûÊä³öÔÚ¹¤³ÌÄ¿Â¼ÏÂgrammar.txt
+	grammarfile=fopen("grammar.txt","w");		//è¯­æ³•åˆ†æç»“æœè¾“å‡ºåœ¨å·¥ç¨‹ç›®å½•ä¸‹grammar.txt
 	if(fp==NULL){
 		printf("can not open this file.");
 	}
-	midfile=fopen("midcode.txt","w");			//ÖĞ¼ä´úÂëÊä³öÔÚ¹¤³ÌÄ¿Â¼ÏÂµÄmidcode.txt
+	midfile=fopen("midcode.txt","w");			//ä¸­é—´ä»£ç è¾“å‡ºåœ¨å·¥ç¨‹ç›®å½•ä¸‹çš„midcode.txt
 	if(midfile==NULL){
 		printf("can not open this file.");
 	}
-	mipsfile=fopen("mips.txt","w");				//mips´úÂëÊä³öÔÚ¹¤³ÌÄ¿Â¼ÏÂµÄmips.txt
+	mipsfile=fopen("mips.txt","w");				//mipsä»£ç è¾“å‡ºåœ¨å·¥ç¨‹ç›®å½•ä¸‹çš„mips.txt
 	if(mipsfile==NULL){
 		printf("can not open this file.");
 	}
-	errorfile=fopen("error.txt","w");			//´íÎóĞÅÏ¢Êä³öÔÚ¹¤³ÌÄ¿Â¼ÏÂµÄerror.txt
+	errorfile=fopen("error.txt","w");			//é”™è¯¯ä¿¡æ¯è¾“å‡ºåœ¨å·¥ç¨‹ç›®å½•ä¸‹çš„error.txt
 	if(errorfile==NULL){
 		printf("can not open this file.");
 	}
 
-	program();				//½øĞĞÓï·¨·ÖÎö²¢Éú³ÉÖĞ¼ä´úÂë
-	if(!iserror){			//Èç¹ûÃ»ÓĞ´íÎó
-		//printtab();			//´òÓ¡×îÖÕµÄ·ûºÅ±í
+	program();				//è¿›è¡Œè¯­æ³•åˆ†æå¹¶ç”Ÿæˆä¸­é—´ä»£ç 
+	if(!iserror){			//å¦‚æœæ²¡æœ‰é”™è¯¯
+		//printtab();			//æ‰“å°æœ€ç»ˆçš„ç¬¦å·è¡¨
 		if(isoptimalize){
-			copyconv();			//¸´ÖÆ´«²¥¡¢³£ÊıºÏ²¢
+			copyconv();			//å¤åˆ¶ä¼ æ’­ã€å¸¸æ•°åˆå¹¶
 		}
-		writemidcode();			//½«ÖĞ¼ä´úÂëĞ´ÈëÎÄ¼şmidcode.txt
-		mips();					//²úÉúmips´úÂë
+		writemidcode();			//å°†ä¸­é—´ä»£ç å†™å…¥æ–‡ä»¶midcode.txt
+		mips();					//äº§ç”Ÿmipsä»£ç 
 		if(isoptimalize){
-			//¿ú¿×ÓÅ»¯,É¾³ı¶àÓàµÄlw
+			//çª¥å­”ä¼˜åŒ–,åˆ é™¤å¤šä½™çš„lw
 			deletelw();
 		}
 	}
