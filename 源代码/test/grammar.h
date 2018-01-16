@@ -1,3 +1,11 @@
+/*
+ * grammar.h
+ *
+ *  Created on: 2018å¹´1æœˆ8æ—¥
+ *      Author: ChenShuwei
+ */
+
+
 #ifndef _GRAMMAR_H_
 #define	_GRAMMAR_H_
 
@@ -10,19 +18,19 @@
 #include <stdlib.h>
 
 
-//·ûºÅ±í±íÏî
+//ç¬¦å·è¡¨è¡¨é¡¹
 #define tabsize 256
 struct tabentry{
-	char id[tokensize];//È¡Ç°tokensize¸ö×Ö·û
-	int type;	//0-int, 1-char ,2-const int, 3-const char,4-intÊı×é,5-charÊı×é,
-				//6-·µ»ØintµÄº¯Êı,7-·µ»ØcharµÄº¯Êı,8-·µ»ØvoidµÄº¯Êı,9-intĞÍ²ÎÊı,10-charĞÍ²ÎÊı
-	int len;	//Êı×é³¤¶È»òº¯Êı²ÎÊı¸öÊı»ò³£Á¿µÄÖµ
-	int lev;	//Ö»¿ÉÄÜÎª0(È«¾Ö±êÊ¶·û:º¯Êı¡¢È«¾Ö³£Á¿¡¢È«¾Ö±äÁ¿)»ò1(¾Ö²¿±êÊ¶·û:¾Ö²¿³£Á¿£¬¾Ö²¿±äÁ¿)
-	int size;	//³£±äÁ¿ËùÕ¼×Ö½Ú´óĞ¡»òº¯ÊıÖĞ²ÎÊı¼°³£±äÁ¿ËùÕ¼×Ö½Ú´óĞ¡Ö®ºÍ
-	int addr;	//±êÊ¶·û´æ´¢µØÖ·Æ«ÒÆ(Ïà¶ÔÓÚ±¾º¯Êı)
+	char id[tokensize];//å–å‰tokensizeä¸ªå­—ç¬¦
+	int type;	//0-int, 1-char ,2-const int, 3-const char,4-intæ•°ç»„,5-charæ•°ç»„,
+				//6-è¿”å›intçš„å‡½æ•°,7-è¿”å›charçš„å‡½æ•°,8-è¿”å›voidçš„å‡½æ•°,9-intå‹å‚æ•°,10-charå‹å‚æ•°
+	int len;	//æ•°ç»„é•¿åº¦æˆ–å‡½æ•°å‚æ•°ä¸ªæ•°æˆ–å¸¸é‡çš„å€¼
+	int lev;	//åªå¯èƒ½ä¸º0(å…¨å±€æ ‡è¯†ç¬¦:å‡½æ•°ã€å…¨å±€å¸¸é‡ã€å…¨å±€å˜é‡)æˆ–1(å±€éƒ¨æ ‡è¯†ç¬¦:å±€éƒ¨å¸¸é‡ï¼Œå±€éƒ¨å˜é‡)
+	int size;	//å¸¸å˜é‡æ‰€å å­—èŠ‚å¤§å°æˆ–å‡½æ•°ä¸­å‚æ•°åŠå¸¸å˜é‡æ‰€å å­—èŠ‚å¤§å°ä¹‹å’Œ
+	int addr;	//æ ‡è¯†ç¬¦å­˜å‚¨åœ°å€åç§»(ç›¸å¯¹äºæœ¬å‡½æ•°)
 };
 
-								//ÓÃÓÚÁÙÊ±´¢´æ±íÏîµÄ¸÷ÖÖĞÅÏ¢
+								//ç”¨äºä¸´æ—¶å‚¨å­˜è¡¨é¡¹çš„å„ç§ä¿¡æ¯
 char id[tokensize]={'\0'};
 int type=0;
 int len=0;
@@ -30,68 +38,68 @@ int addr=0;
 int lev=0;
 int size=0;
 
-struct tabentry tab[tabsize];		//·ûºÅ±í
-int tablen=0;						//ÒÑ¾­´æÁËtablen¸ö±êÊ¶·û
-//int globalindex[tabsize]={0};		//¸÷¸öÈ«¾Ö±äÁ¿¡¢³£Á¿ÔÚtabµÄË÷Òı
-int globallen=0;					//ÒÑ¾­´æÁËgloballen¸öÈ«¾ÖÁ¿,È«¾Ö±äÁ¿Ò»¶¨ÊÇÔÚ·ûºÅ±íµÄÇ°globallen¸ö
-int funcindex[tabsize]={0};			//¸÷¸öº¯ÊıÔÚtabµÄË÷Òı
-int	funclen=0;						//ÒÑ¾­´æÁËfunclen¸öº¯Êı
+struct tabentry tab[tabsize];		//ç¬¦å·è¡¨
+int tablen=0;						//å·²ç»å­˜äº†tablenä¸ªæ ‡è¯†ç¬¦
+//int globalindex[tabsize]={0};		//å„ä¸ªå…¨å±€å˜é‡ã€å¸¸é‡åœ¨tabçš„ç´¢å¼•
+int globallen=0;					//å·²ç»å­˜äº†globallenä¸ªå…¨å±€é‡,å…¨å±€å˜é‡ä¸€å®šæ˜¯åœ¨ç¬¦å·è¡¨çš„å‰globallenä¸ª
+int funcindex[tabsize]={0};			//å„ä¸ªå‡½æ•°åœ¨tabçš„ç´¢å¼•
+int	funclen=0;						//å·²ç»å­˜äº†funclenä¸ªå‡½æ•°
 
-char token1[tokensize]={'\0'};	//´¢´æÔ¤¶ÁÇ°µÄĞÅÏ¢
+char token1[tokensize]={'\0'};	//å‚¨å­˜é¢„è¯»å‰çš„ä¿¡æ¯
 int symid1=0;
-char token2[tokensize]={'\0'};	//´¢´æÔ¤¶ÁÇ°µÄĞÅÏ¢
+char token2[tokensize]={'\0'};	//å‚¨å­˜é¢„è¯»å‰çš„ä¿¡æ¯
 int symid2=0;
 
 //*********************************
-//º¯ÊıÉùÃ÷
+//å‡½æ•°å£°æ˜
 //*********************************
-int sizecalcu(int type,int len);							//¼ÆËã±êÊ¶·û¶ÔÓ¦ÀàĞÍÕ¼ÄÚ´æ´óĞ¡
-void inserttab(char* id,int type,int len,int lev,int size,int addr);	//Ìî·ûºÅ±í(ÓÃÓÚÉùÃ÷½×¶Î)
-int searchtab(char* id,int whichtype);						//²é·ûºÅ±í(ÓÃÓÚÊ¹ÓÃ½×¶Î)
-void constdef();			//´¦Àí³£Á¿¶¨Òå
-void conststa();			//´¦Àí³£Á¿ËµÃ÷
-void variabledef();			//´¦Àí±äÁ¿¶¨Òå
-void compoundsta();			//´¦Àí¸´ºÏÓï¾ä
-void hasretfunc();			//´¦ÀíÓĞ·µ»ØÖµº¯Êı
-void noretfunc();			//´¦ÀíÎŞ·µ»ØÖµº¯Êı
-void mainfunction();		//´¦ÀíÖ÷º¯Êı
-int  integer();				//´¦Àí¼ÆËãÕûÊı
-void program();				//´¦ÀíÓï·¨·ÖÎö
-int  paralist();			//´¦Àí²ÎÊı±í
-int	 expression(char* temp);//´¦Àí±í´ïÊ½(·µ»ØÖµ±íÊ¾ÀàĞÍ0-int £¬ 1-char)
-void stalist();				//´¦ÀíÓï¾äÁĞ
-void sta();					//´¦ÀíÓï¾ä
-int  term(char* temp);		//´¦ÀíÏî(·µ»ØÖµ±íÊ¾ÀàĞÍ0-int £¬ 1-char)
-int  factor(char* temp);	//´¦ÀíÒò×Ó(·µ»ØÖµ±íÊ¾ÀàĞÍ0-int £¬ 1-char)
-void valueofpara(int index);//´¦ÀíÖµ²ÎÊı±í(²ÎÊıÎªº¯ÊıÔÚ·ûºÅ±íµÄË÷Òı)
-void returnsta();			//´¦Àí·µ»ØÓï¾ä
-void printsta();			//´¦ÀíĞ´Óï¾ä
-void scansta();				//´¦Àí¶ÁÓï¾ä
-void ifsta();				//´¦Àíif-else
-void switchsta();			//´¦Àíswitch-case
-void forsta();				//´¦ÀíforÑ­»·
-void assignsta();			//´¦Àí¸³ÖµÓï¾ä
-void callretfunc(int index);	//´¦ÀíÓĞ·µ»ØÖµº¯ÊıµÄµ÷ÓÃ(²ÎÊıÎªº¯ÊıÔÚ·ûºÅ±íµÄË÷Òı)
-void callnoretfunc(int index);	//´¦ÀíÎŞ·µ»ØÖµº¯Êıµ÷ÓÃ(²ÎÊıÎªº¯ÊıÔÚ·ûºÅ±íµÄË÷Òı)
-int	 isstahead(int symid);	//Óï¾ä¿ÉÄÜµÄµÚÒ»¸ö·ûºÅ
-void condition();			//´¦ÀíÌõ¼ş
-void casesta(char* temp_exp,char* label,char* default_label,int switch_type);//Çé¿ö±í´¦Àí³ÌĞò
-void defaultsta(char* default_label);			//È±Ê¡´¦Àí³ÌĞò
-void casesubsta(char* temp_exp,char* mylabel,char* nextlabel,int switch_type);			//Çé¿ö±í×ÓÓï¾ä
+int sizecalcu(int type,int len);							//è®¡ç®—æ ‡è¯†ç¬¦å¯¹åº”ç±»å‹å å†…å­˜å¤§å°
+void inserttab(char* id,int type,int len,int lev,int size,int addr);	//å¡«ç¬¦å·è¡¨(ç”¨äºå£°æ˜é˜¶æ®µ)
+int searchtab(char* id,int whichtype);						//æŸ¥ç¬¦å·è¡¨(ç”¨äºä½¿ç”¨é˜¶æ®µ)
+void constdef();			//å¤„ç†å¸¸é‡å®šä¹‰
+void conststa();			//å¤„ç†å¸¸é‡è¯´æ˜
+void variabledef();			//å¤„ç†å˜é‡å®šä¹‰
+void compoundsta();			//å¤„ç†å¤åˆè¯­å¥
+void hasretfunc();			//å¤„ç†æœ‰è¿”å›å€¼å‡½æ•°
+void noretfunc();			//å¤„ç†æ— è¿”å›å€¼å‡½æ•°
+void mainfunction();		//å¤„ç†ä¸»å‡½æ•°
+int  integer();				//å¤„ç†è®¡ç®—æ•´æ•°
+void program();				//å¤„ç†è¯­æ³•åˆ†æ
+int  paralist();			//å¤„ç†å‚æ•°è¡¨
+int	 expression(char* temp);//å¤„ç†è¡¨è¾¾å¼(è¿”å›å€¼è¡¨ç¤ºç±»å‹0-int ï¼Œ 1-char)
+void stalist();				//å¤„ç†è¯­å¥åˆ—
+void sta();					//å¤„ç†è¯­å¥
+int  term(char* temp);		//å¤„ç†é¡¹(è¿”å›å€¼è¡¨ç¤ºç±»å‹0-int ï¼Œ 1-char)
+int  factor(char* temp);	//å¤„ç†å› å­(è¿”å›å€¼è¡¨ç¤ºç±»å‹0-int ï¼Œ 1-char)
+void valueofpara(int index);//å¤„ç†å€¼å‚æ•°è¡¨(å‚æ•°ä¸ºå‡½æ•°åœ¨ç¬¦å·è¡¨çš„ç´¢å¼•)
+void returnsta();			//å¤„ç†è¿”å›è¯­å¥
+void printsta();			//å¤„ç†å†™è¯­å¥
+void scansta();				//å¤„ç†è¯»è¯­å¥
+void ifsta();				//å¤„ç†if-else
+void switchsta();			//å¤„ç†switch-case
+void forsta();				//å¤„ç†forå¾ªç¯
+void assignsta();			//å¤„ç†èµ‹å€¼è¯­å¥
+void callretfunc(int index);	//å¤„ç†æœ‰è¿”å›å€¼å‡½æ•°çš„è°ƒç”¨(å‚æ•°ä¸ºå‡½æ•°åœ¨ç¬¦å·è¡¨çš„ç´¢å¼•)
+void callnoretfunc(int index);	//å¤„ç†æ— è¿”å›å€¼å‡½æ•°è°ƒç”¨(å‚æ•°ä¸ºå‡½æ•°åœ¨ç¬¦å·è¡¨çš„ç´¢å¼•)
+int	 isstahead(int symid);	//è¯­å¥å¯èƒ½çš„ç¬¬ä¸€ä¸ªç¬¦å·
+void condition();			//å¤„ç†æ¡ä»¶
+void casesta(char* temp_exp,char* label,char* default_label,int switch_type);//æƒ…å†µè¡¨å¤„ç†ç¨‹åº
+void defaultsta(char* default_label);			//ç¼ºçœå¤„ç†ç¨‹åº
+void casesubsta(char* temp_exp,char* mylabel,char* nextlabel,int switch_type);			//æƒ…å†µè¡¨å­è¯­å¥
 
 
-//¼ÆËã·ûºÅËùĞè×Ö½ÚÊı,Îª±ãÓÚ´¦Àí£¬intºÍchar¶¼Îª4×Ö½Ú
+//è®¡ç®—ç¬¦å·æ‰€éœ€å­—èŠ‚æ•°,ä¸ºä¾¿äºå¤„ç†ï¼Œintå’Œcharéƒ½ä¸º4å­—èŠ‚
 int sizecalcu(int type,int len){
-	if(type==1 || type==3 || type==10){				//const char,char,charĞÍ²ÎÊı
+	if(type==1 || type==3 || type==10){				//const char,char,charå‹å‚æ•°
 		return sizeof(int);
 	}
-	else if(type==0 || type==2 || type==9){			//const int,int,intĞÍ²ÎÊı
+	else if(type==0 || type==2 || type==9){			//const int,int,intå‹å‚æ•°
 		return sizeof(int);
 	}
-	else if(type==4){								//intÊı×é
+	else if(type==4){								//intæ•°ç»„
 		return len*sizeof(int);
 	}
-	else{											//charÊı×é
+	else{											//charæ•°ç»„
 		return len*sizeof(int);
 	}
 }
@@ -99,32 +107,32 @@ int sizecalcu(int type,int len){
 
 
 
-//Ìî·ûºÅ±í
+//å¡«ç¬¦å·è¡¨
 void inserttab(char* id,int type,int len,int lev,int size,int addr){
 	if(tablen>=tabsize){
-		//error:tabÂúÁË
+		//error:tabæ»¡äº†
 		errormessage(OUTOFTAB_ERROR,line,no);
 		return;
 	}
-	//1.È«¾ÖÁ¿¡¢º¯ÊıÓëÈ«¾ÖÁ¿¡¢º¯Êı²»¿ÉÖØÃû
-	//2.Í¬Ò»º¯ÊıµÄ¾Ö²¿±äÁ¿²»¿ÉÖØÃû
-	else{														//¼ì²éÊÇ·ñÖØÃû
-		if(lev==0 || type==6 || type==7 || type==8){			//±êÊ¶·ûÊÇÈ«¾ÖÁ¿»òº¯ÊıÃû
+	//1.å…¨å±€é‡ã€å‡½æ•°ä¸å…¨å±€é‡ã€å‡½æ•°ä¸å¯é‡å
+	//2.åŒä¸€å‡½æ•°çš„å±€éƒ¨å˜é‡ä¸å¯é‡å
+	else{														//æ£€æŸ¥æ˜¯å¦é‡å
+		if(lev==0 || type==6 || type==7 || type==8){			//æ ‡è¯†ç¬¦æ˜¯å…¨å±€é‡æˆ–å‡½æ•°å
 			for(int i=0;i<tablen;i++){
 				if(tab[i].lev!=0){
 					continue;
 				}
-				if(strcmp(tab[i].id,id)==0){						//´íÎó£¬È«¾ÖÁ¿¡¢º¯ÊıºÍ£¨º¯Êı£¬È«¾ÖÁ¿)²»¿ÉÖØÃû
-					//error:È«¾ÖÁ¿¡¢º¯ÊıÓëÈ«¾ÖÁ¿¡¢º¯Êı²»¿ÉÖØÃû
+				if(strcmp(tab[i].id,id)==0){						//é”™è¯¯ï¼Œå…¨å±€é‡ã€å‡½æ•°å’Œï¼ˆå‡½æ•°ï¼Œå…¨å±€é‡)ä¸å¯é‡å
+					//error:å…¨å±€é‡ã€å‡½æ•°ä¸å…¨å±€é‡ã€å‡½æ•°ä¸å¯é‡å
 					errormessage(GLOBALNAME_ERROR,line,no);
 					return;
 				}
 			}
 		}
-		else{													//±êÊ¶·ûÊÇ¾Ö²¿³£¡¢±äÁ¿,ËµÃ÷´ËÊ±»¹ÔÚÒ»¸öº¯ÊıÖĞ
-			for(int i=funcindex[funclen-1]+1;i<tablen;i++){		//funcindex´æµÄÊÇº¯Êı±êÊ¶·ûË÷Òı£¬¹ÊÒª¼Ó1
+		else{													//æ ‡è¯†ç¬¦æ˜¯å±€éƒ¨å¸¸ã€å˜é‡,è¯´æ˜æ­¤æ—¶è¿˜åœ¨ä¸€ä¸ªå‡½æ•°ä¸­
+			for(int i=funcindex[funclen-1]+1;i<tablen;i++){		//funcindexå­˜çš„æ˜¯å‡½æ•°æ ‡è¯†ç¬¦ç´¢å¼•ï¼Œæ•…è¦åŠ 1
 				if(strcmp(tab[i].id,id)==0){
-					//error:¾Ö²¿³£¡¢±äÁ¿ÖØÃû							//´íÎó,Í¬Ò»º¯ÊıµÄ¾Ö²¿³£±ä¡¢Á¿²»¿ÉÖØÃû
+					//error:å±€éƒ¨å¸¸ã€å˜é‡é‡å							//é”™è¯¯,åŒä¸€å‡½æ•°çš„å±€éƒ¨å¸¸å˜ã€é‡ä¸å¯é‡å
 					errormessage(LOCALNAME_ERROR,line,no);
 					return;
 				}
@@ -132,40 +140,40 @@ void inserttab(char* id,int type,int len,int lev,int size,int addr){
 		}
 
 	}
-	//Ã»ÓĞÖØÃû²ÅÌî·ûºÅ±í
+	//æ²¡æœ‰é‡åæ‰å¡«ç¬¦å·è¡¨
 	tab[tablen].addr=addr;		//addr
 	strcpy(tab[tablen].id,id);	//id
 	tab[tablen].len=len;		//len
 	tab[tablen].lev=lev;		//lev
 	tab[tablen].type=type;		//type
 	tab[tablen].size=size;		//size
-	//½Ó×Å·Ö±ğÌîfuncindexºÍglobalindex
-	if(lev==0 && type>=0 && type<=5){		//È«¾Ö³£¡¢±äÁ¿,¿ÉÄÜÎªconst int»òconst char»òint»òchar»òintÊı×é»òcharÊı×é
-		//globalindex[globallen]=tablen;		//type =0 1 2 3 4 5Ö®Ò»£¬ÔòÎªÈ«¾Ö³£¡¢±äÁ¿
+	//æ¥ç€åˆ†åˆ«å¡«funcindexå’Œglobalindex
+	if(lev==0 && type>=0 && type<=5){		//å…¨å±€å¸¸ã€å˜é‡,å¯èƒ½ä¸ºconst intæˆ–const charæˆ–intæˆ–charæˆ–intæ•°ç»„æˆ–charæ•°ç»„
+		//globalindex[globallen]=tablen;		//type =0 1 2 3 4 5ä¹‹ä¸€ï¼Œåˆ™ä¸ºå…¨å±€å¸¸ã€å˜é‡
 		globallen++;
 	}
-	else if(type==6 || type==7 || type==8){	//ÈıÖÖº¯Êı
+	else if(type==6 || type==7 || type==8){	//ä¸‰ç§å‡½æ•°
 		funcindex[funclen]=tablen;
 		funclen++;
 	}
 
-	tablen++;								//tablen¼Ó1
+	tablen++;								//tablenåŠ 1
 	return;
 }
 
 
-//ÔÚÊ¹ÓÃ·ûºÅÊ±²éÑ¯·ûºÅ±í,·µ»ØË÷Òı   ²éÑ¯ÒÑÖªid¿ÉÄÜÎª º¯Êı-1, ³£Á¿¡¢±äÁ¿±êÊ¶·û(·ÇÊı×é)-2,Êı×é-3
+//åœ¨ä½¿ç”¨ç¬¦å·æ—¶æŸ¥è¯¢ç¬¦å·è¡¨,è¿”å›ç´¢å¼•   æŸ¥è¯¢å·²çŸ¥idå¯èƒ½ä¸º å‡½æ•°-1, å¸¸é‡ã€å˜é‡æ ‡è¯†ç¬¦(éæ•°ç»„)-2,æ•°ç»„-3
 int searchtab(char* id,int whichtype){		
-	if(whichtype==1){				//ÊÇº¯Êı
+	if(whichtype==1){				//æ˜¯å‡½æ•°
 		for(int i=0;i<funclen;i++){
 			if(strcmp(tab[funcindex[i]].id,id)==0){
 				return funcindex[i];
 			}
 		}
 	}
-	else if(whichtype==2){						//ÊÇ³£Á¿¡¢±äÁ¿±êÊ¶·û
-												//ÏÈ±éÀúÍ¬Ò»º¯Êı(Èç¹ûÓĞ)ÏÂµÄ¾Ö²¿±äÁ¿(ĞèÒªÅÅ³ıÊı×é)
-		if(funclen!=0){							//²»´æÔÚÈÎºÎº¯Êı£¨funclen==0£©ÕâÖÖÇé¿öÓ¦¸ÃÔç¾ÍÒÑ¾­±¨´í
+	else if(whichtype==2){						//æ˜¯å¸¸é‡ã€å˜é‡æ ‡è¯†ç¬¦
+												//å…ˆéå†åŒä¸€å‡½æ•°(å¦‚æœæœ‰)ä¸‹çš„å±€éƒ¨å˜é‡(éœ€è¦æ’é™¤æ•°ç»„)
+		if(funclen!=0){							//ä¸å­˜åœ¨ä»»ä½•å‡½æ•°ï¼ˆfunclen==0ï¼‰è¿™ç§æƒ…å†µåº”è¯¥æ—©å°±å·²ç»æŠ¥é”™
 			for(int i=funcindex[funclen-1]+1;i<tablen;i++){
 				if(strcmp(tab[i].id,id)==0 && tab[i].type!=4 && tab[i].type!=5){
 					return i;
@@ -173,16 +181,16 @@ int searchtab(char* id,int whichtype){
 			}
 		}
 		else{
-			//error:¶Ô±äÁ¿µÄÊ¹ÓÃ²»ÔÚº¯ÊıÖĞ£¬³ÌĞò²»¿ÉÄÜÔËĞĞµ½ÕâÀï
+			//error:å¯¹å˜é‡çš„ä½¿ç”¨ä¸åœ¨å‡½æ•°ä¸­ï¼Œç¨‹åºä¸å¯èƒ½è¿è¡Œåˆ°è¿™é‡Œ
 		}
-												//Èç¹ûÃ»ÕÒµ½£¬ÔÙ±éÀúÈ«¾Ö³£¡¢±äÁ¿(ĞèÒªÅÅ³ıÊı×é)
+												//å¦‚æœæ²¡æ‰¾åˆ°ï¼Œå†éå†å…¨å±€å¸¸ã€å˜é‡(éœ€è¦æ’é™¤æ•°ç»„)
 		for(int i=0;i<globallen;i++){
 			if(strcmp(tab[i].id,id)==0 && tab[i].type!=4 && tab[i].type!=5){
 				return i;
 			}
 		}
 	}
-	else{										//ÊÇÊı×é,·½·¨ÓëÉÏÃæÏàÍ¬
+	else{										//æ˜¯æ•°ç»„,æ–¹æ³•ä¸ä¸Šé¢ç›¸åŒ
 		if(funclen!=0){		
 			for(int i=funcindex[funclen-1]+1;i<tablen;i++){
 				if(strcmp(tab[i].id,id)==0 && (tab[i].type==4 || tab[i].type==5)){
@@ -196,13 +204,13 @@ int searchtab(char* id,int whichtype){
 			}
 		}
 	}
-	//error:Ã»ÓĞÕÒµ½±êÊ¶·û,Î´¶¨ÒåµÄ±êÊ¶·û£¬ÔÚÍâ²ãº¯Êı±¨´í
+	//error:æ²¡æœ‰æ‰¾åˆ°æ ‡è¯†ç¬¦,æœªå®šä¹‰çš„æ ‡è¯†ç¬¦ï¼Œåœ¨å¤–å±‚å‡½æ•°æŠ¥é”™
 	return -1;
 
 }
 
 
-//´òÓ¡·ûºÅ±í
+//æ‰“å°ç¬¦å·è¡¨
 void printtab(){
 	for(int i=0;i<tablen;i++){
 		printf("%d:id=%s type=%d len=%d lev=%d size=%d addr=%d\n",i,tab[i].id,tab[i].type,tab[i].len,tab[i].lev,tab[i].size,tab[i].addr);
@@ -213,7 +221,7 @@ void printtab(){
 
 
 
-//Óï¾äµÄÍ·²¿¿ÉÄÜÊÇ if for switch { id scanf printf return ;
+//è¯­å¥çš„å¤´éƒ¨å¯èƒ½æ˜¯ if for switch { id scanf printf return ;
 int isstahead(int symid){
 	if(symid==IFSYM || symid==FORSYM || symid==SWITCHSYM || symid==LBRACE || symid==ID || symid==SCANFSYM || symid==PRINTFSYM || symid==RETURNSYM || symid==SEMICOLON){
 		return 1;
@@ -224,30 +232,30 @@ int isstahead(int symid){
 }
 
 
-//£¼·µ»ØÓï¾ä£¾   ::=  return[¡®(¡¯£¼±í´ïÊ½£¾¡®)¡¯]  
-//´¦Àí·µ»ØÓï¾ä
+//ï¼œè¿”å›è¯­å¥ï¼   ::=  return[â€˜(â€™ï¼œè¡¨è¾¾å¼ï¼â€˜)â€™]  
+//å¤„ç†è¿”å›è¯­å¥
 void returnsta(){
-	//½øÈëº¯ÊıÊ±£¬ÒÑ¶Áµ½return
-	char temp[tokensize];			//´æ´¢ÁÙÊ±±äÁ¿
+	//è¿›å…¥å‡½æ•°æ—¶ï¼Œå·²è¯»åˆ°return
+	char temp[tokensize];			//å­˜å‚¨ä¸´æ—¶å˜é‡
 
 	getsym();
-	if(symid==LPAR){				//¶Áµ½(		¿ÉÄÜÎªreturn(±í´ïÊ½);
-		getsym();				//ÔÙ¶ÁÒ»¸ö
-		expression(temp);		//µ÷ÓÃ´¦Àí±í´ïÊ½³ÌĞò
+	if(symid==LPAR){				//è¯»åˆ°(		å¯èƒ½ä¸ºreturn(è¡¨è¾¾å¼);
+		getsym();				//å†è¯»ä¸€ä¸ª
+		expression(temp);		//è°ƒç”¨å¤„ç†è¡¨è¾¾å¼ç¨‹åº
 		if(symid==RPAR){
-			midcode(RETEXPOP,temp,NULL,NULL);			//Éú³ÉÖĞ¼ä´úÂë
+			midcode(RETEXPOP,temp,NULL,NULL);			//ç”Ÿæˆä¸­é—´ä»£ç 
 			getsym();
 		}
 		else{
-			//error:Ó¦ÓĞ)
+			//error:åº”æœ‰)
 			errormessage(RPAR_ERROR,line,no);
 			skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½id if for switch scanf return printf ; { }
+			//è·³åˆ°id if for switch scanf return printf ; { }
 			return;
 		}
 	}
-	else{					//¿ÉÄÜÎª		return;
-		midcode(RETNULLOP,NULL,NULL,NULL);		//²úÉúÖĞ¼ä´úÂë return null	
+	else{					//å¯èƒ½ä¸º		return;
+		midcode(RETNULLOP,NULL,NULL,NULL);		//äº§ç”Ÿä¸­é—´ä»£ç  return null	
 	}
 
 	//printf("this is a return statement\n");
@@ -255,146 +263,146 @@ void returnsta(){
 }
 
 
-//£¼Ğ´Óï¾ä£¾    ::= printf ¡®(¡¯ £¼×Ö·û´®£¾,£¼±í´ïÊ½£¾ ¡®)¡¯| printf ¡®(¡¯£¼×Ö·û´®£¾ ¡®)¡¯| printf ¡®(¡¯£¼±í´ïÊ½£¾¡®)¡¯
-//´¦ÀíĞ´Óï¾ä
+//ï¼œå†™è¯­å¥ï¼    ::= printf â€˜(â€™ ï¼œå­—ç¬¦ä¸²ï¼,ï¼œè¡¨è¾¾å¼ï¼ â€˜)â€™| printf â€˜(â€™ï¼œå­—ç¬¦ä¸²ï¼ â€˜)â€™| printf â€˜(â€™ï¼œè¡¨è¾¾å¼ï¼â€˜)â€™
+//å¤„ç†å†™è¯­å¥
 void printsta(){
-	//½øÈë³ÌĞòÊ±ÒÑ¾­¶Áµ½printf
-	int exp_type=0;				//±í´ïÊ½µÄÀàĞÍ
+	//è¿›å…¥ç¨‹åºæ—¶å·²ç»è¯»åˆ°printf
+	int exp_type=0;				//è¡¨è¾¾å¼çš„ç±»å‹
 	char str[tokensize]={'\0'};
-	char temp[tokensize]={'\0'};		//´æ´¢ÁÙÊ±±äÁ¿
+	char temp[tokensize]={'\0'};		//å­˜å‚¨ä¸´æ—¶å˜é‡
 	getsym();
 	if(symid==LPAR){
 		getsym();
-		if(symid==ASTRING){		//¶Áµ½£¼×Ö·û´®£¾
-			strcpy(str,token);	//tempÖ»±£´æ×Ö·û´®µÄÖµ
+		if(symid==ASTRING){		//è¯»åˆ°ï¼œå­—ç¬¦ä¸²ï¼
+			strcpy(str,token);	//tempåªä¿å­˜å­—ç¬¦ä¸²çš„å€¼
 			midcode(PRINTSTROP,str,NULL,NULL);
 			getsym();
-			if(symid==COMMA){	//¶Áµ½,						
+			if(symid==COMMA){	//è¯»åˆ°,						
 				getsym();
-				exp_type=expression(temp);	//µ÷ÓÃ±í´ïÊ½´¦Àí³ÌĞò
-				if(symid==RPAR){//¶Áµ½)
-					if(exp_type==1){		//±í´ïÊ½ÊÇcharÀàĞÍ
-						midcode(PRINTCHAROP,temp,NULL,NULL);			//²úÉúÖĞ¼ä´úÂë
+				exp_type=expression(temp);	//è°ƒç”¨è¡¨è¾¾å¼å¤„ç†ç¨‹åº
+				if(symid==RPAR){//è¯»åˆ°)
+					if(exp_type==1){		//è¡¨è¾¾å¼æ˜¯charç±»å‹
+						midcode(PRINTCHAROP,temp,NULL,NULL);			//äº§ç”Ÿä¸­é—´ä»£ç 
 					}
 					else{
-						midcode(PRINTINTOP,temp,NULL,NULL);			//²úÉúÖĞ¼ä´úÂë
+						midcode(PRINTINTOP,temp,NULL,NULL);			//äº§ç”Ÿä¸­é—´ä»£ç 
 					}
 					
 					getsym();
 				}
 				else{
-					//error:Ó¦ÓĞ)
+					//error:åº”æœ‰)
 					errormessage(RPAR_ERROR,line,no);
 					skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-					//Ìøµ½id if for switch scanf return printf ; { }
+					//è·³åˆ°id if for switch scanf return printf ; { }
 					return;
 				}
 			}
-			else if(symid==RPAR){	//¶Áµ½)
+			else if(symid==RPAR){	//è¯»åˆ°)
 				getsym();
 			}
 			else{
-				//error:Ó¦ÓĞ)
+				//error:åº”æœ‰)
 				errormessage(RPAR_ERROR,line,no);
 				skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½id if for switch scanf return printf ; { }
+				//è·³åˆ°id if for switch scanf return printf ; { }
 				return;
 			}
 		}
-		else{					//¿ÉÄÜÊÇ±í´ïÊ½
+		else{					//å¯èƒ½æ˜¯è¡¨è¾¾å¼
 			exp_type=expression(temp);
-			if(symid==RPAR){	//¶Áµ½)
-				if(exp_type==1){		//±í´ïÊ½ÊÇcharÀàĞÍ
-					midcode(PRINTCHAROP,temp,NULL,NULL);			//²úÉúÖĞ¼ä´úÂë
+			if(symid==RPAR){	//è¯»åˆ°)
+				if(exp_type==1){		//è¡¨è¾¾å¼æ˜¯charç±»å‹
+					midcode(PRINTCHAROP,temp,NULL,NULL);			//äº§ç”Ÿä¸­é—´ä»£ç 
 				}
 				else{
-					midcode(PRINTINTOP,temp,NULL,NULL);			//²úÉúÖĞ¼ä´úÂë
+					midcode(PRINTINTOP,temp,NULL,NULL);			//äº§ç”Ÿä¸­é—´ä»£ç 
 				}
 				getsym();
 			}
 			else{
-				//error:Ó¦ÓĞ)
+				//error:åº”æœ‰)
 				errormessage(RPAR_ERROR,line,no);
 				skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½id if for switch scanf return printf ; { }
+				//è·³åˆ°id if for switch scanf return printf ; { }
 				return;
 			}
 		}
 	}
 	else{
-		//error:Ó¦ÓĞ(
+		//error:åº”æœ‰(
 		errormessage(LPAR_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½if for switch scanf return printf ; { }
+		//è·³åˆ°if for switch scanf return printf ; { }
 		return;
 	}
 
-	midcode(PRINTLINE,NULL,NULL,NULL);	//»»ĞĞ
+	midcode(PRINTLINE,NULL,NULL,NULL);	//æ¢è¡Œ
 	//printf("this is a print statement\n");
 	fprintf(grammarfile,"%s","this is a print statement\n");
 }
 
-//£¼¶ÁÓï¾ä£¾    ::=  scanf ¡®(¡¯£¼±êÊ¶·û£¾{,£¼±êÊ¶·û£¾}¡®)¡¯
-//¶ÁÓï¾ä
+//ï¼œè¯»è¯­å¥ï¼    ::=  scanf â€˜(â€™ï¼œæ ‡è¯†ç¬¦ï¼{,ï¼œæ ‡è¯†ç¬¦ï¼}â€˜)â€™
+//è¯»è¯­å¥
 void scansta(){
-	//½øÈëº¯ÊıÊ±£¬ÒÑ¾­¶Áµ½scanf
+	//è¿›å…¥å‡½æ•°æ—¶ï¼Œå·²ç»è¯»åˆ°scanf
 	getsym();
-	if(symid==LPAR){				//¶Áµ½(
+	if(symid==LPAR){				//è¯»åˆ°(
 		do{
 			getsym();
 			if(symid==ID){
-				int index=searchtab(token,2);	//²é·ûºÅ±í
+				int index=searchtab(token,2);	//æŸ¥ç¬¦å·è¡¨
 				if(index==-1){
-					//error:Î´¶¨Òå±êÊ¶·û
+					//error:æœªå®šä¹‰æ ‡è¯†ç¬¦
 					errormessage(UNDEFID_ERROR,line,no);
 					skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-					//Ìøµ½ if for switch scanf return printf ; { }
+					//è·³åˆ° if for switch scanf return printf ; { }
 					return;
 				}
 				else if(tab[index].type==0 || tab[index].type==9){
-					midcode(SCANINTOP,token,NULL,NULL);				//Éú³ÉÖĞ¼ä´úÂë
-					//int ±äÁ¿»ò²ÎÊı
+					midcode(SCANINTOP,token,NULL,NULL);				//ç”Ÿæˆä¸­é—´ä»£ç 
+					//int å˜é‡æˆ–å‚æ•°
 					getsym();
 				}
 				else if(tab[index].type==1 || tab[index].type==10){
-					midcode(SCANCHAROP,token,NULL,NULL);			//Éú³ÉÖĞ¼ä´úÂë
-					//int char±äÁ¿»ò²ÎÊı
+					midcode(SCANCHAROP,token,NULL,NULL);			//ç”Ÿæˆä¸­é—´ä»£ç 
+					//int charå˜é‡æˆ–å‚æ•°
 					getsym();
 				}
 				else{
-					//error:±äÁ¿ÀàĞÍ´íÎó£¬Ó¦Îªint char ±äÁ¿
+					//error:å˜é‡ç±»å‹é”™è¯¯ï¼Œåº”ä¸ºint char å˜é‡
 					errormessage(VARIABLE_ERROR,line,no);
 					skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-					//Ìøµ½ if for switch scanf return printf ; { }
+					//è·³åˆ° if for switch scanf return printf ; { }
 					return;
 				}
 			
 			}
 			else{
-				//error:Ó¦ÓĞid
+				//error:åº”æœ‰id
 				errormessage(ID_ERROR,line,no);
 				return;
 				skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½ if for switch scanf return printf ; { }
+				//è·³åˆ° if for switch scanf return printf ; { }
 			}
-		}while(symid==COMMA);			//±ØĞëÓĞÖÁÉÙÒ»¸ö±êÊ¶·û
+		}while(symid==COMMA);			//å¿…é¡»æœ‰è‡³å°‘ä¸€ä¸ªæ ‡è¯†ç¬¦
 
-		if(symid==RPAR){				//¶Áµ½)
+		if(symid==RPAR){				//è¯»åˆ°)
 			getsym();
 		}
 		else{
-			//error:Ó¦ÓĞ)
+			//error:åº”æœ‰)
 			errormessage(RPAR_ERROR,line,no);
 			skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½id if for switch scanf return printf ; { }
+			//è·³åˆ°id if for switch scanf return printf ; { }
 			return;
 		}
 	}
 	else{
-		//error:Ó¦ÓĞ(
+		//error:åº”æœ‰(
 		errormessage(LPAR_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 
@@ -404,81 +412,81 @@ void scansta(){
 
 
 
-//£¼¸³ÖµÓï¾ä£¾   ::=  £¼±êÊ¶·û£¾£½£¼±í´ïÊ½£¾|£¼±êÊ¶·û£¾¡®[¡¯£¼±í´ïÊ½£¾¡®]¡¯=£¼±í´ïÊ½£¾
-//´¦Àí¸³ÖµÓï¾ä
+//ï¼œèµ‹å€¼è¯­å¥ï¼   ::=  ï¼œæ ‡è¯†ç¬¦ï¼ï¼ï¼œè¡¨è¾¾å¼ï¼|ï¼œæ ‡è¯†ç¬¦ï¼â€˜[â€™ï¼œè¡¨è¾¾å¼ï¼â€˜]â€™=ï¼œè¡¨è¾¾å¼ï¼
+//å¤„ç†èµ‹å€¼è¯­å¥
 void assignsta(){
-	//½øÈëº¯ÊıÊ±ÒÑ¾­¶Áµ½ÁË= »ò[
+	//è¿›å…¥å‡½æ•°æ—¶å·²ç»è¯»åˆ°äº†= æˆ–[
 	char op1[tokensize]={'\0'};
 	char op2[tokensize]={'\0'};
 	char result[tokensize]={'\0'};
-	strcpy(id,token1);				//´¢´æ±äÁ¿Ãû
+	strcpy(id,token1);				//å‚¨å­˜å˜é‡å
 	strcpy(op1,token1);
 	//printtab();
 	//printf("%s\n",id);
 
-	if(symid==ASSIGN){				//= int»òchar±äÁ¿
-		int index=searchtab(id,2);	//²é·ûºÅ±í
+	if(symid==ASSIGN){				//= intæˆ–charå˜é‡
+		int index=searchtab(id,2);	//æŸ¥ç¬¦å·è¡¨
 
 		if(index==-1){
-			//error:Î´ÉùÃ÷±äÁ¿
+			//error:æœªå£°æ˜å˜é‡
 			errormessage(UNDEFID_ERROR,line,no);
 			skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½ if for switch scanf return printf ; { }
+			//è·³åˆ° if for switch scanf return printf ; { }
 			return;
 		}
-		else if(tab[index].type==0 || tab[index].type==1 || tab[index].type==9 || tab[index].type==10){	//= int»òchar±äÁ¿
+		else if(tab[index].type==0 || tab[index].type==1 || tab[index].type==9 || tab[index].type==10){	//= intæˆ–charå˜é‡
 			getsym();
-			expression(op2);				//µ÷ÓÃ±í´ïÊ½´¦Àí³ÌĞò
-			midcode(VARASSIGN,op1,op2,NULL);		//²úÉúÖĞ¼ä´úÂë
+			expression(op2);				//è°ƒç”¨è¡¨è¾¾å¼å¤„ç†ç¨‹åº
+			midcode(VARASSIGN,op1,op2,NULL);		//äº§ç”Ÿä¸­é—´ä»£ç 
 		}
 		else{
-			//error:²»ÊÇ±äÁ¿
+			//error:ä¸æ˜¯å˜é‡
 			errormessage(VARIABLE_ERROR,line,no);
 			skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½ if for switch scanf return printf ; { }
+			//è·³åˆ° if for switch scanf return printf ; { }
 			return;
 		}
 	}
-	else{							//[ int»òcharÊı×é
-		int index=searchtab(id,3);	//²é·ûºÅ±í
+	else{							//[ intæˆ–charæ•°ç»„
+		int index=searchtab(id,3);	//æŸ¥ç¬¦å·è¡¨
 		if(index==-1){
-			//error:Î´ÉùÃ÷±äÁ¿
+			//error:æœªå£°æ˜å˜é‡
 			errormessage(UNDEFID_ERROR,line,no);
 			skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½ if for switch scanf return printf ; { }
+			//è·³åˆ° if for switch scanf return printf ; { }
 			return;
 		}
-		else if(tab[index].type==4 || tab[index].type==5){	//²é±íºó·¢ÏÖÊÇint»òcharÊı×é
+		else if(tab[index].type==4 || tab[index].type==5){	//æŸ¥è¡¨åå‘ç°æ˜¯intæˆ–charæ•°ç»„
 			getsym();
-			expression(op2);			//µ÷ÓÃ±í´ïÊ½´¦Àí³ÌĞò
-			if(symid==RBRACKET){		//¶Áµ½]
+			expression(op2);			//è°ƒç”¨è¡¨è¾¾å¼å¤„ç†ç¨‹åº
+			if(symid==RBRACKET){		//è¯»åˆ°]
 				getsym();
-				if(symid==ASSIGN){		//¶Áµ½=
+				if(symid==ASSIGN){		//è¯»åˆ°=
 					getsym();
-					expression(result);		//µ÷ÓÃ±í´ïÊ½´¦Àí³ÌĞò
-					midcode(ARRASSIGN,op1,op2,result);		//²úÉúÖĞ¼ä´úÂë
+					expression(result);		//è°ƒç”¨è¡¨è¾¾å¼å¤„ç†ç¨‹åº
+					midcode(ARRASSIGN,op1,op2,result);		//äº§ç”Ÿä¸­é—´ä»£ç 
 				}
 				else{
-					//error:Ó¦ÓĞ=
+					//error:åº”æœ‰=
 					errormessage(ASSIGN_ERROR,line,no);
 					skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-					//Ìøµ½if for switch scanf return printf ; { }
+					//è·³åˆ°if for switch scanf return printf ; { }
 					return;
 				}
 			}
 			else{
-				//error:Ó¦ÓĞ]
+				//error:åº”æœ‰]
 				errormessage(RBRACKET_ERROR,line,no);
 				skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½id if for switch scanf return printf ; { }
+				//è·³åˆ°id if for switch scanf return printf ; { }
 				return;
 			}
 		}
 		else{
-			//error:²»ÊÇÊı×é
+			//error:ä¸æ˜¯æ•°ç»„
 			errormessage(NOTARR_ERROR,line,no);
 			skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½id if for switch scanf return printf ; { }
+			//è·³åˆ°id if for switch scanf return printf ; { }
 			return;
 		}
 			
@@ -488,15 +496,15 @@ void assignsta(){
 	fprintf(grammarfile,"%s","this is a assign statement\n");
 }
 
-//£¼Ìõ¼ş£¾    ::=  £¼±í´ïÊ½£¾£¼¹ØÏµÔËËã·û£¾£¼±í´ïÊ½£¾£ü£¼±í´ïÊ½£¾ //±í´ïÊ½Îª0Ìõ¼şÎª¼Ù£¬·ñÔòÎªÕæ
-//´¦ÀíÌõ¼ş
+//ï¼œæ¡ä»¶ï¼    ::=  ï¼œè¡¨è¾¾å¼ï¼ï¼œå…³ç³»è¿ç®—ç¬¦ï¼ï¼œè¡¨è¾¾å¼ï¼ï½œï¼œè¡¨è¾¾å¼ï¼ //è¡¨è¾¾å¼ä¸º0æ¡ä»¶ä¸ºå‡ï¼Œå¦åˆ™ä¸ºçœŸ
+//å¤„ç†æ¡ä»¶
 void condition(){
-	//½øÈëº¯ÊıÊ±£¬ÒÑ¾­¶ÁÈ¡ÁËÊ×·ûºÅ
+	//è¿›å…¥å‡½æ•°æ—¶ï¼Œå·²ç»è¯»å–äº†é¦–ç¬¦å·
 	char op1[tokensize]={'\0'};
 	char op2[tokensize]={'\0'};
 	int temp_type=0;
-	expression(op1);			//µ÷ÓÃ±í´ïÊ½´¦Àí³ÌĞò
-	//¶Áµ½¹ØÏµÔËËã·û
+	expression(op1);			//è°ƒç”¨è¡¨è¾¾å¼å¤„ç†ç¨‹åº
+	//è¯»åˆ°å…³ç³»è¿ç®—ç¬¦
 	if(symid==EQUAL || symid==BIGEQL || symid==BIG || symid==SMALL || symid==SMALLEQL || symid==NOTEQL){
 		temp_type=(symid==EQUAL)?EQUALOP:
 				 (symid==BIGEQL)?BIGEQLOP:
@@ -507,11 +515,11 @@ void condition(){
 		//printf("this is a relation operator\n");
 		fprintf(grammarfile,"%s","this is a relation operator\n");
 		getsym();
-		expression(op2);//µ÷ÓÃ±í´ïÊ½´¦Àí³ÌĞò
-		midcode(temp_type,op1,op2,NULL);			//²úÉúÖĞ¼ä´úÂë
+		expression(op2);//è°ƒç”¨è¡¨è¾¾å¼å¤„ç†ç¨‹åº
+		midcode(temp_type,op1,op2,NULL);			//äº§ç”Ÿä¸­é—´ä»£ç 
 	}
 	else{
-		//±í´ïÊ½¼´ÊÇÌõ¼ş
+		//è¡¨è¾¾å¼å³æ˜¯æ¡ä»¶
 	}
 
 		
@@ -520,50 +528,50 @@ void condition(){
 }
 
 
-//£¼Ìõ¼şÓï¾ä£¾  ::=  if ¡®(¡¯£¼Ìõ¼ş£¾¡®)¡¯£¼Óï¾ä£¾£Ûelse£¼Óï¾ä£¾£İ
-//´¦Àíif-elseÓï¾ä
+//ï¼œæ¡ä»¶è¯­å¥ï¼  ::=  if â€˜(â€™ï¼œæ¡ä»¶ï¼â€˜)â€™ï¼œè¯­å¥ï¼ï¼»elseï¼œè¯­å¥ï¼ï¼½
+//å¤„ç†if-elseè¯­å¥
 void ifsta(){
-	//½øÈëº¯ÊıÊ±ÒÑ¾­¶Áµ½if
+	//è¿›å…¥å‡½æ•°æ—¶å·²ç»è¯»åˆ°if
 	char label1[tokensize]={'\0'};
 	char label2[tokensize]={'\0'};
 	getsym();
-	if(symid==LPAR){				//¶Áµ½(
+	if(symid==LPAR){				//è¯»åˆ°(
 		getsym();			
-		condition();				//µ÷ÓÃÌõ¼ş´¦Àí³ÌĞò
+		condition();				//è°ƒç”¨æ¡ä»¶å¤„ç†ç¨‹åº
 									
-															//Éú³ÉÖĞ¼ä´úÂë											//²úÉúÒ»¸ölabelĞòºÅ
-		getlabel(label1);						//²úÉúlabel×Ö·û´®,´æÔÚlabel1ÖĞ
+															//ç”Ÿæˆä¸­é—´ä»£ç 											//äº§ç”Ÿä¸€ä¸ªlabelåºå·
+		getlabel(label1);						//äº§ç”Ÿlabelå­—ç¬¦ä¸²,å­˜åœ¨label1ä¸­
 		getlabel(label2);
-		midcode(BZOP,label1,NULL,NULL);			//Ìõ¼şÎª¼ÙÊ±Ìø×ªµ½label1£¨ÈôÓĞelseÔòÎªelseµÄ¿ªÍ·£¬·ñÔòÎªif-elseÓï¾äµÄ½áÎ²£©
+		midcode(BZOP,label1,NULL,NULL);			//æ¡ä»¶ä¸ºå‡æ—¶è·³è½¬åˆ°label1ï¼ˆè‹¥æœ‰elseåˆ™ä¸ºelseçš„å¼€å¤´ï¼Œå¦åˆ™ä¸ºif-elseè¯­å¥çš„ç»“å°¾ï¼‰
 
 
-		if(symid==RPAR){			//¶Áµ½)
+		if(symid==RPAR){			//è¯»åˆ°)
 			getsym();
-			sta();					//µ÷ÓÃÓï¾ä´¦Àí³ÌĞò
+			sta();					//è°ƒç”¨è¯­å¥å¤„ç†ç¨‹åº
 
 
-			midcode(GOTOOP,label2,NULL,NULL);			//ÄÜÔËĞĞµ½´Ë´¦ËµÃ÷Ìõ¼şÎªÕæ£¬Ìø¹ıelse
-			midcode(SETLABEL,label1,NULL,NULL);			//ÉèÖÃlabel1		
+			midcode(GOTOOP,label2,NULL,NULL);			//èƒ½è¿è¡Œåˆ°æ­¤å¤„è¯´æ˜æ¡ä»¶ä¸ºçœŸï¼Œè·³è¿‡else
+			midcode(SETLABEL,label1,NULL,NULL);			//è®¾ç½®label1		
 
-			if(symid==ELSESYM){		//¶Áµ½else
+			if(symid==ELSESYM){		//è¯»åˆ°else
 				getsym();
 				sta();
 			}
-			midcode(SETLABEL,label2,NULL,NULL);			//ÉèÖÃlabel2
+			midcode(SETLABEL,label2,NULL,NULL);			//è®¾ç½®label2
 		}
 		else{
-			//error:Ó¦ÓĞ)
+			//error:åº”æœ‰)
 			errormessage(RPAR_ERROR,line,no);
 			skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½ if for switch scanf return printf ; { }
+			//è·³åˆ° if for switch scanf return printf ; { }
 			return;
 		}
 	}
 	else{
-		//error:¶Áµ½(
+		//error:è¯»åˆ°(
 		errormessage(LPAR_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½id if for switch scanf return printf ; { }
+		//è·³åˆ°id if for switch scanf return printf ; { }
 		return;
 	}
 
@@ -572,262 +580,262 @@ void ifsta(){
 }
 
 
-//£¼Ñ­»·Óï¾ä£¾   ::=  for¡®(¡¯£¼±êÊ¶·û£¾£½£¼±í´ïÊ½£¾;£¼Ìõ¼ş£¾;£¼±êÊ¶·û£¾£½£¼±êÊ¶·û£¾(+|-)£¼²½³¤£¾¡®)¡¯£¼Óï¾ä£¾
-//´¦ÀíforÑ­»· ÏÈ´¦Àí £¼±êÊ¶·û£¾£½£¼±í´ïÊ½£¾ £¬ÔÙ´¦Àí £¼±êÊ¶·û£¾£½£¼±êÊ¶·û£¾(+|-)£¼²½³¤£¾£¬ÔÙ´¦Àí<Ìõ¼ş>
+//ï¼œå¾ªç¯è¯­å¥ï¼   ::=  forâ€˜(â€™ï¼œæ ‡è¯†ç¬¦ï¼ï¼ï¼œè¡¨è¾¾å¼ï¼;ï¼œæ¡ä»¶ï¼;ï¼œæ ‡è¯†ç¬¦ï¼ï¼ï¼œæ ‡è¯†ç¬¦ï¼(+|-)ï¼œæ­¥é•¿ï¼â€˜)â€™ï¼œè¯­å¥ï¼
+//å¤„ç†forå¾ªç¯ å…ˆå¤„ç† ï¼œæ ‡è¯†ç¬¦ï¼ï¼ï¼œè¡¨è¾¾å¼ï¼ ï¼Œå†å¤„ç† ï¼œæ ‡è¯†ç¬¦ï¼ï¼ï¼œæ ‡è¯†ç¬¦ï¼(+|-)ï¼œæ­¥é•¿ï¼ï¼Œå†å¤„ç†<æ¡ä»¶>
 void forsta(){
-	//½øÈëº¯ÊıÊ±£¬ÒÑ¾­¶Áµ½ÁËfor
-	struct MIDCODE temp_code2[2];			//Ôİ´æ¼Ó¼õ²½³¤²úÉúµÄÖĞ¼ä´úÂë
+	//è¿›å…¥å‡½æ•°æ—¶ï¼Œå·²ç»è¯»åˆ°äº†for
+	struct MIDCODE temp_code2[2];			//æš‚å­˜åŠ å‡æ­¥é•¿äº§ç”Ÿçš„ä¸­é—´ä»£ç 
 	char temp_num[tokensize]={'\0'};				//i=0
 	int temp_type=0;								//label1:
-	int index1=0;									//Ñ­»·Ìå									
+	int index1=0;									//å¾ªç¯ä½“									
 	int index2=0;									//i++								
-	char temp1[tokensize]={'\0'};					//Ìõ¼ş					
+	char temp1[tokensize]={'\0'};					//æ¡ä»¶					
 	char temp2[tokensize]={'\0'};					//BNZ label1			
 	char label1[tokensize]={'\0'};	
 	char label2[tokensize]={'\0'};
 	char label3[tokensize]={'\0'};
 											
-	getlabel(label1);				//»ñÈ¡1¸ölabel		
-	getlabel(label2);				//»ñÈ¡1¸ölabel	
-	getlabel(label3);				//»ñÈ¡1¸ölabel	
+	getlabel(label1);				//è·å–1ä¸ªlabel		
+	getlabel(label2);				//è·å–1ä¸ªlabel	
+	getlabel(label3);				//è·å–1ä¸ªlabel	
 	gettemp(temp2);														
 
 	getsym();															
-	if(symid!=LPAR){				//¶Áµ½(	
-		//error:Ó¦ÓĞ(
+	if(symid!=LPAR){				//è¯»åˆ°(	
+		//error:åº”æœ‰(
 		errormessage(LPAR_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 	getsym();														
-	if(symid!=ID){					//¶Áµ½±êÊ¶·û	
-		//error:Ó¦ÓĞid
+	if(symid!=ID){					//è¯»åˆ°æ ‡è¯†ç¬¦	
+		//error:åº”æœ‰id
 		errormessage(ID_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 	index1=searchtab(token,2);
 	if(index1==-1){
-		//error:Î´¶¨Òå±äÁ¿¼°²ÎÊı
+		//error:æœªå®šä¹‰å˜é‡åŠå‚æ•°
 		errormessage(UNDEFID_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 	else if(tab[index1].type!=0 && tab[index1].type!=1 && tab[index1].type!=9 && tab[index1].type!=10 ){
-		//error:²»ÊÇint char±äÁ¿¼°²ÎÊı
+		//error:ä¸æ˜¯int charå˜é‡åŠå‚æ•°
 		errormessage(VARIABLE_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 
 	getsym();
-	if(symid!=ASSIGN){		//¶Áµ½=
-		//error:Ó¦ÓĞ=
+	if(symid!=ASSIGN){		//è¯»åˆ°=
+		//error:åº”æœ‰=
 		errormessage(ASSIGN_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 	getsym();
-	expression(temp1);		//µ÷ÓÃ±í´ïÊ½´¦Àí³ÌĞò
-	midcode(VARASSIGN,tab[index1].id,temp1,NULL);		//Éú³ÉÖĞ¼ä´úÂë£¬i=temp1
-	midcode(GOTOOP,label2,NULL,NULL);					//Éú³ÉÖĞ¼ä´úÂë£¬goto label2
-	midcode(SETLABEL,label1,NULL,NULL);					//Éú³ÉÖĞ¼ä´úÂë£¬set label1
-	if(symid!=SEMICOLON){		//¶Áµ½;
-		//error:Ó¦ÓĞ;
+	expression(temp1);		//è°ƒç”¨è¡¨è¾¾å¼å¤„ç†ç¨‹åº
+	midcode(VARASSIGN,tab[index1].id,temp1,NULL);		//ç”Ÿæˆä¸­é—´ä»£ç ï¼Œi=temp1
+	midcode(GOTOOP,label2,NULL,NULL);					//ç”Ÿæˆä¸­é—´ä»£ç ï¼Œgoto label2
+	midcode(SETLABEL,label1,NULL,NULL);					//ç”Ÿæˆä¸­é—´ä»£ç ï¼Œset label1
+	if(symid!=SEMICOLON){		//è¯»åˆ°;
+		//error:åº”æœ‰;
 		errormessage(SEMICOLON_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 
 	getsym();
-	condition();			//µ÷ÓÃÌõ¼ş´¦Àí³ÌĞò
+	condition();			//è°ƒç”¨æ¡ä»¶å¤„ç†ç¨‹åº
 
-	midcode(BZOP,label3,NULL,NULL);					//Éú³ÉÖĞ¼ä´úÂë£¬BZ label3
+	midcode(BZOP,label3,NULL,NULL);					//ç”Ÿæˆä¸­é—´ä»£ç ï¼ŒBZ label3
 
 
-	if(symid!=SEMICOLON){	//¶Áµ½;
-		//error:Ó¦ÓĞ;
+	if(symid!=SEMICOLON){	//è¯»åˆ°;
+		//error:åº”æœ‰;
 		errormessage(SEMICOLON_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 
 	
 	getsym();
-	if(symid!=ID){		//¶Áµ½id
-		//error:Ó¦ÓĞid;
+	if(symid!=ID){		//è¯»åˆ°id
+		//error:åº”æœ‰id;
 		errormessage(ID_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½id if for switch scanf return printf ; { }
+		//è·³åˆ°id if for switch scanf return printf ; { }
 		return;
 
 	}
 		
 	if(strcmp(token,tab[index1].id)!=0){
-		//error:forÑ­»·³öÏÖÆäËû±êÊ¶·û
+		//error:forå¾ªç¯å‡ºç°å…¶ä»–æ ‡è¯†ç¬¦
 		errormessage(DIFFVAR_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½id if for switch scanf return printf ; { }
+		//è·³åˆ°id if for switch scanf return printf ; { }
 		return;
 	}
 							
 	getsym();
-	if(symid!=ASSIGN){	//¶Áµ½=
-		//error:Ó¦ÓĞ=
+	if(symid!=ASSIGN){	//è¯»åˆ°=
+		//error:åº”æœ‰=
 		errormessage(ASSIGN_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 	getsym();
-	if(symid!=ID){	//¶Áµ½id
-		//error:Ó¦ÓĞid
+	if(symid!=ID){	//è¯»åˆ°id
+		//error:åº”æœ‰id
 		errormessage(ID_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 									
 	if(strcmp(token,tab[index1].id)!=0){
-		//error:forÑ­»·³öÏÖÆäËû±êÊ¶·û
+		//error:forå¾ªç¯å‡ºç°å…¶ä»–æ ‡è¯†ç¬¦
 		errormessage(DIFFVAR_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 	getsym();
-	if(symid!=PLUS && symid!=SUB){		//¶Áµ½+»ò-
-		//error:È±ÉÙ+ -
+	if(symid!=PLUS && symid!=SUB){		//è¯»åˆ°+æˆ–-
+		//error:ç¼ºå°‘+ -
 		errormessage(ADDSUB_ERROR,line,no);
 		skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½id if for switch scanf return printf ; { }
+		//è·³åˆ°id if for switch scanf return printf ; { }
 		return;
 	}
 	temp_type=(symid==PLUS)?ADDOP:SUBOP;	
 	getsym();
-	if(symid!=ANUMBER || num==0){	//¶Áµ½ ÎŞ·ûºÅ·ÇÁãÕûÊı
-		//error:²½³¤´íÎó£¬Ó¦ÎªÎŞ·ûºÅ·ÇÁãÕûÊı
+	if(symid!=ANUMBER || num==0){	//è¯»åˆ° æ— ç¬¦å·éé›¶æ•´æ•°
+		//error:æ­¥é•¿é”™è¯¯ï¼Œåº”ä¸ºæ— ç¬¦å·éé›¶æ•´æ•°
 		errormessage(STEP_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
-	sprintf(temp_num,"%d",num);		//Êı×Ö×ªÊı×é
+	sprintf(temp_num,"%d",num);		//æ•°å­—è½¬æ•°ç»„
 
-//Ê¹ÓÃtemp_code2ÔİÊ±´¢´æ²½³¤¼Ó¼õ²úÉúµÄÁ½¸öÖĞ¼ä´úÂë
+//ä½¿ç”¨temp_code2æš‚æ—¶å‚¨å­˜æ­¥é•¿åŠ å‡äº§ç”Ÿçš„ä¸¤ä¸ªä¸­é—´ä»£ç 
 	temp_code2[0].type=temp_type;
-	strcpy(temp_code2[0].op1,tab[index1].id);				//Éú³ÉÖĞ¼ä´úÂë£¬temp2=i+/-num
+	strcpy(temp_code2[0].op1,tab[index1].id);				//ç”Ÿæˆä¸­é—´ä»£ç ï¼Œtemp2=i+/-num
 	strcpy(temp_code2[0].op2,temp_num);
 	strcpy(temp_code2[0].result,temp2);
 	
 	temp_code2[1].type=VARASSIGN;
-	strcpy(temp_code2[1].op1,tab[index1].id);		//Éú³ÉÖĞ¼ä´úÂë£¬i=temp2
+	strcpy(temp_code2[1].op1,tab[index1].id);		//ç”Ÿæˆä¸­é—´ä»£ç ï¼Œi=temp2
 	strcpy(temp_code2[1].op2,temp2);
 
 	getsym();
 	if(symid!=RPAR){
-		//error:È±ÉÙ)
+		//error:ç¼ºå°‘)
 		errormessage(RPAR_ERROR,line,no);
 		skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½id if for switch scanf return printf ; { }
+		//è·³åˆ°id if for switch scanf return printf ; { }
 		return;
 	}
 
-	midcode(SETLABEL,label2,NULL,NULL);					//Éú³ÉÖĞ¼ä´úÂë£¬set label2
+	midcode(SETLABEL,label2,NULL,NULL);					//ç”Ÿæˆä¸­é—´ä»£ç ï¼Œset label2
 	getsym();
 	sta();
 														
 	
-	//½«Ôİ´æµÄ´úÂëĞ´ÈëÎÄ¼ş
+	//å°†æš‚å­˜çš„ä»£ç å†™å…¥æ–‡ä»¶
 	midcode(temp_code2[0].type,temp_code2[0].op1,temp_code2[0].op2,temp_code2[0].result);
 	midcode(temp_code2[1].type,temp_code2[1].op1,temp_code2[1].op2,temp_code2[1].result);
 
-	midcode(GOTOOP,label1,NULL,NULL);					//Éú³ÉÖĞ¼ä´úÂë£¬goto label1
-	midcode(SETLABEL,label3,NULL,NULL);					//Éú³ÉÖĞ¼ä´úÂë£¬set label3
+	midcode(GOTOOP,label1,NULL,NULL);					//ç”Ÿæˆä¸­é—´ä»£ç ï¼Œgoto label1
+	midcode(SETLABEL,label3,NULL,NULL);					//ç”Ÿæˆä¸­é—´ä»£ç ï¼Œset label3
 
 	//printf("this is a for-loop\n");
 	fprintf(grammarfile,"%s","this is a for-loop\n");
 }
 
 
-//£¼Çé¿öÓï¾ä£¾  ::=  switch ¡®(¡¯£¼±í´ïÊ½£¾¡®)¡¯ ¡®{¡¯£¼Çé¿ö±í£¾£¼È±Ê¡£¾¡®}¡¯
-//´¦Àíswitch-case
+//ï¼œæƒ…å†µè¯­å¥ï¼  ::=  switch â€˜(â€™ï¼œè¡¨è¾¾å¼ï¼â€˜)â€™ â€˜{â€™ï¼œæƒ…å†µè¡¨ï¼ï¼œç¼ºçœï¼â€˜}â€™
+//å¤„ç†switch-case
 void switchsta(){
-	//½øÈëº¯ÊıÊ±ÒÑ¾­¶Áµ½switch
-	int switch_type=0;				//switchµÄ±í´ïÊ½ÀàĞÍ
+	//è¿›å…¥å‡½æ•°æ—¶å·²ç»è¯»åˆ°switch
+	int switch_type=0;				//switchçš„è¡¨è¾¾å¼ç±»å‹
 	char label[tokensize]={'\0'};
-	char default_label[tokensize]={'\0'};		//default_labelÓÉcase×ÓÓï¾ä¸³Öµ
+	char default_label[tokensize]={'\0'};		//default_labelç”±caseå­è¯­å¥èµ‹å€¼
 	char temp_exp[tokensize]={'\0'};
-	gettemp(temp_exp);		//²úÉú½ÓÊÜ±í´ïÊ½ÖµµÄÁÙÊ±±äÁ¿
+	gettemp(temp_exp);		//äº§ç”Ÿæ¥å—è¡¨è¾¾å¼å€¼çš„ä¸´æ—¶å˜é‡
 	getlabel(label);
 	getsym();
-	if(symid==LPAR){		//¶Áµ½(
+	if(symid==LPAR){		//è¯»åˆ°(
 		getsym();
-		switch_type=expression(temp_exp);	//µ÷ÓÃ±í´ïÊ½´¦Àí³ÌĞò
+		switch_type=expression(temp_exp);	//è°ƒç”¨è¡¨è¾¾å¼å¤„ç†ç¨‹åº
 		if(symid==RPAR){
 			getsym();
-			if(symid==LBRACE){		//¶Áµ½{
+			if(symid==LBRACE){		//è¯»åˆ°{
 				getsym();
-				if(symid==CASESYM){		//¶Áµ½case
-					casesta(temp_exp,label,default_label,switch_type);		//µ÷ÓÃÇé¿ö±í´¦Àí³ÌĞò
-					if(symid==DEFAULTSYM){		//¶Áµ½default
-						defaultsta(default_label);			//µ÷ÓÃÈ±Ê¡´¦Àí³ÌĞò
-						if(symid==RBRACE){		//¶Áµ½}
-							midcode(SETLABEL,label,NULL,NULL);		//ÉèÖÃlabel
+				if(symid==CASESYM){		//è¯»åˆ°case
+					casesta(temp_exp,label,default_label,switch_type);		//è°ƒç”¨æƒ…å†µè¡¨å¤„ç†ç¨‹åº
+					if(symid==DEFAULTSYM){		//è¯»åˆ°default
+						defaultsta(default_label);			//è°ƒç”¨ç¼ºçœå¤„ç†ç¨‹åº
+						if(symid==RBRACE){		//è¯»åˆ°}
+							midcode(SETLABEL,label,NULL,NULL);		//è®¾ç½®label
 							getsym();
 						}
 						else{
-							//error:Ó¦Îª}
+							//error:åº”ä¸º}
 							errormessage(RBRACE_ERROR,line,no);
 							skip(11,CASESYM,DEFAULTSYM,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-							//Ìøµ½ case default if for switch scanf return printf ; { }
+							//è·³åˆ° case default if for switch scanf return printf ; { }
 							return;
 						}
 					}
 					else{
-						//error:È±Ê§default
+						//error:ç¼ºå¤±default
 						errormessage(DEFAULT_ERROR,line,no);
 						skip(11,CASESYM,DEFAULTSYM,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-						//Ìøµ½ case default if for switch scanf return printf ; { }
+						//è·³åˆ° case default if for switch scanf return printf ; { }
 						return;
 					}
 				}
 				else{
-					//error:È±Ê§case
+					//error:ç¼ºå¤±case
 					errormessage(CASE_ERROR,line,no);
 					skip(11,CASESYM,DEFAULTSYM,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-					//Ìøµ½ case default if for switch scanf return printf ; { }
+					//è·³åˆ° case default if for switch scanf return printf ; { }
 					return;
 				}
 			}
 			else{
-				//error:Ó¦Îª{
+				//error:åº”ä¸º{
 				errormessage(LBRACE_ERROR,line,no);
 				skip(11,CASESYM,DEFAULTSYM,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½ case default if for switch scanf return printf ; { }
+				//è·³åˆ° case default if for switch scanf return printf ; { }
 				return;
 			}
 		}
 		else{
-			//error:Ó¦Îª)
+			//error:åº”ä¸º)
 			errormessage(RPAR_ERROR,line,no);
 			skip(11,CASESYM,DEFAULTSYM,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½ case default if for switch scanf return printf ; { }
+			//è·³åˆ° case default if for switch scanf return printf ; { }
 			return;
 		}
 	}
 	else{
-		//error:Ó¦ÓĞ(
+		//error:åº”æœ‰(
 		errormessage(LPAR_ERROR,line,no);
 		skip(11,CASESYM,DEFAULTSYM,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ case default if for switch scanf return printf ; { }
+		//è·³åˆ° case default if for switch scanf return printf ; { }
 		return;
 	}
 
@@ -836,74 +844,74 @@ void switchsta(){
 }
 
 
-//£¼Çé¿ö±í£¾   ::=  £¼Çé¿ö×ÓÓï¾ä£¾{£¼Çé¿ö×ÓÓï¾ä£¾}
-//´¦ÀíÇé¿ö±í
+//ï¼œæƒ…å†µè¡¨ï¼   ::=  ï¼œæƒ…å†µå­è¯­å¥ï¼{ï¼œæƒ…å†µå­è¯­å¥ï¼}
+//å¤„ç†æƒ…å†µè¡¨
 void casesta(char* temp_exp,char* label,char* default_label,int switch_type){
-	//½øÈëº¯ÊıÊ±ÒÑ¶ÁÈ¡µ½case
+	//è¿›å…¥å‡½æ•°æ—¶å·²è¯»å–åˆ°case
 	char mylabel[tokensize]={'\0'};
 	char nextlabel[tokensize]={'\0'};
-	getlabel(mylabel);			//ÏÈ»ñµÃµÚÒ»¸öcaseµÄlabel
+	getlabel(mylabel);			//å…ˆè·å¾—ç¬¬ä¸€ä¸ªcaseçš„label
 	do{
 		casesubsta(temp_exp,mylabel,nextlabel,switch_type);
-		midcode(GOTOOP,label,NULL,NULL);			//case½áÊøÖ±½ÓÌøµ½½áÎ²
+		midcode(GOTOOP,label,NULL,NULL);			//caseç»“æŸç›´æ¥è·³åˆ°ç»“å°¾
 
-		memset(mylabel,0,tokensize);				//ÒÔÏÂ½«nextlabelµÄÖµ¸³¸ømylabel£¬²¢½«nextlabel³õÊ¼»¯
+		memset(mylabel,0,tokensize);				//ä»¥ä¸‹å°†nextlabelçš„å€¼èµ‹ç»™mylabelï¼Œå¹¶å°†nextlabelåˆå§‹åŒ–
 		strcpy(mylabel,nextlabel);
 		
-		memset(default_label,0,tokensize);			//ÎŞÔ¤ÁÏºÎÊ±¶Áµ½default£¬default_label±ØĞëÊÇ×îºóÒ»¸önextlabel
+		memset(default_label,0,tokensize);			//æ— é¢„æ–™ä½•æ—¶è¯»åˆ°defaultï¼Œdefault_labelå¿…é¡»æ˜¯æœ€åä¸€ä¸ªnextlabel
 		strcpy(default_label,nextlabel);
 
 		memset(nextlabel,0,tokensize);
-	}while(symid==CASESYM);		//ÖÁÉÙÓĞÒ»¸öcaseÓï¾ä
+	}while(symid==CASESYM);		//è‡³å°‘æœ‰ä¸€ä¸ªcaseè¯­å¥
 
 	//printf("this is a case statement\n");
 	fprintf(grammarfile,"%s","this is a case statement\n");
 }
 
-//£¼Çé¿ö×ÓÓï¾ä£¾  ::=  case£¼³£Á¿£¾£º£¼Óï¾ä£¾
-//´¦ÀíÇé¿ö×ÓÓï¾ä,mylabelÒÑÓÉÉÏÒ»¸öcase£¨»òº¯Êı¿ªÍ·ÉêÇë£©£¬nextlabelÎ´ÉêÇë,temp_expÎª±í´ïÊ½µÄÁÙÊ±±äÁ¿
+//ï¼œæƒ…å†µå­è¯­å¥ï¼  ::=  caseï¼œå¸¸é‡ï¼ï¼šï¼œè¯­å¥ï¼
+//å¤„ç†æƒ…å†µå­è¯­å¥,mylabelå·²ç”±ä¸Šä¸€ä¸ªcaseï¼ˆæˆ–å‡½æ•°å¼€å¤´ç”³è¯·ï¼‰ï¼Œnextlabelæœªç”³è¯·,temp_expä¸ºè¡¨è¾¾å¼çš„ä¸´æ—¶å˜é‡
 void casesubsta(char* temp_exp,char* mylabel,char* nextlabel,int switch_type){
-	//½øÈëº¯ÊıÒÑ¶Áµ½case
+	//è¿›å…¥å‡½æ•°å·²è¯»åˆ°case
 	int number=0;
 	char temp_num[tokensize]={'\0'};
-	midcode(SETLABEL,mylabel,NULL,NULL);		//ÏÈÉèÖÃ±¾caseµÄlabel
+	midcode(SETLABEL,mylabel,NULL,NULL);		//å…ˆè®¾ç½®æœ¬caseçš„label
 	getsym();
-	if(symid==PLUS || symid==SUB || symid==ANUMBER){		//¶Áµ½+ - ÎŞÇ°ÁãÊı×Ö
-		number=integer();							//integer²»Ô¤¶ÁÒ»¸ö·ûºÅ
-		if(switch_type==1){						//switchÎªchar caseÎªint
-			//ÀàĞÍ³åÍ»
+	if(symid==PLUS || symid==SUB || symid==ANUMBER){		//è¯»åˆ°+ - æ— å‰é›¶æ•°å­—
+		number=integer();							//integerä¸é¢„è¯»ä¸€ä¸ªç¬¦å·
+		if(switch_type==1){						//switchä¸ºchar caseä¸ºint
+			//ç±»å‹å†²çª
 			errormessage(TYPECONFL_ERROR,line,no);
 		}
 	}
 	else if(symid==ACHAR){
 		number=num;
 		if(switch_type==0){
-			//ÀàĞÍ³åÍ»
+			//ç±»å‹å†²çª
 			errormessage(TYPECONFL_ERROR,line,no);
 		}
 	}
 	else{
-		//error:Ó¦Îª³£Á¿
+		//error:åº”ä¸ºå¸¸é‡
 		errormessage(CONSTVALUE_ERROR,line,no);
 		skip(11,CASESYM,DEFAULTSYM,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ case default if for switch scanf return printf ; { }
+		//è·³åˆ° case default if for switch scanf return printf ; { }
 		return;
 	}
 	sprintf(temp_num,"%d",number);
-	midcode(EQUALOP,temp_exp,temp_num,NULL);		//²úÉú¹ØÏµÔËËã±í´ïÊ½
+	midcode(EQUALOP,temp_exp,temp_num,NULL);		//äº§ç”Ÿå…³ç³»è¿ç®—è¡¨è¾¾å¼
 	getlabel(nextlabel);
 	midcode(BZOP,nextlabel,NULL,NULL);
 
 	getsym();
-	if(symid==COLON){		//¶Áµ½:
+	if(symid==COLON){		//è¯»åˆ°:
 		getsym();
-		sta();				//µ÷ÓÃÓï¾ä´¦Àí³ÌĞò
+		sta();				//è°ƒç”¨è¯­å¥å¤„ç†ç¨‹åº
 	}
 	else{
-		//error:Ó¦ÓĞ:
+		//error:åº”æœ‰:
 		errormessage(COLON_ERROR,line,no);
 		skip(11,CASESYM,DEFAULTSYM,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ case default if for switch scanf return printf ; { }
+		//è·³åˆ° case default if for switch scanf return printf ; { }
 		return;
 	}
 
@@ -912,21 +920,21 @@ void casesubsta(char* temp_exp,char* mylabel,char* nextlabel,int switch_type){
 	fprintf(grammarfile,"%s","this is a case substatement\n");
 }
 
-//£¼È±Ê¡£¾   ::=  default : £¼Óï¾ä£¾
-//´¦ÀíÈ±Ê¡Óï¾ä
+//ï¼œç¼ºçœï¼   ::=  default : ï¼œè¯­å¥ï¼
+//å¤„ç†ç¼ºçœè¯­å¥
 void defaultsta(char* default_label){
-	//½øÈëº¯ÊıÊ±ÒÑ¾­¶ÁÈ¡µ½ÁËdefault
-	midcode(SETLABEL,default_label,NULL,NULL);		//ÉèÖÃdefault label
+	//è¿›å…¥å‡½æ•°æ—¶å·²ç»è¯»å–åˆ°äº†default
+	midcode(SETLABEL,default_label,NULL,NULL);		//è®¾ç½®default label
 	getsym();
 	if(symid==COLON){
 		getsym();
 		sta();
 	}
 	else{
-		//error:Ó¦ÓĞ:
+		//error:åº”æœ‰:
 		errormessage(COLON_ERROR,line,no);
 		skip(10,DEFAULTSYM,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½default if for switch scanf return printf ; { }
+		//è·³åˆ°default if for switch scanf return printf ; { }
 		return;
 	}
 
@@ -934,40 +942,40 @@ void defaultsta(char* default_label){
 	fprintf(grammarfile,"%s","this is a default statement\n");
 }
 
-//£¼ÓĞ·µ»ØÖµº¯Êıµ÷ÓÃÓï¾ä£¾ ::= £¼±êÊ¶·û£¾¡®(¡¯£¼Öµ²ÎÊı±í£¾¡®)¡¯
-//´¦ÀíÓĞ·µ»ØÖµº¯ÊıµÄµ÷ÓÃ
+//ï¼œæœ‰è¿”å›å€¼å‡½æ•°è°ƒç”¨è¯­å¥ï¼ ::= ï¼œæ ‡è¯†ç¬¦ï¼â€˜(â€™ï¼œå€¼å‚æ•°è¡¨ï¼â€˜)â€™
+//å¤„ç†æœ‰è¿”å›å€¼å‡½æ•°çš„è°ƒç”¨
 void callretfunc(int index){
 	char op1[tokensize]={'\0'};
-	//½øÈëº¯ÊıÊ±£¬ÒÑ¾­¶Áµ½±êÊ¶·û »ò (
-	if(symid==ID){					//±£Áôµ±Ç°¶Áµ½µÄ·ûºÅĞÅÏ¢,ÒòÎª³ÌĞò¿ÉÄÜ±» Óï¾äÁĞ´¦Àí³ÌĞò »ò Òò×Ó´¦Àí³ÌĞò µ÷ÓÃ
-		strcpy(token1,token);		//ÓÉÒò×Ó´¦Àí³ÌĞòµ÷ÓÃÊ±£¬ÒÑ¶Áµ½( ÇÒº¯ÊıÃû±êÊ¶·ûÒÑ±£´æÔÚtoken1£¬symid1
+	//è¿›å…¥å‡½æ•°æ—¶ï¼Œå·²ç»è¯»åˆ°æ ‡è¯†ç¬¦ æˆ– (
+	if(symid==ID){					//ä¿ç•™å½“å‰è¯»åˆ°çš„ç¬¦å·ä¿¡æ¯,å› ä¸ºç¨‹åºå¯èƒ½è¢« è¯­å¥åˆ—å¤„ç†ç¨‹åº æˆ– å› å­å¤„ç†ç¨‹åº è°ƒç”¨
+		strcpy(token1,token);		//ç”±å› å­å¤„ç†ç¨‹åºè°ƒç”¨æ—¶ï¼Œå·²è¯»åˆ°( ä¸”å‡½æ•°åæ ‡è¯†ç¬¦å·²ä¿å­˜åœ¨token1ï¼Œsymid1
 		symid1=symid;
 		getsym();
-		if(symid==LPAR){			//¶Áµ½(
+		if(symid==LPAR){			//è¯»åˆ°(
 
 		}
 		else{
-			//error:È±ÉÙ(
+			//error:ç¼ºå°‘(
 			errormessage(LPAR_ERROR,line,no);
 			skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½ if for switch scanf return printf ; { }
+			//è·³åˆ° if for switch scanf return printf ; { }
 			return;
 		}
 	}
 
 
 	getsym();
-	valueofpara(index);					//µ÷ÓÃÖµ²ÎÊıÁĞ´¦Àí³ÌĞò
+	valueofpara(index);					//è°ƒç”¨å€¼å‚æ•°åˆ—å¤„ç†ç¨‹åº
 
 	midcode(FUNCCALL,tab[index].id,NULL,NULL);	//call function
-	if(symid==RPAR){				//¶ÁÈ¡µ½)
+	if(symid==RPAR){				//è¯»å–åˆ°)
 		getsym();
 	}
 	else{
-		//error:Ó¦ÓĞ)
+		//error:åº”æœ‰)
 		errormessage(RPAR_ERROR,line,no);
 		skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 
@@ -975,21 +983,21 @@ void callretfunc(int index){
 	fprintf(grammarfile,"%s","this is a call of function\n");
 }		
 
-//£¼ÎŞ·µ»ØÖµº¯Êıµ÷ÓÃÓï¾ä£¾ ::= £¼±êÊ¶·û£¾¡®(¡¯£¼Öµ²ÎÊı±í£¾¡®)¡¯
-//´¦ÀíÎŞ·µ»ØÖµº¯ÊıµÄµ÷ÓÃ,Ö»¿ÉÄÜ±»Óï¾äÁĞµ÷ÓÃ
+//ï¼œæ— è¿”å›å€¼å‡½æ•°è°ƒç”¨è¯­å¥ï¼ ::= ï¼œæ ‡è¯†ç¬¦ï¼â€˜(â€™ï¼œå€¼å‚æ•°è¡¨ï¼â€˜)â€™
+//å¤„ç†æ— è¿”å›å€¼å‡½æ•°çš„è°ƒç”¨,åªå¯èƒ½è¢«è¯­å¥åˆ—è°ƒç”¨
 void callnoretfunc(int index){
-	//½øÈëº¯ÊıÊ±£¬ÒÑ¾­¶Áµ½(
+	//è¿›å…¥å‡½æ•°æ—¶ï¼Œå·²ç»è¯»åˆ°(
 	getsym();
-	valueofpara(index);				//µ÷ÓÃÖµ²ÎÊıÁĞ´¦Àí³ÌĞò
+	valueofpara(index);				//è°ƒç”¨å€¼å‚æ•°åˆ—å¤„ç†ç¨‹åº
 	midcode(FUNCCALL,tab[index].id,NULL,NULL);	//call function
-	if(symid==RPAR){				//¶Áµ½)
+	if(symid==RPAR){				//è¯»åˆ°)
 		getsym();
 	}
 	else{
-		//error:Ó¦ÓĞ)
+		//error:åº”æœ‰)
 		errormessage(RPAR_ERROR,line,no);
 		skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return;
 	}
 
@@ -998,101 +1006,101 @@ void callnoretfunc(int index){
 }		
 
 
-//£¼³£Á¿ËµÃ÷£¾ ::=  const£¼³£Á¿¶¨Òå£¾;{ const£¼³£Á¿¶¨Òå£¾;}
-//´¦Àí³£Á¿ËµÃ÷
+//ï¼œå¸¸é‡è¯´æ˜ï¼ ::=  constï¼œå¸¸é‡å®šä¹‰ï¼;{ constï¼œå¸¸é‡å®šä¹‰ï¼;}
+//å¤„ç†å¸¸é‡è¯´æ˜
 void conststa(){		
-	//½øÈëº¯ÊıÊ±ÒÑ¾­¶Áµ½const
+	//è¿›å…¥å‡½æ•°æ—¶å·²ç»è¯»åˆ°const
 	do{
 		getsym();
-		if(symid==INTSYM || symid==CHARSYM){	//¶Áµ½ÀàĞÍ±êÊ¶·û
-			constdef();							//µ÷ÓÃ´¦Àí³£Á¿¶¨Òå³ÌĞò
-			if(symid==SEMICOLON){				//¶Áµ½·ÖºÅ
-				getsym();						//ÔÙÏòÏÂ¶ÁÒ»¸ö·ûºÅ,Èç¹ûÊÇconst£¬¼ÌĞøÑ­»·
+		if(symid==INTSYM || symid==CHARSYM){	//è¯»åˆ°ç±»å‹æ ‡è¯†ç¬¦
+			constdef();							//è°ƒç”¨å¤„ç†å¸¸é‡å®šä¹‰ç¨‹åº
+			if(symid==SEMICOLON){				//è¯»åˆ°åˆ†å·
+				getsym();						//å†å‘ä¸‹è¯»ä¸€ä¸ªç¬¦å·,å¦‚æœæ˜¯constï¼Œç»§ç»­å¾ªç¯
 			}
 			else{
-				//error:Ó¦¸ÃÓĞ·ÖºÅ
+				//error:åº”è¯¥æœ‰åˆ†å·
 				errormessage(SEMICOLON_ERROR,line,no);
 				skip(5,SEMICOLON,CONSTSYM,INTSYM,CHARSYM,VOIDSYM);
-				//Ìøµ½ ; const int char void 
+				//è·³åˆ° ; const int char void 
 			}
 		}
 		else{
-			//error:Ó¦ÓĞint »ò char
+			//error:åº”æœ‰int æˆ– char
 			errormessage(TYPE_ERROR,line,no);
 			skip(5,SEMICOLON,CONSTSYM,INTSYM,CHARSYM,VOIDSYM);
-			//Ìøµ½ ; const int char void 
+			//è·³åˆ° ; const int char void 
 		}
-	}while(symid==CONSTSYM);					//ÖÁÉÙÓĞÒ»¸öconst£¼³£Á¿¶¨Òå£¾;
+	}while(symid==CONSTSYM);					//è‡³å°‘æœ‰ä¸€ä¸ªconstï¼œå¸¸é‡å®šä¹‰ï¼;
 	//printf("this is a conststatement\n");
 	fprintf(grammarfile,"%s","this is a conststatement\n");
 }
 
 
-//£¼³£Á¿¶¨Òå£¾ ::=int£¼±êÊ¶·û£¾£½£¼ÕûÊı£¾{,£¼±êÊ¶·û£¾£½£¼ÕûÊı£¾}
-//              | char£¼±êÊ¶·û£¾£½£¼×Ö·û£¾{,£¼±êÊ¶·û£¾£½£¼×Ö·û£¾}
-//´¦Àí³£Á¿¶¨Òå
+//ï¼œå¸¸é‡å®šä¹‰ï¼ ::=intï¼œæ ‡è¯†ç¬¦ï¼ï¼ï¼œæ•´æ•°ï¼{,ï¼œæ ‡è¯†ç¬¦ï¼ï¼ï¼œæ•´æ•°ï¼}
+//              | charï¼œæ ‡è¯†ç¬¦ï¼ï¼ï¼œå­—ç¬¦ï¼{,ï¼œæ ‡è¯†ç¬¦ï¼ï¼ï¼œå­—ç¬¦ï¼}
+//å¤„ç†å¸¸é‡å®šä¹‰
 void constdef(){	
-	//½øÈëº¯ÊıÊ±ÒÑ¾­¶Áµ½int»òchar
+	//è¿›å…¥å‡½æ•°æ—¶å·²ç»è¯»åˆ°intæˆ–char
 	char temp_num[tokensize]={'\0'};
 	switch(symid){
 		case INTSYM:	type=2;break;		//const int
 		case CHARSYM:	type=3;break;		//const char
 	}
-	getsym();								//ÔÙ¶ÁÒ»¸ö,Ó¦¸ÃÊÇ±êÊ¶·û
+	getsym();								//å†è¯»ä¸€ä¸ª,åº”è¯¥æ˜¯æ ‡è¯†ç¬¦
 
 	while(true){
 		if(symid==ID){
-			strcpy(id,token);					//ÔÚ¶Á=Ö®Ç°£¬±£´æ±êÊ¶·û
+			strcpy(id,token);					//åœ¨è¯»=ä¹‹å‰ï¼Œä¿å­˜æ ‡è¯†ç¬¦
 			getsym();
-			if(symid==ASSIGN){					//ÔÙ¶ÁÒ»¸ö,Ó¦¸ÃÊÇ=
+			if(symid==ASSIGN){					//å†è¯»ä¸€ä¸ª,åº”è¯¥æ˜¯=
 				if(type==2){					//const int
 					getsym();	
-					len=integer();						//µ÷ÓÃ´¦ÀíÕûÊı³ÌĞò
-					inserttab(id,type,len,lev,4,addr);		//Ìî·ûºÅ±í
+					len=integer();						//è°ƒç”¨å¤„ç†æ•´æ•°ç¨‹åº
+					inserttab(id,type,len,lev,4,addr);		//å¡«ç¬¦å·è¡¨
 					addr+=4;									//daddr
 					memset(temp_num,0,tokensize);
 					sprintf(temp_num,"%d",len);
-					midcode(CONSTINTDEF,id,temp_num,NULL);						//²úÉúÖĞ¼ä´úÂë
+					midcode(CONSTINTDEF,id,temp_num,NULL);						//äº§ç”Ÿä¸­é—´ä»£ç 
 				}
 				else{									//const char
 					getsym();	
 					if(symid==ACHAR){
-						len=num;						//´¢´æ×Ö·û
-						inserttab(id,type,len,lev,4,addr);	//Ìî·ûºÅ±í
-						addr+=4;							//µØÖ·¼Ó4£¬×Ö·ûÒ²Õ¼¾İ4×Ö½Ú
+						len=num;						//å‚¨å­˜å­—ç¬¦
+						inserttab(id,type,len,lev,4,addr);	//å¡«ç¬¦å·è¡¨
+						addr+=4;							//åœ°å€åŠ 4ï¼Œå­—ç¬¦ä¹Ÿå æ®4å­—èŠ‚
 						memset(temp_num,0,tokensize);
 						sprintf(temp_num,"%d",len);
-						midcode(CONSTCHARDEF,id,temp_num,NULL);					//²úÉúÖĞ¼ä´úÂë	
+						midcode(CONSTCHARDEF,id,temp_num,NULL);					//äº§ç”Ÿä¸­é—´ä»£ç 	
 					}
 					else{
-						//error:Ó¦ÎªÒ»¸ö×Ö·û
+						//error:åº”ä¸ºä¸€ä¸ªå­—ç¬¦
 						errormessage(CHAR_ERROR,line,no);
 						skip(5,SEMICOLON,CONSTSYM,INTSYM,CHARSYM,VOIDSYM);
-						//Ìøµ½ ; const int char void 
+						//è·³åˆ° ; const int char void 
 						break;
 					}
 				}
 			}
 			else{
-				//error:Ó¦¸ÃÊÇ=
+				//error:åº”è¯¥æ˜¯=
 				errormessage(ASSIGN_ERROR,line,no);
 				skip(5,SEMICOLON,CONSTSYM,INTSYM,CHARSYM,VOIDSYM);
-				//Ìøµ½ ; const int char void 
+				//è·³åˆ° ; const int char void 
 				break;
 			}
-			getsym();							//ÔÙ¶ÁÒ»¸ö·ûºÅ
-			if(symid==COMMA){					//¶Áµ½¶ººÅÔòºóÃæ»¹ÓĞ
+			getsym();							//å†è¯»ä¸€ä¸ªç¬¦å·
+			if(symid==COMMA){					//è¯»åˆ°é€—å·åˆ™åé¢è¿˜æœ‰
 				getsym();
 			}
-			else{								//·ñÔòÍË³öº¯Êı
+			else{								//å¦åˆ™é€€å‡ºå‡½æ•°
 				break;
 			}
 		}
 		else{
-			//error:Ó¦¸ÃÊÇ±êÊ¶·û
+			//error:åº”è¯¥æ˜¯æ ‡è¯†ç¬¦
 			errormessage(ID_ERROR,line,no);
 			skip(5,SEMICOLON,CONSTSYM,INTSYM,CHARSYM,VOIDSYM);
-			//Ìøµ½ ; const int char void 
+			//è·³åˆ° ; const int char void 
 			break;
 		}
 	}
@@ -1100,24 +1108,24 @@ void constdef(){
 	fprintf(grammarfile,"%s","this is a constdefine \n");
 }
 
-//£¼ÕûÊı£¾        ::= £Û£«£ü£­£İ£¼ÎŞ·ûºÅÕûÊı£¾£ü£°
-//´¦ÀíÕûÊı,ºÍÆäËû´¦Àí×Ó³ÌĞò²»Í¬£¬¸Ã³ÌĞòÔÚ½áÎ²Ã»ÓĞÔ¤¶ÁÒ»¸ö·ûºÅ
+//ï¼œæ•´æ•°ï¼        ::= ï¼»ï¼‹ï½œï¼ï¼½ï¼œæ— ç¬¦å·æ•´æ•°ï¼ï½œï¼
+//å¤„ç†æ•´æ•°,å’Œå…¶ä»–å¤„ç†å­ç¨‹åºä¸åŒï¼Œè¯¥ç¨‹åºåœ¨ç»“å°¾æ²¡æœ‰é¢„è¯»ä¸€ä¸ªç¬¦å·
 int integer(){
-	//½øÈëº¯ÊıÊ±£¬ÒÑ¾­¶ÁÈ¡ÁËµÚÒ»¸ö·ûºÅ
+	//è¿›å…¥å‡½æ•°æ—¶ï¼Œå·²ç»è¯»å–äº†ç¬¬ä¸€ä¸ªç¬¦å·
 	int head=0;				//+----head=1 ------head=-1
-	if(symid==PLUS || symid==SUB){		//¶Áµ½+,-
+	if(symid==PLUS || symid==SUB){		//è¯»åˆ°+,-
 		head=(symid==PLUS)?1:-1;
 		getsym();
 		if(symid==ANUMBER){
 			if(head!=0 && num==0){
-				//error:0ÓĞ·ûºÅ
+				//error:0æœ‰ç¬¦å·
 				errormessage(PLUSZERO_ERROR,line,no);
 				return 0;
 			}
 			return head*num;
 		}
 		else{
-			//error:È±ÉÙÊı×Ö
+			//error:ç¼ºå°‘æ•°å­—
 			errormessage(INTEGER_ERROR,line,no);
 			return 0;
 		}
@@ -1126,7 +1134,7 @@ int integer(){
 		return num;
 	}
 	else{
-		//error:È±ÉÙÕûÊı
+		//error:ç¼ºå°‘æ•´æ•°
 		errormessage(INTEGER_ERROR,line,no);
 		return 0;
 	}
@@ -1135,104 +1143,104 @@ int integer(){
 }
 
 
-//£¼±äÁ¿¶¨Òå£¾  ::= (int|char)(£¼±êÊ¶·û£¾|£¼±êÊ¶·û£¾¡®[¡¯£¼ÎŞ·ûºÅÕûÊı£¾¡®]¡¯)
-//							 {,(£¼±êÊ¶·û£¾|£¼±êÊ¶·û£¾¡®[¡¯£¼ÎŞ·ûºÅÕûÊı£¾¡®]¡¯)};
-//´¦Àí±äÁ¿¶¨Òå
+//ï¼œå˜é‡å®šä¹‰ï¼  ::= (int|char)(ï¼œæ ‡è¯†ç¬¦ï¼|ï¼œæ ‡è¯†ç¬¦ï¼â€˜[â€™ï¼œæ— ç¬¦å·æ•´æ•°ï¼â€˜]â€™)
+//							 {,(ï¼œæ ‡è¯†ç¬¦ï¼|ï¼œæ ‡è¯†ç¬¦ï¼â€˜[â€™ï¼œæ— ç¬¦å·æ•´æ•°ï¼â€˜]â€™)};
+//å¤„ç†å˜é‡å®šä¹‰
 void variabledef(){					
-	//µ÷ÓÃº¯ÊıÊ±ÒÑ¶Áµ½[ , ;
-	strcpy(id,token2);							//¶ÁÈ¡ÁÙÊ±±£´æµÄ±êÊ¶·û
-	int temp_type=(symid1==INTSYM)?0:1;			//¶ÁÈ¡ÁÙÊ±±£´æµÄÀàĞÍ £¬ÔİÊ±ÈÏÎª²»ÊÇÊı×éint--type=0£¬char--type=1£¬»¹¿ÉÄÜÊÇÊı×é
+	//è°ƒç”¨å‡½æ•°æ—¶å·²è¯»åˆ°[ , ;
+	strcpy(id,token2);							//è¯»å–ä¸´æ—¶ä¿å­˜çš„æ ‡è¯†ç¬¦
+	int temp_type=(symid1==INTSYM)?0:1;			//è¯»å–ä¸´æ—¶ä¿å­˜çš„ç±»å‹ ï¼Œæš‚æ—¶è®¤ä¸ºä¸æ˜¯æ•°ç»„int--type=0ï¼Œchar--type=1ï¼Œè¿˜å¯èƒ½æ˜¯æ•°ç»„
 	len=0;
 	type=temp_type;
 	while(true){
 		char temp_num[tokensize]={'\0'};
-		if(symid==COMMA){							//¶Áµ½, Ôò»¹ÓĞ±äÁ¿¶¨Òå
-			len=(type==0 || type==1)?0:len;			//int char±äÁ¿µÄlenÎª0
+		if(symid==COMMA){							//è¯»åˆ°, åˆ™è¿˜æœ‰å˜é‡å®šä¹‰
+			len=(type==0 || type==1)?0:len;			//int charå˜é‡çš„lenä¸º0
 			size=sizecalcu(type,len);
-			inserttab(id,type,len,lev,size,addr);		//Ìî·ûºÅ±í
+			inserttab(id,type,len,lev,size,addr);		//å¡«ç¬¦å·è¡¨
 			addr+=size;
 			sprintf(temp_num,"%d",len);
-			midcode((type==0)?VARINTDEF:(type==1)?VARCHARDEF:(type==4)?INTARRDEF:CHARARRDEF,id,temp_num,NULL);//Éú³ÉÖĞ¼ä´úÂë
+			midcode((type==0)?VARINTDEF:(type==1)?VARCHARDEF:(type==4)?INTARRDEF:CHARARRDEF,id,temp_num,NULL);//ç”Ÿæˆä¸­é—´ä»£ç 
 			
-			type=temp_type;							//ÌîÍê±í£¬type±ä»Øtemp_type
-			getsym();								//Ó¦¸Ã¶Áµ½ ±êÊ¶·û
+			type=temp_type;							//å¡«å®Œè¡¨ï¼Œtypeå˜å›temp_type
+			getsym();								//åº”è¯¥è¯»åˆ° æ ‡è¯†ç¬¦
 			if(symid==ID){
-				strcpy(id,token);					//±£´æ±êÊ¶·û
+				strcpy(id,token);					//ä¿å­˜æ ‡è¯†ç¬¦
 				getsym();
-				if(symid==LBRACKET || symid==COMMA || symid==SEMICOLON){//ÓÖ¶Áµ½[ , ;
+				if(symid==LBRACKET || symid==COMMA || symid==SEMICOLON){//åˆè¯»åˆ°[ , ;
 					continue;
 				}
 				else{
-					//error:È±ÉÙ[ , ;
+					//error:ç¼ºå°‘[ , ;
 					errormessage(SEMICOLON_ERROR,line,no);
 					skip(4,SEMICOLON,INTSYM,CHARSYM,VOIDSYM);
-					//Ìøµ½ ; int char void 
+					//è·³åˆ° ; int char void 
 					return;
 				}
 			}
 			else{
-				//error:Ó¦ÓĞid
+				//error:åº”æœ‰id
 				errormessage(ID_ERROR,line,no);
 				skip(4,SEMICOLON,INTSYM,CHARSYM,VOIDSYM);
-				//Ìøµ½ ; int char void 
+				//è·³åˆ° ; int char void 
 				return;
 			}
 		}
-		else if(symid==LBRACKET){					//¶Áµ½[ ËµÃ÷ÊÇÊı×é
+		else if(symid==LBRACKET){					//è¯»åˆ°[ è¯´æ˜æ˜¯æ•°ç»„
 			getsym();
-			if(symid==ANUMBER && num!=0){			//Êı×éµÄ³¤¶ÈÊÇÎŞ·ûºÅ·ÇÁãÕûÊı
-				len=num;							//¼ÇÂ¼Êı×é³¤¶È
-				type=(temp_type==0)?4:5;			//intÊı×é-4  charÊı×é-5
-				size=sizecalcu(type,len);			//¼ÇÂ¼Êı×é×Ö½ÚÊı
+			if(symid==ANUMBER && num!=0){			//æ•°ç»„çš„é•¿åº¦æ˜¯æ— ç¬¦å·éé›¶æ•´æ•°
+				len=num;							//è®°å½•æ•°ç»„é•¿åº¦
+				type=(temp_type==0)?4:5;			//intæ•°ç»„-4  charæ•°ç»„-5
+				size=sizecalcu(type,len);			//è®°å½•æ•°ç»„å­—èŠ‚æ•°
 				getsym();
 				if(symid==RBRACKET){				//]
 					getsym();
-					if(symid==COMMA || symid==SEMICOLON){//ÓÖ¶Áµ½ , ;
-						//´Ë´¦ÏÈ²»Ìî·ûºÅ±í£¬Áôµ½, ;ÔÙÌî
+					if(symid==COMMA || symid==SEMICOLON){//åˆè¯»åˆ° , ;
+						//æ­¤å¤„å…ˆä¸å¡«ç¬¦å·è¡¨ï¼Œç•™åˆ°, ;å†å¡«
 						continue;
 					}
 					else{
-						//error:È±ÉÙ, ;
+						//error:ç¼ºå°‘, ;
 						errormessage(SEMICOLON_ERROR,line,no);
 						skip(4,SEMICOLON,INTSYM,CHARSYM,VOIDSYM);
-						//Ìøµ½ ; int char void 
+						//è·³åˆ° ; int char void 
 						return;
 					}
 				}
 				else{
-					//error:Ó¦ÓĞ]
+					//error:åº”æœ‰]
 					errormessage(RBRACKET_ERROR,line,no);
 					skip(4,SEMICOLON,INTSYM,CHARSYM,VOIDSYM);
-					//Ìøµ½ ; int char void 
+					//è·³åˆ° ; int char void 
 					return;
 				}
 			}
 			else{
-				//error://Êı×éµÄ³¤¶ÈÊÇÎŞ·ûºÅ·ÇÁãÕûÊı
+				//error://æ•°ç»„çš„é•¿åº¦æ˜¯æ— ç¬¦å·éé›¶æ•´æ•°
 				errormessage(ARRLEN_ERROR,line,no);
 				skip(4,SEMICOLON,INTSYM,CHARSYM,VOIDSYM);
-				//Ìøµ½ ; int char void 
+				//è·³åˆ° ; int char void 
 				return;
 			}
 		}
-		else if(symid==SEMICOLON){					//¶Áµ½; ½áÊø
-			len=(type==0 || type==1)?0:len;			//int char±äÁ¿µÄlenÎª0
+		else if(symid==SEMICOLON){					//è¯»åˆ°; ç»“æŸ
+			len=(type==0 || type==1)?0:len;			//int charå˜é‡çš„lenä¸º0
 
 			size=sizecalcu(type,len);
-			inserttab(id,type,len,lev,size,addr);		//Ìî·ûºÅ±í
+			inserttab(id,type,len,lev,size,addr);		//å¡«ç¬¦å·è¡¨
 			addr+=size;
-			sprintf(temp_num,"%d",len);			//Êı×Ö×ªÊı×é
-			midcode((type==0)?VARINTDEF:(type==1)?VARCHARDEF:(type==4)?INTARRDEF:CHARARRDEF,id,temp_num,NULL);//Éú³ÉÖĞ¼ä´úÂë
+			sprintf(temp_num,"%d",len);			//æ•°å­—è½¬æ•°ç»„
+			midcode((type==0)?VARINTDEF:(type==1)?VARCHARDEF:(type==4)?INTARRDEF:CHARARRDEF,id,temp_num,NULL);//ç”Ÿæˆä¸­é—´ä»£ç 
 			
-			type=temp_type;							//ÌîÍê±í£¬type±ä»Øtemp_type
-			getsym();								//Ô¤¶ÁÒ»¸ö·ûºÅ
+			type=temp_type;							//å¡«å®Œè¡¨ï¼Œtypeå˜å›temp_type
+			getsym();								//é¢„è¯»ä¸€ä¸ªç¬¦å·
 			break;
 		}
 		else{
-			//error:Ó¦ÓĞ;
+			//error:åº”æœ‰;
 			errormessage(SEMICOLON_ERROR,line,no);
 			skip(4,SEMICOLON,INTSYM,CHARSYM,VOIDSYM);
-			//Ìøµ½ ; int char void 
+			//è·³åˆ° ; int char void 
 			return;
 		}
 	}
@@ -1241,8 +1249,8 @@ void variabledef(){
 	fprintf(grammarfile,"%s","this is a variabledefine\n");
 }
 
-//£¼±í´ïÊ½£¾    ::= £Û£«£ü£­£İ£¼Ïî£¾{£¼¼Ó·¨ÔËËã·û£¾£¼Ïî£¾}
-//´¦Àí±í´ïÊ½
+//ï¼œè¡¨è¾¾å¼ï¼    ::= ï¼»ï¼‹ï½œï¼ï¼½ï¼œé¡¹ï¼{ï¼œåŠ æ³•è¿ç®—ç¬¦ï¼ï¼œé¡¹ï¼}
+//å¤„ç†è¡¨è¾¾å¼
 int expression(char* temp){
 	//char temp1[tokensize]={'\0'};
 	char temp2[tokensize]={'\0'};
@@ -1252,36 +1260,36 @@ int expression(char* temp){
 	int term_sum=0;
 	//gettemp(temp);
 
-	//½øÈë±í´ïÊ½Ê±£¬ÒÑ¶ÁÈ¡µÚÒ»¸ö×Ö·û
-	if(symid==PLUS || symid==SUB){		//¶Áµ½+ -
+	//è¿›å…¥è¡¨è¾¾å¼æ—¶ï¼Œå·²è¯»å–ç¬¬ä¸€ä¸ªå­—ç¬¦
+	if(symid==PLUS || symid==SUB){		//è¯»åˆ°+ -
 		temp_type=(symid==PLUS)?ADDOP:SUBOP;
 		getsym();
-		exp_type=term(temp);							//µ÷ÓÃÏî´¦Àí³ÌĞò
+		exp_type=term(temp);							//è°ƒç”¨é¡¹å¤„ç†ç¨‹åº
 		sprintf(temp_num,"%d",0);
 		midcode(temp_type,temp_num,temp,temp);
 		term_sum++;
 	}
 	else{
-		exp_type=term(temp);							//Ö±½Óµ÷ÓÃÏî´¦Àí³ÌĞò
+		exp_type=term(temp);							//ç›´æ¥è°ƒç”¨é¡¹å¤„ç†ç¨‹åº
 	}
 
 
 
-	while(symid==PLUS || symid==SUB){	//ÓÖ¶Áµ½+ -
+	while(symid==PLUS || symid==SUB){	//åˆè¯»åˆ°+ -
 		temp_type=(symid==PLUS)?ADDOP:SUBOP;
-		getsym();						//ºóÃæÓ¦¸ÃÊÇ±í´ïÊ½
+		getsym();						//åé¢åº”è¯¥æ˜¯è¡¨è¾¾å¼
 		term(temp2);
-		midcode(temp_type,temp,temp2,temp);				//²úÉúÖĞ¼ä´úÂë temp1=temp1+/-temp2
+		midcode(temp_type,temp,temp2,temp);				//äº§ç”Ÿä¸­é—´ä»£ç  temp1=temp1+/-temp2
 		term_sum++;
 	}
 
 	//printf("this is a expression\n");
 	fprintf(grammarfile,"%s","this is a expression\n");
-	return (exp_type==1 && term_sum==0)?1:0;			//Ö»ÓĞÒ»¸öÏîÇÒÎªcharÇÒÎŞ·ûºÅ£¬²Å·µ»Ø1
+	return (exp_type==1 && term_sum==0)?1:0;			//åªæœ‰ä¸€ä¸ªé¡¹ä¸”ä¸ºcharä¸”æ— ç¬¦å·ï¼Œæ‰è¿”å›1
 }
 
-//£¼Ïî£¾     ::= £¼Òò×Ó£¾{£¼³Ë·¨ÔËËã·û£¾£¼Òò×Ó£¾}
-//´¦ÀíÏî(·µ»ØÖµ±íÊ¾ÀàĞÍ0-int £¬ 1-char)
+//ï¼œé¡¹ï¼     ::= ï¼œå› å­ï¼{ï¼œä¹˜æ³•è¿ç®—ç¬¦ï¼ï¼œå› å­ï¼}
+//å¤„ç†é¡¹(è¿”å›å€¼è¡¨ç¤ºç±»å‹0-int ï¼Œ 1-char)
 int term(char* temp){
 	//char temp1[tokensize]={'\0'};
 	char temp2[tokensize]={'\0'};
@@ -1289,169 +1297,169 @@ int term(char* temp){
 	int term_type=0;
 	int factor_sum=0;
 	//gettemp(temp);
-	//½øÈë³ÌĞòÊ±ÒÑ¾­¶ÁÈ¡ÁËµÚÒ»¸ö·ûºÅ
-	term_type=factor(temp);						//µ÷ÓÃÒò×Ó´¦Àí³ÌĞò
-	while(symid==MUL || symid==DIV){				//¶Áµ½* /
+	//è¿›å…¥ç¨‹åºæ—¶å·²ç»è¯»å–äº†ç¬¬ä¸€ä¸ªç¬¦å·
+	term_type=factor(temp);						//è°ƒç”¨å› å­å¤„ç†ç¨‹åº
+	while(symid==MUL || symid==DIV){				//è¯»åˆ°* /
 		temp_type=(symid==MUL)?MULOP:DIVOP;
-		getsym();									//ÔÙ¶ÁÒ»¸ö
-		factor(temp2);								//µ÷ÓÃÒò×Ó´¦Àí³ÌĞò
-		midcode(temp_type,temp,temp2,temp);				//²úÉúÖĞ¼ä´úÂë temp1=temp1*//temp2
+		getsym();									//å†è¯»ä¸€ä¸ª
+		factor(temp2);								//è°ƒç”¨å› å­å¤„ç†ç¨‹åº
+		midcode(temp_type,temp,temp2,temp);				//äº§ç”Ÿä¸­é—´ä»£ç  temp1=temp1*//temp2
 		factor_sum++;
 	}
 
-	//midcode(VARASSIGN,temp,temp1,NULL);						//²úÉúÖĞ¼ä´úÂë temp=temp1
+	//midcode(VARASSIGN,temp,temp1,NULL);						//äº§ç”Ÿä¸­é—´ä»£ç  temp=temp1
 	//printf("this is a term\n");
 	fprintf(grammarfile,"%s","this is a term\n");
-	return (term_type==1 && factor_sum==0)?1:0;			//Èç¹ûÖ»ÓĞÒ»¸öÒò×Ó£¬ÇÒÒò×ÓÎªchar£¬²Å·µ»Ø1
+	return (term_type==1 && factor_sum==0)?1:0;			//å¦‚æœåªæœ‰ä¸€ä¸ªå› å­ï¼Œä¸”å› å­ä¸ºcharï¼Œæ‰è¿”å›1
 }
 
-//£¼Òò×Ó£¾   nn ::= £¼±êÊ¶·û£¾£ü£¼±êÊ¶·û£¾¡®[¡¯£¼±í´ïÊ½£¾¡®]¡¯£ü£¼ÕûÊı£¾|£¼×Ö·û£¾£ü£¼ÓĞ·µ»ØÖµº¯Êıµ÷ÓÃÓï¾ä£¾|¡®(¡¯£¼±í´ïÊ½£¾¡®)¡¯   
-//´¦ÀíÒò×Ó(·µ»ØÖµ±íÊ¾ÀàĞÍ0-int £¬ 1-char)
+//ï¼œå› å­ï¼   nn ::= ï¼œæ ‡è¯†ç¬¦ï¼ï½œï¼œæ ‡è¯†ç¬¦ï¼â€˜[â€™ï¼œè¡¨è¾¾å¼ï¼â€˜]â€™ï½œï¼œæ•´æ•°ï¼|ï¼œå­—ç¬¦ï¼ï½œï¼œæœ‰è¿”å›å€¼å‡½æ•°è°ƒç”¨è¯­å¥ï¼|â€˜(â€™ï¼œè¡¨è¾¾å¼ï¼â€˜)â€™   
+//å¤„ç†å› å­(è¿”å›å€¼è¡¨ç¤ºç±»å‹0-int ï¼Œ 1-char)
 int factor(char* temp){
 	char temp_num[tokensize]={'\0'};
 	char op1[tokensize]={'\0'};
 	char op2[tokensize]={'\0'};
 	int factor_type=0;
 	int value=0;
-	//½øÈëº¯ÊıÊ±£¬ÒÑ¾­¶ÁÈ¡ÁËµÚÒ»¸ö·ûºÅ
+	//è¿›å…¥å‡½æ•°æ—¶ï¼Œå·²ç»è¯»å–äº†ç¬¬ä¸€ä¸ªç¬¦å·
 	int index=0;
 	gettemp(temp);
-	if(symid==ID){		//Òò×Ó¿ÉÄÜÎª£¼±êÊ¶·û£¾£ü£¼±êÊ¶·û£¾¡®[¡¯£¼±í´ïÊ½£¾¡®]¡¯|£¼ÓĞ·µ»ØÖµº¯Êıµ÷ÓÃÓï¾ä£¾
-		strcpy(token1,token);			//±£Áôµ±Ç°¶Áµ½µÄ·ûºÅĞÅÏ¢
+	if(symid==ID){		//å› å­å¯èƒ½ä¸ºï¼œæ ‡è¯†ç¬¦ï¼ï½œï¼œæ ‡è¯†ç¬¦ï¼â€˜[â€™ï¼œè¡¨è¾¾å¼ï¼â€˜]â€™|ï¼œæœ‰è¿”å›å€¼å‡½æ•°è°ƒç”¨è¯­å¥ï¼
+		strcpy(token1,token);			//ä¿ç•™å½“å‰è¯»åˆ°çš„ç¬¦å·ä¿¡æ¯
 		strcpy(op1,token);
 		symid1=symid;
 		getsym();
-		if(symid==LBRACKET){		//¶Áµ½[£¬Òò×Ó¿ÉÄÜÎª£¼±êÊ¶·û£¾¡®[¡¯£¼±í´ïÊ½£¾¡®]¡¯
+		if(symid==LBRACKET){		//è¯»åˆ°[ï¼Œå› å­å¯èƒ½ä¸ºï¼œæ ‡è¯†ç¬¦ï¼â€˜[â€™ï¼œè¡¨è¾¾å¼ï¼â€˜]â€™
 
-		//²é±í ÖĞµÄÊı×é£¬ÊÇ·ñÓĞÕâ¸öÊı×é
+		//æŸ¥è¡¨ ä¸­çš„æ•°ç»„ï¼Œæ˜¯å¦æœ‰è¿™ä¸ªæ•°ç»„
 			index=searchtab(token1,3);	
 			if(index==-1){
-				//error:Î´¶¨ÒåÊı×é
+				//error:æœªå®šä¹‰æ•°ç»„
 				errormessage(UNDEFID_ERROR,line,no);
 				skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½ if for switch scanf return printf ; { }
+				//è·³åˆ° if for switch scanf return printf ; { }
 				return factor_type;
 			}
 			else if(tab[index].type!=4 && tab[index].type!=5){
-				//error:²»ÊÇÊı×é
+				//error:ä¸æ˜¯æ•°ç»„
 				errormessage(NOTARR_ERROR,line,no);
 				skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½ if for switch scanf return printf ; { }
+				//è·³åˆ° if for switch scanf return printf ; { }
 				return factor_type;
 			}
 
-			if(tab[index].type==5){		//charÊı×é
-				factor_type=1;			//½«Òò×Ó¶¨ÎªcharÀàĞÍ
+			if(tab[index].type==5){		//charæ•°ç»„
+				factor_type=1;			//å°†å› å­å®šä¸ºcharç±»å‹
 			}
 
 			getsym();
-			expression(op2);		//µ÷ÓÃ±í´ïÊ½·ÖÎö³ÌĞò
-			if(symid==RBRACKET){//¶Áµ½]
-				midcode(ARRUSE,op1,op2,temp);			//²úÉúÖĞ¼ä´úÂë temp=op1[op2]
+			expression(op2);		//è°ƒç”¨è¡¨è¾¾å¼åˆ†æç¨‹åº
+			if(symid==RBRACKET){//è¯»åˆ°]
+				midcode(ARRUSE,op1,op2,temp);			//äº§ç”Ÿä¸­é—´ä»£ç  temp=op1[op2]
 				getsym();
 			}
 			else{
-				//error:Ó¦ÓĞ]
+				//error:åº”æœ‰]
 				errormessage(RBRACKET_ERROR,line,no);
 				skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½ if for switch scanf return printf ; { }
+				//è·³åˆ° if for switch scanf return printf ; { }
 				return factor_type;
 			}
 		}
-		else if(symid==LPAR){		//¶Áµ½(£¬/Òò×Ó¿ÉÄÜÎª£¼ÓĞ·µ»ØÖµº¯Êıµ÷ÓÃÓï¾ä£¾,»¹Ğè²é±í
+		else if(symid==LPAR){		//è¯»åˆ°(ï¼Œ/å› å­å¯èƒ½ä¸ºï¼œæœ‰è¿”å›å€¼å‡½æ•°è°ƒç”¨è¯­å¥ï¼,è¿˜éœ€æŸ¥è¡¨
 
 
 
-			index=searchtab(token1,1);	//²é±í
+			index=searchtab(token1,1);	//æŸ¥è¡¨
 			if(index==-1){
-				//error:Î´¶¨ÒåÓĞ·µ»ØÖµº¯Êı
+				//error:æœªå®šä¹‰æœ‰è¿”å›å€¼å‡½æ•°
 				errormessage(UNDEFID_ERROR,line,no);
 				skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½ if for switch scanf return printf ; { }
+				//è·³åˆ° if for switch scanf return printf ; { }
 				return factor_type;
 			}
 			else if(tab[index].type!=6 && tab[index].type!=7){
-				//error:²»ÊÇÓĞ·µ»ØÖµº¯Êı
+				//error:ä¸æ˜¯æœ‰è¿”å›å€¼å‡½æ•°
 				errormessage(HASRETFUNC_ERROR,line,no);
 				skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½ if for switch scanf return printf ; { }
+				//è·³åˆ° if for switch scanf return printf ; { }
 				return factor_type;
 			}
 
-			if(tab[index].type==7){			//charĞÍº¯Êı,factor_type=1
+			if(tab[index].type==7){			//charå‹å‡½æ•°,factor_type=1
 				factor_type=1;
 			}
 
 
-			callretfunc(index);			//µ÷ÓÃÓĞ·µ»ØÖµº¯Êıµ÷ÓÃ´¦Àí³ÌĞò
-			midcode(FUNCRET,temp,NULL,NULL);		//²úÉúÖĞ¼ä´úÂë£¬temp=RET
+			callretfunc(index);			//è°ƒç”¨æœ‰è¿”å›å€¼å‡½æ•°è°ƒç”¨å¤„ç†ç¨‹åº
+			midcode(FUNCRET,temp,NULL,NULL);		//äº§ç”Ÿä¸­é—´ä»£ç ï¼Œtemp=RET
 		}
-		else{						//Òò×Ó¿ÉÄÜÎª£¼±êÊ¶·û£¾
+		else{						//å› å­å¯èƒ½ä¸ºï¼œæ ‡è¯†ç¬¦ï¼
 
 
 
-			index=searchtab(token1,2);	//²é±í
+			index=searchtab(token1,2);	//æŸ¥è¡¨
 			if(index==-1){
-				//error:Î´¶¨Òå³£±äÁ¿¡¢º¯Êı²ÎÊı
+				//error:æœªå®šä¹‰å¸¸å˜é‡ã€å‡½æ•°å‚æ•°
 				errormessage(UNDEFID_ERROR,line,no);
 				skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½ if for switch scanf return printf ; { }
+				//è·³åˆ° if for switch scanf return printf ; { }
 				return factor_type;
 			}
 			else if(tab[index].type!=0 && tab[index].type!=1 && tab[index].type!=2 && tab[index].type!=3 && tab[index].type!=9 && tab[index].type!=10){
-				//error:²»ÊÇ³£±äÁ¿¼°²ÎÊı
+				//error:ä¸æ˜¯å¸¸å˜é‡åŠå‚æ•°
 				errormessage(FACTOR_ERROR,line,no);
 			}
 
-			//charĞÍ±äÁ¿³£Á¿Á¿
+			//charå‹å˜é‡å¸¸é‡é‡
 			if(tab[index].type==1 || tab[index].type==3 || tab[index].type==10){
 				factor_type=1;
 			}
 
-			//Èç¹ûÊÇ³£Á¿,Ö±½ÓÓÃ³£Á¿µÄÖµ
+			//å¦‚æœæ˜¯å¸¸é‡,ç›´æ¥ç”¨å¸¸é‡çš„å€¼
 			if(tab[index].type==2 || tab[index].type==3){
 				sprintf(temp_num,"%d",tab[index].len);
-				midcode(VARASSIGN,temp,temp_num,NULL);			//²úÉúÖĞ¼ä´úÂëtemp=temp_num
+				midcode(VARASSIGN,temp,temp_num,NULL);			//äº§ç”Ÿä¸­é—´ä»£ç temp=temp_num
 			}
-			//Èç¹û²»ÊÇ³£Á¿
+			//å¦‚æœä¸æ˜¯å¸¸é‡
 			else{
-				midcode(VARASSIGN,temp,op1,NULL);			//²úÉúÖĞ¼ä´úÂëtemp=op1
+				midcode(VARASSIGN,temp,op1,NULL);			//äº§ç”Ÿä¸­é—´ä»£ç temp=op1
 			}
-			//Ö®Ç°ÒÑ¾­Ô¤¶Á¹ı£¬²»ÒªÔÙÔ¤¶Á
+			//ä¹‹å‰å·²ç»é¢„è¯»è¿‡ï¼Œä¸è¦å†é¢„è¯»
 		}
 	}
-	else if(symid==PLUS || symid==SUB || symid==ANUMBER){	//Òò×Ó¿ÉÄÜÎªÕûÊı
-		value=integer();					//µ÷ÓÃÕûÊı·ÖÎö³ÌĞò
+	else if(symid==PLUS || symid==SUB || symid==ANUMBER){	//å› å­å¯èƒ½ä¸ºæ•´æ•°
+		value=integer();					//è°ƒç”¨æ•´æ•°åˆ†æç¨‹åº
 		getsym();
 		sprintf(temp_num,"%d",value);
-		midcode(VARASSIGN,temp,temp_num,NULL);			//Éú³ÉÖĞ¼ä´úÂë temp=num
+		midcode(VARASSIGN,temp,temp_num,NULL);			//ç”Ÿæˆä¸­é—´ä»£ç  temp=num
 	}
-	else if(symid==ACHAR){			//¶Áµ½×Ö·û,Òò×ÓÎª×Ö·û
-		sprintf(temp_num,"%d",num);		//×Ö·û»¯³ÉasciiÂë
-		midcode(VARASSIGN,temp,temp_num,NULL);			//Éú³ÉÖĞ¼ä´úÂë temp=num
+	else if(symid==ACHAR){			//è¯»åˆ°å­—ç¬¦,å› å­ä¸ºå­—ç¬¦
+		sprintf(temp_num,"%d",num);		//å­—ç¬¦åŒ–æˆasciiç 
+		midcode(VARASSIGN,temp,temp_num,NULL);			//ç”Ÿæˆä¸­é—´ä»£ç  temp=num
 		getsym();
 		factor_type=1;
 	}
-	else if(symid==LPAR){			//¶Áµ½(,Òò×ÓÎª¡®(¡¯£¼±í´ïÊ½£¾¡®)¡¯   
+	else if(symid==LPAR){			//è¯»åˆ°(,å› å­ä¸ºâ€˜(â€™ï¼œè¡¨è¾¾å¼ï¼â€˜)â€™   
 		getsym();
-		factor_type=expression(op1);				//µ÷ÓÃ±í´ïÊ½·ÖÎö³ÌĞò
-		if(symid==RPAR){			//¶Áµ½)
-			midcode(VARASSIGN,temp,op1,NULL);				//²úÉúÖĞ¼ä´úÂë,temp=op1
+		factor_type=expression(op1);				//è°ƒç”¨è¡¨è¾¾å¼åˆ†æç¨‹åº
+		if(symid==RPAR){			//è¯»åˆ°)
+			midcode(VARASSIGN,temp,op1,NULL);				//äº§ç”Ÿä¸­é—´ä»£ç ,temp=op1
 			getsym();
 		}
 		else{
-			//error:Ó¦ÓĞ)
+			//error:åº”æœ‰)
 			errormessage(RPAR_ERROR,line,no);
 			skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½ if for switch scanf return printf ; { }
+				//è·³åˆ° if for switch scanf return printf ; { }
 			return factor_type;
 		}
 	}
 	else{
-		//error:Òò×Ó´íÎó
+		//error:å› å­é”™è¯¯
 		errormessage(FACTOR_ERROR,line,no);
 		skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½ if for switch scanf return printf ; { }
+		//è·³åˆ° if for switch scanf return printf ; { }
 		return factor_type;
 	}
 
@@ -1462,52 +1470,52 @@ int factor(char* temp){
 }
 
 
-//£¼Öµ²ÎÊı±í£¾   ::= £¼±í´ïÊ½£¾{,£¼±í´ïÊ½£¾}£ü£¼¿Õ£¾
-//Öµ²ÎÊı±í
+//ï¼œå€¼å‚æ•°è¡¨ï¼   ::= ï¼œè¡¨è¾¾å¼ï¼{,ï¼œè¡¨è¾¾å¼ï¼}ï½œï¼œç©ºï¼
+//å€¼å‚æ•°è¡¨
 void valueofpara(int index){
-	//½øÈëº¯ÊıÊ±ÒÑ¾­¶ÁÈ¡ÁËµÚÒ»¸ö·ûºÅ
+	//è¿›å…¥å‡½æ•°æ—¶å·²ç»è¯»å–äº†ç¬¬ä¸€ä¸ªç¬¦å·
 	char temp[tokensize]={'\0'};
 	int type=0;
-	int k=1;					//µ±Ç°ÎªµÚk¸ö²ÎÊı
-	if(symid==RPAR){			//¶Áµ½)£¬ËµÃ÷Ã»ÓĞ²ÎÊı
+	int k=1;					//å½“å‰ä¸ºç¬¬kä¸ªå‚æ•°
+	if(symid==RPAR){			//è¯»åˆ°)ï¼Œè¯´æ˜æ²¡æœ‰å‚æ•°
 		if(tab[index].len==0){
-			//ÎŞÊÂ
+			//æ— äº‹
 		}
 		else{
-			//error:²ÎÊıÊıÄ¿´íÎó
+			//error:å‚æ•°æ•°ç›®é”™è¯¯
 			errormessage(PARACOUNT_ERROR,line,no);
 			skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½id if for switch scanf return printf ; { }
+			//è·³åˆ°id if for switch scanf return printf ; { }
 			return;
 		}
 	}
 	else{
-		//ÏÈ·ÖÎöµÚÒ»¸ö±í´ïÊ½
-		type=expression(temp);			//µ÷ÓÃ±í´ïÊ½·ÖÎö³ÌĞò 0-int 1-char
+		//å…ˆåˆ†æç¬¬ä¸€ä¸ªè¡¨è¾¾å¼
+		type=expression(temp);			//è°ƒç”¨è¡¨è¾¾å¼åˆ†æç¨‹åº 0-int 1-char
 		if((type==0 && tab[index+k].type!=9) || (type==1 && tab[index+k].type!=10)){
-			//error:ÀàĞÍ²»Ò»ÖÂ
+			//error:ç±»å‹ä¸ä¸€è‡´
 			errormessage(TYPECONFL_ERROR,line,no);
 		}						
-		midcode(PARAOP,temp,NULL,NULL);			//²úÉúÖĞ¼ä´úÂë push temp
+		midcode(PARAOP,temp,NULL,NULL);			//äº§ç”Ÿä¸­é—´ä»£ç  push temp
 
 
-		while(symid==COMMA){			//¶Áµ½,
-			k++;							//µ±Ç°Îªk+1¸ö²ÎÊı
+		while(symid==COMMA){			//è¯»åˆ°,
+			k++;							//å½“å‰ä¸ºk+1ä¸ªå‚æ•°
 			getsym();
-			type=expression(temp);			//µ÷ÓÃ±í´ïÊ½·ÖÎö³ÌĞò 0-int 1-char
+			type=expression(temp);			//è°ƒç”¨è¡¨è¾¾å¼åˆ†æç¨‹åº 0-int 1-char
 			if((type==0 && tab[index+k].type!=9) || (type==1 && tab[index+k].type!=10)){
-				//error:ÀàĞÍ²»Ò»ÖÂ
+				//error:ç±»å‹ä¸ä¸€è‡´
 				errormessage(TYPECONFL_ERROR,line,no);
 			}
-			midcode(PARAOP,temp,NULL,NULL);			//²úÉúÖĞ¼ä´úÂë push temp
-			//´Ë´¦ÒªÅĞ¶ÏexpÀàĞÍÓëtab[index+k]µÄÀàĞÍÊÇ·ñÒ»ÖÂ
+			midcode(PARAOP,temp,NULL,NULL);			//äº§ç”Ÿä¸­é—´ä»£ç  push temp
+			//æ­¤å¤„è¦åˆ¤æ–­expç±»å‹ä¸tab[index+k]çš„ç±»å‹æ˜¯å¦ä¸€è‡´
 		}			
 
 		if(k!=tab[index].len){
-			//error:²ÎÊıÊıÄ¿´íÎó
+			//error:å‚æ•°æ•°ç›®é”™è¯¯
 			errormessage(PARACOUNT_ERROR,line,no);
 			skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½ if for switch scanf return printf ; { }
+			//è·³åˆ° if for switch scanf return printf ; { }
 			return;
 		}
 	}
@@ -1516,38 +1524,38 @@ void valueofpara(int index){
 
 }
 
-//£¼¸´ºÏÓï¾ä£¾   ::=  £Û£¼³£Á¿ËµÃ÷£¾£İ£Û£¼±äÁ¿ËµÃ÷£¾£İ£¼Óï¾äÁĞ£¾
-//´¦Àí¸´ºÏÓï¾ä
+//ï¼œå¤åˆè¯­å¥ï¼   ::=  ï¼»ï¼œå¸¸é‡è¯´æ˜ï¼ï¼½ï¼»ï¼œå˜é‡è¯´æ˜ï¼ï¼½ï¼œè¯­å¥åˆ—ï¼
+//å¤„ç†å¤åˆè¯­å¥
 void compoundsta(){			
-	//½øÈëº¯ÊıÊ±£¬ÒÑ¾­¶ÁÈ¡ÁËµÚÒ»¸ö×Ö·û
-	if(symid==CONSTSYM){		//¶Áµ½const
-		conststa();				//µ÷ÓÃ±äÁ¿ÉùÃ÷·ÖÎö³ÌĞò
+	//è¿›å…¥å‡½æ•°æ—¶ï¼Œå·²ç»è¯»å–äº†ç¬¬ä¸€ä¸ªå­—ç¬¦
+	if(symid==CONSTSYM){		//è¯»åˆ°const
+		conststa();				//è°ƒç”¨å˜é‡å£°æ˜åˆ†æç¨‹åº
 	}
-	while(true){				//½ÓÏÂÀ´·ÖÎö±äÁ¿ËµÃ÷
+	while(true){				//æ¥ä¸‹æ¥åˆ†æå˜é‡è¯´æ˜
 		if(symid==INTSYM || symid==CHARSYM){
-			strcpy(token1,token);			//±£Áôµ±Ç°¶Áµ½µÄ·ûºÅĞÅÏ¢
+			strcpy(token1,token);			//ä¿ç•™å½“å‰è¯»åˆ°çš„ç¬¦å·ä¿¡æ¯
 			symid1=symid;
 			getsym();
-			if(symid==ID){					//ÓÖ¶Áµ½±êÊ¶·û
-				strcpy(token2,token);		//±£Áôµ±Ç°¶Áµ½µÄ·ûºÅĞÅÏ¢
+			if(symid==ID){					//åˆè¯»åˆ°æ ‡è¯†ç¬¦
+				strcpy(token2,token);		//ä¿ç•™å½“å‰è¯»åˆ°çš„ç¬¦å·ä¿¡æ¯
 				symid2=symid;
 				getsym();
 				if(symid==LBRACKET || symid==SEMICOLON || symid==COMMA){
-					variabledef();				//µ÷ÓÃ±äÁ¿¶¨Òå´¦Àí³ÌĞò,³öÀ´Ê±¶Áµ½;
+					variabledef();				//è°ƒç”¨å˜é‡å®šä¹‰å¤„ç†ç¨‹åº,å‡ºæ¥æ—¶è¯»åˆ°;
 				}
 				else{
-					//error:Ó¦ÓĞ[ , ;
+					//error:åº”æœ‰[ , ;
 					errormessage(SEMICOLON_ERROR,line,no);
 					skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-					//Ìøµ½if for switch scanf return printf ; { }
+					//è·³åˆ°if for switch scanf return printf ; { }
 					return;
 				}
 			}
 			else{
-				//error:Ó¦ÓĞid
+				//error:åº”æœ‰id
 				errormessage(ID_ERROR,line,no);
 				skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½if for switch scanf return printf ; { }
+				//è·³åˆ°if for switch scanf return printf ; { }
 				return;
 			}
 		}
@@ -1556,141 +1564,141 @@ void compoundsta(){
 		}
 	}
 
-	stalist();			//µ÷ÓÃ´¦ÀíÓï¾äÁĞ³ÌĞò
+	stalist();			//è°ƒç”¨å¤„ç†è¯­å¥åˆ—ç¨‹åº
 	//printf("this is a compound statement\n");
 	fprintf(grammarfile,"%s","this is a compound statement\n");
 }
 
 
 
-//£¼Óï¾ä£¾    ::= £¼Ìõ¼şÓï¾ä£¾£ü£¼Ñ­»·Óï¾ä£¾| ¡®{¡¯£¼Óï¾äÁĞ£¾¡®}¡¯£ü£¼ÓĞ·µ»ØÖµº¯Êıµ÷ÓÃÓï¾ä£¾; 
-//| £¼ÎŞ·µ»ØÖµº¯Êıµ÷ÓÃÓï¾ä£¾;£ü£¼¸³ÖµÓï¾ä£¾;£ü£¼¶ÁÓï¾ä£¾;£ü£¼Ğ´Óï¾ä£¾;£ü£¼¿Õ£¾;|£¼Çé¿öÓï¾ä£¾£ü£¼·µ»ØÓï¾ä£¾;
-//´¦ÀíÓï¾ä
+//ï¼œè¯­å¥ï¼    ::= ï¼œæ¡ä»¶è¯­å¥ï¼ï½œï¼œå¾ªç¯è¯­å¥ï¼| â€˜{â€™ï¼œè¯­å¥åˆ—ï¼â€˜}â€™ï½œï¼œæœ‰è¿”å›å€¼å‡½æ•°è°ƒç”¨è¯­å¥ï¼; 
+//| ï¼œæ— è¿”å›å€¼å‡½æ•°è°ƒç”¨è¯­å¥ï¼;ï½œï¼œèµ‹å€¼è¯­å¥ï¼;ï½œï¼œè¯»è¯­å¥ï¼;ï½œï¼œå†™è¯­å¥ï¼;ï½œï¼œç©ºï¼;|ï¼œæƒ…å†µè¯­å¥ï¼ï½œï¼œè¿”å›è¯­å¥ï¼;
+//å¤„ç†è¯­å¥
 void sta(){
-	//½øÈëÊ±ÒÑ¾­¶ÁÈ¡Ê×·ûºÅ
+	//è¿›å…¥æ—¶å·²ç»è¯»å–é¦–ç¬¦å·
 	int index=0;
-	if(symid==IFSYM){			//¶Áµ½if£¬ÎªÌõ¼şÓï¾ä
+	if(symid==IFSYM){			//è¯»åˆ°ifï¼Œä¸ºæ¡ä»¶è¯­å¥
 		ifsta();
 	}
-	else if(symid==FORSYM){		//¶Áµ½for£¬ÎªÑ­»·Óï¾ä
+	else if(symid==FORSYM){		//è¯»åˆ°forï¼Œä¸ºå¾ªç¯è¯­å¥
 		forsta();
 	}
-	else if(symid==SWITCHSYM){	//¶Áµ½switch£¬ÎªÇé¿öÓï¾ä
+	else if(symid==SWITCHSYM){	//è¯»åˆ°switchï¼Œä¸ºæƒ…å†µè¯­å¥
 		switchsta();
 	}
-	else if(symid==LBRACE){						//¶Áµ½{£¬ÎªÓï¾äÁĞ
+	else if(symid==LBRACE){						//è¯»åˆ°{ï¼Œä¸ºè¯­å¥åˆ—
 		getsym();
-		stalist();								//µ÷ÓÃÓï¾äÁĞ´¦Àí³ÌĞò
-		if(symid==RBRACE){						//¶Áµ½}
+		stalist();								//è°ƒç”¨è¯­å¥åˆ—å¤„ç†ç¨‹åº
+		if(symid==RBRACE){						//è¯»åˆ°}
 			getsym();
 		}
 		else{
-			//error:Ó¦ÓĞ }
+			//error:åº”æœ‰ }
 			errormessage(RBRACE_ERROR,line,no);
 			skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½id if for switch scanf return printf ; { }
+			//è·³åˆ°id if for switch scanf return printf ; { }
 			return;
 		}
 	}
-	else if(symid==ID){							//¶Áµ½id,ÎªÓĞ·µ»ØÖµº¯Êıµ÷ÓÃÓï¾ä »ò ÎŞ·µ»ØÖµº¯Êıµ÷ÓÃÓï¾ä »ò ¸³ÖµÓï¾ä
-		strcpy(token1,token);					//±£Áôµ±Ç°¶Áµ½µÄ·ûºÅĞÅÏ¢
+	else if(symid==ID){							//è¯»åˆ°id,ä¸ºæœ‰è¿”å›å€¼å‡½æ•°è°ƒç”¨è¯­å¥ æˆ– æ— è¿”å›å€¼å‡½æ•°è°ƒç”¨è¯­å¥ æˆ– èµ‹å€¼è¯­å¥
+		strcpy(token1,token);					//ä¿ç•™å½“å‰è¯»åˆ°çš„ç¬¦å·ä¿¡æ¯
 		symid1=symid;
 		getsym();
-		if(symid==ASSIGN || symid==LBRACKET){	//¶Áµ½[»ò¸³ÖµºÅ=,¿ÉÄÜÎª¸³ÖµÓï¾ä
-			assignsta();						//µ÷ÓÃ¸³ÖµÓï¾ä´¦Àí³ÌĞò
+		if(symid==ASSIGN || symid==LBRACKET){	//è¯»åˆ°[æˆ–èµ‹å€¼å·=,å¯èƒ½ä¸ºèµ‹å€¼è¯­å¥
+			assignsta();						//è°ƒç”¨èµ‹å€¼è¯­å¥å¤„ç†ç¨‹åº
 		}
-		else if(symid==LPAR){					//¶Áµ½(,Îªº¯Êıµ÷ÓÃ
-			//´Ë´¦Ó¦²é·ûºÅ±íÅĞ¶ÏÓĞÎŞ·µ»ØÖµ,ÔİÇÒÈÏÎªÓĞ·µ»ØÖµ
+		else if(symid==LPAR){					//è¯»åˆ°(,ä¸ºå‡½æ•°è°ƒç”¨
+			//æ­¤å¤„åº”æŸ¥ç¬¦å·è¡¨åˆ¤æ–­æœ‰æ— è¿”å›å€¼,æš‚ä¸”è®¤ä¸ºæœ‰è¿”å›å€¼
 			index=searchtab(token1,1);
 
 			if(index==-1){
-				//error:Î´¶¨Òåº¯Êı
+				//error:æœªå®šä¹‰å‡½æ•°
 				errormessage(UNDEFID_ERROR,line,no);
 				getsym();
 				skip(10,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-				//Ìøµ½id if for switch scanf return printf ; { }
+				//è·³åˆ°id if for switch scanf return printf ; { }
 				return;
 			}
-			else if(tab[index].type!=6 && tab[index].type!=7 && tab[index].type!=8){//²»ÊÇÈıÖÖº¯Êı
-				//error:²»ÊÇº¯Êı(²»ÊÇÓï¾ä)
+			else if(tab[index].type!=6 && tab[index].type!=7 && tab[index].type!=8){//ä¸æ˜¯ä¸‰ç§å‡½æ•°
+				//error:ä¸æ˜¯å‡½æ•°(ä¸æ˜¯è¯­å¥)
 				errormessage(STA_ERROR,line,no);
 				getsym();
 				skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-					//Ìøµ½id if for switch scanf return printf ; { }
+					//è·³åˆ°id if for switch scanf return printf ; { }
 				return;
 			}
 
 
 			if(tab[index].type==6 || tab[index].type==7){
-				callretfunc(index);					//µ÷ÓÃÓĞ·µ»ØÖµº¯Êı´¦Àí³ÌĞò
+				callretfunc(index);					//è°ƒç”¨æœ‰è¿”å›å€¼å‡½æ•°å¤„ç†ç¨‹åº
 			}
 			else if(tab[index].type==8){
-				callnoretfunc(index);				//µ÷ÓÃÎŞ·µ»ØÖµº¯Êı´¦Àí³ÌĞò
+				callnoretfunc(index);				//è°ƒç”¨æ— è¿”å›å€¼å‡½æ•°å¤„ç†ç¨‹åº
 			}
 		}
 		else{
-			//error:È±ÉÙ=»ò£¨»ò[
+			//error:ç¼ºå°‘=æˆ–ï¼ˆæˆ–[
 			errormessage(ASSIGN_ERROR,line,no);
 			skip(9,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½if for switch scanf return printf ; { }
+			//è·³åˆ°if for switch scanf return printf ; { }
 			return;
 		}
 
-		if(symid==SEMICOLON){	//ÒÔÉÏÈıÓï¾äºó½Ó·ÖºÅ
+		if(symid==SEMICOLON){	//ä»¥ä¸Šä¸‰è¯­å¥åæ¥åˆ†å·
 			getsym();
 		}
 		else{
-			//error:Ó¦ÓĞ;
+			//error:åº”æœ‰;
 			errormessage(SEMICOLON_ERROR,line,no);
 			skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½id if for switch scanf return printf ; { }
+			//è·³åˆ°id if for switch scanf return printf ; { }
 			return;
 		}
 	}
-	else if(symid==SCANFSYM){	//¶Áµ½scanf,Îª¶ÁÓï¾ä
+	else if(symid==SCANFSYM){	//è¯»åˆ°scanf,ä¸ºè¯»è¯­å¥
 		scansta();
-		if(symid==SEMICOLON){	//¶ÁÓï¾äºó½Ó·ÖºÅ
+		if(symid==SEMICOLON){	//è¯»è¯­å¥åæ¥åˆ†å·
 			getsym();
 		}
 		else{
-			//error:Ó¦ÓĞ;
+			//error:åº”æœ‰;
 			errormessage(SEMICOLON_ERROR,line,no);
 			skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-			//Ìøµ½id if for switch scanf return printf ; { }
+			//è·³åˆ°id if for switch scanf return printf ; { }
 			return;
 		}
 	}
-	else if(symid==PRINTFSYM){	//¶Áµ½printf,ÎªĞ´Óï¾ä
+	else if(symid==PRINTFSYM){	//è¯»åˆ°printf,ä¸ºå†™è¯­å¥
 		printsta();
-		if(symid==SEMICOLON){	//Ğ´Óï¾äºó½Ó·ÖºÅ
+		if(symid==SEMICOLON){	//å†™è¯­å¥åæ¥åˆ†å·
 			getsym();
 		}
 		else{
-			//error:Ó¦ÓĞ;
+			//error:åº”æœ‰;
 			errormessage(SEMICOLON_ERROR,line,no);
 			skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-					//Ìøµ½id if for switch scanf return printf ; { }
+					//è·³åˆ°id if for switch scanf return printf ; { }
 			return;
 		}
 	}
-	else if(symid==RETURNSYM){	//¶Áµ½return£¬Îª·µ»ØÓï¾ä
+	else if(symid==RETURNSYM){	//è¯»åˆ°returnï¼Œä¸ºè¿”å›è¯­å¥
 		returnsta();
-		if(symid==SEMICOLON){	//·µ»ØÓï¾äºó½Ó·ÖºÅ
+		if(symid==SEMICOLON){	//è¿”å›è¯­å¥åæ¥åˆ†å·
 			getsym();
 		}
 		else{
-			//error:Ó¦ÓĞ;
+			//error:åº”æœ‰;
 			errormessage(SEMICOLON_ERROR,line,no);
 			skip(10,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-					//Ìøµ½id if for switch scanf return printf ; { }
+					//è·³åˆ°id if for switch scanf return printf ; { }
 			return;
 		}
 	}
-	else if(symid==SEMICOLON){	//¿ÕÓï¾ä£¬½öº¬ÓĞ;
+	else if(symid==SEMICOLON){	//ç©ºè¯­å¥ï¼Œä»…å«æœ‰;
 		getsym();
 	}
 	else{
-		//error:Óï¾äÍ·²¿´íÎó
+		//error:è¯­å¥å¤´éƒ¨é”™è¯¯
 		errormessage(STA_ERROR,line,no);
 		return;
 	}
@@ -1701,10 +1709,10 @@ void sta(){
 
 
 
-//£¼Óï¾äÁĞ£¾   ::= £û£¼Óï¾ä£¾£ı
-//´¦ÀíÓï¾äÁĞ³ÌĞò
+//ï¼œè¯­å¥åˆ—ï¼   ::= ï½›ï¼œè¯­å¥ï¼ï½
+//å¤„ç†è¯­å¥åˆ—ç¨‹åº
 void stalist(){
-	//½øÈëÊ±ÒÑ¾­¶ÁÈ¡ÁËÊ×·ûºÅ
+	//è¿›å…¥æ—¶å·²ç»è¯»å–äº†é¦–ç¬¦å·
 	while(isstahead(symid)==1){
 		sta();
 	};
@@ -1713,66 +1721,66 @@ void stalist(){
 }
 
 
-//£¼ÓĞ·µ»ØÖµº¯Êı¶¨Òå£¾  ::= (int|char)£¼±êÊ¶·û£¾¡®(¡¯£¼²ÎÊı£¾¡®)¡¯ ¡®{¡¯£¼¸´ºÏÓï¾ä£¾¡®}¡¯
-//´¦ÀíÓĞ·µ»ØÖµº¯Êı¶¨Òå
+//ï¼œæœ‰è¿”å›å€¼å‡½æ•°å®šä¹‰ï¼  ::= (int|char)ï¼œæ ‡è¯†ç¬¦ï¼â€˜(â€™ï¼œå‚æ•°ï¼â€˜)â€™ â€˜{â€™ï¼œå¤åˆè¯­å¥ï¼â€˜}â€™
+//å¤„ç†æœ‰è¿”å›å€¼å‡½æ•°å®šä¹‰
 void hasretfunc(){				
-	//½øÈëº¯ÊıÊ±,ÒÑ¾­¶Áµ½ÁË(
+	//è¿›å…¥å‡½æ•°æ—¶,å·²ç»è¯»åˆ°äº†(
 	char temp_num[tokensize]={'\0'};
 	int midtype;
-	strcpy(id,token2);				//±£´æº¯ÊıÃû
-	type=(symid1==INTSYM)?6:7;		//±£´æº¯ÊıÀàĞÍ
-	inserttab(id,type,0,0,0,0);		//ÏÈÌî±í£¬ºóĞŞ¸Älen(²ÎÊı¸öÊı) size(º¯ÊıËùÕ¼×Ö½Ú)
-	addr=0;							//½øÈëº¯Êıaddr=0
-	midtype=(type==6)?INTFUNCDEF:CHARFUNCDEF;			//Éú³ÉÖĞ¼ä´úÂë
+	strcpy(id,token2);				//ä¿å­˜å‡½æ•°å
+	type=(symid1==INTSYM)?6:7;		//ä¿å­˜å‡½æ•°ç±»å‹
+	inserttab(id,type,0,0,0,0);		//å…ˆå¡«è¡¨ï¼Œåä¿®æ”¹len(å‚æ•°ä¸ªæ•°) size(å‡½æ•°æ‰€å å­—èŠ‚)
+	addr=0;							//è¿›å…¥å‡½æ•°addr=0
+	midtype=(type==6)?INTFUNCDEF:CHARFUNCDEF;			//ç”Ÿæˆä¸­é—´ä»£ç 
 	midcode(midtype,id,NULL,NULL);
 
-	lev=1;							//ÔÚº¯ÊıÖĞlev=1
+	lev=1;							//åœ¨å‡½æ•°ä¸­lev=1
 	getsym();	
-	len=paralist();						//µ÷ÓÃ²ÎÊı±í´¦Àí³ÌĞò
+	len=paralist();						//è°ƒç”¨å‚æ•°è¡¨å¤„ç†ç¨‹åº
 	tab[funcindex[funclen-1]].len=len;
 
-	if(symid!=RPAR){					//¶Áµ½)
-		//error:Ó¦ÓĞ}
+	if(symid!=RPAR){					//è¯»åˆ°)
+		//error:åº”æœ‰}
 		errormessage(RPAR_ERROR,line,no);
 		skip(13,CONSTSYM,INTSYM,CHARSYM,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½const int char id if for switch scanf return printf semicolon { }
+		//è·³åˆ°const int char id if for switch scanf return printf semicolon { }
 	}
 	else{
 		getsym();
 	}
 	
-	if(symid!=LBRACE){				//¶Áµ½{
-		//error:È±ÉÙ{
+	if(symid!=LBRACE){				//è¯»åˆ°{
+		//error:ç¼ºå°‘{
 		errormessage(LBRACE_ERROR,line,no);
 		skip(13,CONSTSYM,INTSYM,CHARSYM,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½const int char id if for switch scanf return printf semicolon { }
+		//è·³åˆ°const int char id if for switch scanf return printf semicolon { }
 	}
 	else{
 		getsym();
 	}
 	
-	compoundsta();		//µ÷ÓÃ¸´ºÏÓï¾ä·ÖÎö
-	if(symid!=RBRACE){			//¶Áµ½}
-		//error:Ó¦ÓĞ}
+	compoundsta();		//è°ƒç”¨å¤åˆè¯­å¥åˆ†æ
+	if(symid!=RBRACE){			//è¯»åˆ°}
+		//error:åº”æœ‰}
 		errormessage(RBRACE_ERROR,line,no);
 		skip(3,INTSYM,VOIDSYM,CHARSYM);
 		lev=0;
 		addr=0;
 		return;
 	}
-	//ÖØĞÂ¼ÆËãº¯ÊıµÄsize
+	//é‡æ–°è®¡ç®—å‡½æ•°çš„size
 	size=0;
-	for(int i=funcindex[funclen-1]+1;i<tablen;i++){	//±éÀúº¯ÊıµÄ²ÎÊı¡¢±äÁ¿¡¢³£Á¿£¬Í³¼Æ×ÜµÄsize´óĞ¡
+	for(int i=funcindex[funclen-1]+1;i<tablen;i++){	//éå†å‡½æ•°çš„å‚æ•°ã€å˜é‡ã€å¸¸é‡ï¼Œç»Ÿè®¡æ€»çš„sizeå¤§å°
 		size+=tab[i].size;
 	}
-	tab[funcindex[funclen-1]].size=size;				//½«×ÜµÄ´óĞ¡¸³Öµ¸øº¯ÊıµÄ±íÏî
+	tab[funcindex[funclen-1]].size=size;				//å°†æ€»çš„å¤§å°èµ‹å€¼ç»™å‡½æ•°çš„è¡¨é¡¹
 	lev=0;
 	addr=0;
 	getsym();
 			
 		
 
-	//Ä¬ÈÏËùÓĞº¯Êı½áÎ²¶¼¼ÓÉÏreturn 0
+	//é»˜è®¤æ‰€æœ‰å‡½æ•°ç»“å°¾éƒ½åŠ ä¸Šreturn 0
 	sprintf(temp_num,"%d",0);
 	midcode(RETEXPOP,temp_num,NULL,NULL);
 	//printf("this is a function with return value\n");
@@ -1780,56 +1788,56 @@ void hasretfunc(){
 }
 
 
-//£¼²ÎÊı±í£¾    ::=  £¼ÀàĞÍ±êÊ¶·û£¾£¼±êÊ¶·û£¾{,£¼ÀàĞÍ±êÊ¶·û£¾£¼±êÊ¶·û£¾}|£¼¿Õ£¾
-//´¦Àí²ÎÊı±íµÄ³ÌĞò,·µ»Ø²ÎÊıµÄ¸öÊı
+//ï¼œå‚æ•°è¡¨ï¼    ::=  ï¼œç±»å‹æ ‡è¯†ç¬¦ï¼ï¼œæ ‡è¯†ç¬¦ï¼{,ï¼œç±»å‹æ ‡è¯†ç¬¦ï¼ï¼œæ ‡è¯†ç¬¦ï¼}|ï¼œç©ºï¼
+//å¤„ç†å‚æ•°è¡¨çš„ç¨‹åº,è¿”å›å‚æ•°çš„ä¸ªæ•°
 int paralist(){
-	//½øÈëº¯ÊıÊ±ÒÑ¾­¶ÁÈ¡ÁË£¼ÀàĞÍ±êÊ¶·û£¾ »ò )
-	int k=0;//¼ÇÂ¼ÓĞ¶àÉÙ¸ö²ÎÊı
+	//è¿›å…¥å‡½æ•°æ—¶å·²ç»è¯»å–äº†ï¼œç±»å‹æ ‡è¯†ç¬¦ï¼ æˆ– )
+	int k=0;//è®°å½•æœ‰å¤šå°‘ä¸ªå‚æ•°
 	int midtype=0;
-	if(symid==RPAR){	//ÎŞ²ÎÊı
+	if(symid==RPAR){	//æ— å‚æ•°
 		//printf("this is a paralist\n");
 		fprintf(grammarfile,"%s","this is a paralist\n");
 		return k;
 	}
 
 	while(true){
-		if(symid==INTSYM || symid==CHARSYM){			//¶Áµ½int»òchar
-			type=(symid==INTSYM)?9:10;					//intĞÍ²ÎÊı¶ÔÓ¦type=9£¬charĞÍ²ÎÊı¶ÔÓ¦type=10
+		if(symid==INTSYM || symid==CHARSYM){			//è¯»åˆ°intæˆ–char
+			type=(symid==INTSYM)?9:10;					//intå‹å‚æ•°å¯¹åº”type=9ï¼Œcharå‹å‚æ•°å¯¹åº”type=10
 			len=0;
-			size=sizecalcu(type,len);					//¼ÆËãËùÕ¼×Ö½Ú
+			size=sizecalcu(type,len);					//è®¡ç®—æ‰€å å­—èŠ‚
 			getsym();
-			if(symid==ID){			//¶Áµ½±êÊ¶·û
+			if(symid==ID){			//è¯»åˆ°æ ‡è¯†ç¬¦
 				strcpy(id,token);
 				inserttab(id,type,0,lev,size,addr);
 				addr+=size;
 				k++;
 
-				midtype=(type==9)?INTPARA:CHARPARA;		//Éú³ÉÖĞ¼ä´úÂë
+				midtype=(type==9)?INTPARA:CHARPARA;		//ç”Ÿæˆä¸­é—´ä»£ç 
 				midcode(midtype,id,NULL,NULL);
 
 				getsym();
-				if(symid==COMMA){	//¶Áµ½, ËµÃ÷»¹ÓĞ²ÎÊı
+				if(symid==COMMA){	//è¯»åˆ°, è¯´æ˜è¿˜æœ‰å‚æ•°
 					getsym();
 					continue;
 				}
-				else{				//Ã»ÓĞ,Ö±½ÓÌø³ö
+				else{				//æ²¡æœ‰,ç›´æ¥è·³å‡º
 					break;
 				}
 			}
 			else{
-				//error:Ó¦ÓĞ±êÊ¶·û
+				//error:åº”æœ‰æ ‡è¯†ç¬¦
 				errormessage(ID_ERROR,line,no);
 				skip(2,RPAR,LBRACE);
-				//Ìøµ½{ )
+				//è·³åˆ°{ )
 				return k;
 			}
 		}
 		else{
-			//error:È±ÉÙÀàĞÍ±êÊ¶·ûint,char
+			//error:ç¼ºå°‘ç±»å‹æ ‡è¯†ç¬¦int,char
 
 			errormessage(TYPE_ERROR,line,no);
 			skip(2,RPAR,LBRACE);
-			//Ìøµ½{ )
+			//è·³åˆ°{ )
 			return k;
 		}
 	}
@@ -1839,34 +1847,34 @@ int paralist(){
 	return k;
 }
 
-//£¼ÎŞ·µ»ØÖµº¯Êı¶¨Òå£¾  ::=void£¼±êÊ¶·û£¾¡®(¡¯£¼²ÎÊı£¾¡®)¡¯¡®{¡¯£¼¸´ºÏÓï¾ä£¾¡®}¡¯
-//´¦ÀíÎŞ·µ»ØÖµº¯Êı¶¨Òå
+//ï¼œæ— è¿”å›å€¼å‡½æ•°å®šä¹‰ï¼  ::=voidï¼œæ ‡è¯†ç¬¦ï¼â€˜(â€™ï¼œå‚æ•°ï¼â€˜)â€™â€˜{â€™ï¼œå¤åˆè¯­å¥ï¼â€˜}â€™
+//å¤„ç†æ— è¿”å›å€¼å‡½æ•°å®šä¹‰
 void noretfunc(){				
-	//½øÈëº¯ÊıÊ±ÒÑ¾­¶ÁÈ¡ÁË£¼±êÊ¶·û£¾
+	//è¿›å…¥å‡½æ•°æ—¶å·²ç»è¯»å–äº†ï¼œæ ‡è¯†ç¬¦ï¼
 	char temp_num[tokensize]={'\0'};
-	strcpy(id,token);				//±£´æº¯ÊıÃû
-	type=8;		//±£´æº¯ÊıÀàĞÍ
-	inserttab(id,type,0,0,0,0);		//ÏÈÌî±í£¬ºóĞŞ¸Älen(²ÎÊı¸öÊı) size(º¯ÊıËùÕ¼×Ö½Ú)
-	midcode(VOIDFUNCDEF,id,NULL,NULL);			//²úÉúÖĞ¼ä´úÂë£¬void id();
-	addr=0;							//½«¾àº¯ÊıÆ«ÒÆÖµÎª0
-	lev=1;							//ÔÚº¯ÊıÖĞlev=1
+	strcpy(id,token);				//ä¿å­˜å‡½æ•°å
+	type=8;		//ä¿å­˜å‡½æ•°ç±»å‹
+	inserttab(id,type,0,0,0,0);		//å…ˆå¡«è¡¨ï¼Œåä¿®æ”¹len(å‚æ•°ä¸ªæ•°) size(å‡½æ•°æ‰€å å­—èŠ‚)
+	midcode(VOIDFUNCDEF,id,NULL,NULL);			//äº§ç”Ÿä¸­é—´ä»£ç ï¼Œvoid id();
+	addr=0;							//å°†è·å‡½æ•°åç§»å€¼ä¸º0
+	lev=1;							//åœ¨å‡½æ•°ä¸­lev=1
 	getsym();	
 
-	if(symid!=LPAR){	//ÔÙ¶Á£¨
-		//error:Ó¦ÓĞ(
+	if(symid!=LPAR){	//å†è¯»ï¼ˆ
+		//error:åº”æœ‰(
 		errormessage(LPAR_ERROR,line,no);
 		skip(13,CONSTSYM,INTSYM,CHARSYM,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½const int char id if for switch scanf return printf semicolon { }
+		//è·³åˆ°const int char id if for switch scanf return printf semicolon { }
 	}
 	getsym();
 	len=paralist();
-	tab[funcindex[funclen-1]].len=len;	//¼ÇÂ¼²ÎÊı¸öÊı
+	tab[funcindex[funclen-1]].len=len;	//è®°å½•å‚æ•°ä¸ªæ•°
 
-	if(symid!=RPAR){    //¶Áµ½ )
-		//error:Ó¦ÓĞ)
+	if(symid!=RPAR){    //è¯»åˆ° )
+		//error:åº”æœ‰)
 		errormessage(RPAR_ERROR,line,no);
 		skip(13,CONSTSYM,INTSYM,CHARSYM,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½const int char id if for switch scanf return printf semicolon { }
+		//è·³åˆ°const int char id if for switch scanf return printf semicolon { }
 	}
 	else{
 		getsym();
@@ -1874,35 +1882,35 @@ void noretfunc(){
 
 	
 	if(symid!=LBRACE){
-		//error:Ó¦ÓĞ{
+		//error:åº”æœ‰{
 		errormessage(LBRACE_ERROR,line,no);
 		skip(13,CONSTSYM,INTSYM,CHARSYM,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½const int char id if for switch scanf return printf ; { }
+		//è·³åˆ°const int char id if for switch scanf return printf ; { }
 	}
 	else{
 		getsym();
 	}
-	compoundsta();		//µ÷ÓÃ¸´ºÏÓï¾ä·ÖÎö
-	if(symid!=RBRACE){			//¶Áµ½}
-		//error:Ó¦ÓĞ}
+	compoundsta();		//è°ƒç”¨å¤åˆè¯­å¥åˆ†æ
+	if(symid!=RBRACE){			//è¯»åˆ°}
+		//error:åº”æœ‰}
 		errormessage(RBRACE_ERROR,line,no);
 		skip(3,INTSYM,VOIDSYM,CHARSYM);
-		//Ìøµ½int char void
-		addr=0;							//½«¾àº¯ÊıÆ«ÒÆÖµÎª0
+		//è·³åˆ°int char void
+		addr=0;							//å°†è·å‡½æ•°åç§»å€¼ä¸º0
 		lev=0;
 	}
 	size=0;
-	for(int i=funcindex[funclen-1]+1;i<tablen;i++){	//±éÀúº¯ÊıµÄ²ÎÊı¡¢±äÁ¿¡¢³£Á¿£¬Í³¼Æ×ÜµÄsize´óĞ¡
+	for(int i=funcindex[funclen-1]+1;i<tablen;i++){	//éå†å‡½æ•°çš„å‚æ•°ã€å˜é‡ã€å¸¸é‡ï¼Œç»Ÿè®¡æ€»çš„sizeå¤§å°
 		size+=tab[i].size;
 	}
-	tab[funcindex[funclen-1]].size=size;				//½«×ÜµÄ´óĞ¡¸³Öµ¸øº¯ÊıµÄ±íÏî
-	addr=0;							//½«¾àº¯ÊıÆ«ÒÆÖµÎª0
+	tab[funcindex[funclen-1]].size=size;				//å°†æ€»çš„å¤§å°èµ‹å€¼ç»™å‡½æ•°çš„è¡¨é¡¹
+	addr=0;							//å°†è·å‡½æ•°åç§»å€¼ä¸º0
 	lev=0;
 	getsym();
 
 				
 
-	//Ä¬ÈÏËùÓĞº¯Êı½áÎ²¶¼¼ÓÉÏreturn 0
+	//é»˜è®¤æ‰€æœ‰å‡½æ•°ç»“å°¾éƒ½åŠ ä¸Šreturn 0
 	sprintf(temp_num,"%d",0);
 	midcode(RETEXPOP,temp_num,NULL,NULL);
 	//printf("this is a function without return value\n");
@@ -1910,61 +1918,61 @@ void noretfunc(){
 
 }
 
-//£¼Ö÷º¯Êı£¾    ::= void main¡®(¡¯¡®)¡¯ ¡®{¡¯£¼¸´ºÏÓï¾ä£¾¡®}¡¯
-//´¦ÀíÖ÷º¯Êı
+//ï¼œä¸»å‡½æ•°ï¼    ::= void mainâ€˜(â€™â€˜)â€™ â€˜{â€™ï¼œå¤åˆè¯­å¥ï¼â€˜}â€™
+//å¤„ç†ä¸»å‡½æ•°
 void mainfunction(){			
-	//½øÈëº¯ÊıÊ±ÒÑ¶Áµ½main
-	midcode(VOIDFUNCDEF,"main",NULL,NULL);			//²úÉúÖĞ¼ä´úÂë£¬void id();
-	inserttab(token,8,0,0,0,0);		//Ìî·ûºÅ±í
+	//è¿›å…¥å‡½æ•°æ—¶å·²è¯»åˆ°main
+	midcode(VOIDFUNCDEF,"main",NULL,NULL);			//äº§ç”Ÿä¸­é—´ä»£ç ï¼Œvoid id();
+	inserttab(token,8,0,0,0,0);		//å¡«ç¬¦å·è¡¨
 	addr=0;
 	lev=1;
 
 	getsym();
-	if(symid!=LPAR){				//¶ÁÈ¡(
-		//error:È±ÉÙ(
+	if(symid!=LPAR){				//è¯»å–(
+		//error:ç¼ºå°‘(
 		errormessage(LPAR_ERROR,line,no);
 		skip(13,CONSTSYM,INTSYM,CHARSYM,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½const int char id if for switch scanf return printf semicolon { }
+		//è·³åˆ°const int char id if for switch scanf return printf semicolon { }
 	}
 	else{
 		getsym();
 	}	
 	
-	if(symid!=RPAR){			//¶ÁÈ¡)
-		//error:È±ÉÙ)
+	if(symid!=RPAR){			//è¯»å–)
+		//error:ç¼ºå°‘)
 		errormessage(RPAR_ERROR,line,no);
 		skip(13,CONSTSYM,INTSYM,CHARSYM,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½const int char id if for switch scanf return printf semicolon { }
+		//è·³åˆ°const int char id if for switch scanf return printf semicolon { }
 	}
 	else{
 		getsym();
 	}
 	
-	if(symid!=LBRACE){		//¶ÁÈ¡{
-		//error:È±ÉÙ{
+	if(symid!=LBRACE){		//è¯»å–{
+		//error:ç¼ºå°‘{
 		errormessage(LBRACE_ERROR,line,no);
 		skip(13,CONSTSYM,INTSYM,CHARSYM,ID,IFSYM,FORSYM,SWITCHSYM,SCANFSYM,RETURNSYM,PRINTFSYM,SEMICOLON,LBRACE,RBRACE);
-		//Ìøµ½const int char id if for switch scanf return printf semicolon { }
+		//è·³åˆ°const int char id if for switch scanf return printf semicolon { }
 	}
 	else{
 		getsym();
 	}
-	compoundsta();		//µ÷ÓÃ¸´ºÏÓï¾ä·ÖÎö
+	compoundsta();		//è°ƒç”¨å¤åˆè¯­å¥åˆ†æ
 
-	if(symid!=RBRACE){	//¶Áµ½}
+	if(symid!=RBRACE){	//è¯»åˆ°}
 		errormessage(RBRACE_ERROR,line,no);
 		addr=0;
 		lev=0;
 		return;
 	}
 	size=0;
-	for(int i=funcindex[funclen-1]+1;i<tablen;i++){	//±éÀúº¯ÊıµÄ²ÎÊı¡¢±äÁ¿¡¢³£Á¿£¬Í³¼Æ×ÜµÄsize´óĞ¡
+	for(int i=funcindex[funclen-1]+1;i<tablen;i++){	//éå†å‡½æ•°çš„å‚æ•°ã€å˜é‡ã€å¸¸é‡ï¼Œç»Ÿè®¡æ€»çš„sizeå¤§å°
 		size+=tab[i].size;
 	}
-	tab[funcindex[funclen-1]].size=size;				//½«×ÜµÄ´óĞ¡¸³Öµ¸øº¯ÊıµÄ±íÏî
+	tab[funcindex[funclen-1]].size=size;				//å°†æ€»çš„å¤§å°èµ‹å€¼ç»™å‡½æ•°çš„è¡¨é¡¹
 	addr=0;
 	lev=0;
-	midcode(SETLABEL,"Label_end",NULL,NULL);			//ÉèÖÃ³ÌĞò½áÊøµÄlabel
+	midcode(SETLABEL,"Label_end",NULL,NULL);			//è®¾ç½®ç¨‹åºç»“æŸçš„label
 	
 		
 	
@@ -1973,67 +1981,67 @@ void mainfunction(){
 }
 
 
-//Óï·¨·ÖÎö³ÌĞò
+//è¯­æ³•åˆ†æç¨‹åº
 void program(){
 	getsym();
-	if(symid==CONSTSYM){				//¶Áµ½const
-		conststa();						//µ÷ÓÃ³£Á¿ËµÃ÷´¦Àí³ÌĞò
+	if(symid==CONSTSYM){				//è¯»åˆ°const
+		conststa();						//è°ƒç”¨å¸¸é‡è¯´æ˜å¤„ç†ç¨‹åº
 	}
-	int flag=0;							//flag=0ËµÃ÷»¹ÔÚ±äÁ¿ËµÃ÷½×¶Î,flag=1ËµÃ÷²»ÔÚ±äÁ¿ËµÃ÷½×¶Î
-	while(true){						//Ñ­»·´¦ÀíËùÓĞ±äÁ¿ËµÃ÷¡¢ÒÔ¼°µÚÒ»¸ö ÓĞ·µ»ØÖµº¯Êı¶¨Òå
-		if(symid==INTSYM || symid==CHARSYM){//¿ÉÄÜÎª±äÁ¿ËµÃ÷»òÓĞ·µ»ØÖµº¯Êı¶¨Òå,ĞèÒªÔÙÍùºó¶Á2¸ö×Ö·û	
-			strcpy(token1,token);			//±£Áôµ±Ç°¶Áµ½µÄ·ûºÅĞÅÏ¢
+	int flag=0;							//flag=0è¯´æ˜è¿˜åœ¨å˜é‡è¯´æ˜é˜¶æ®µ,flag=1è¯´æ˜ä¸åœ¨å˜é‡è¯´æ˜é˜¶æ®µ
+	while(true){						//å¾ªç¯å¤„ç†æ‰€æœ‰å˜é‡è¯´æ˜ã€ä»¥åŠç¬¬ä¸€ä¸ª æœ‰è¿”å›å€¼å‡½æ•°å®šä¹‰
+		if(symid==INTSYM || symid==CHARSYM){//å¯èƒ½ä¸ºå˜é‡è¯´æ˜æˆ–æœ‰è¿”å›å€¼å‡½æ•°å®šä¹‰,éœ€è¦å†å¾€åè¯»2ä¸ªå­—ç¬¦	
+			strcpy(token1,token);			//ä¿ç•™å½“å‰è¯»åˆ°çš„ç¬¦å·ä¿¡æ¯
 			symid1=symid;
 			getsym();
-			if(symid==ID){					//ÓÖ¶Áµ½±êÊ¶·û
-				strcpy(token2,token);		//±£Áôµ±Ç°¶Áµ½µÄ·ûºÅĞÅÏ¢
+			if(symid==ID){					//åˆè¯»åˆ°æ ‡è¯†ç¬¦
+				strcpy(token2,token);		//ä¿ç•™å½“å‰è¯»åˆ°çš„ç¬¦å·ä¿¡æ¯
 				symid2=symid;
 				getsym();
-				if(symid==LBRACKET || symid==SEMICOLON || symid==COMMA){	//¶Áµ½[ , ; ËµÃ÷ÊÇ±äÁ¿ËµÃ÷
+				if(symid==LBRACKET || symid==SEMICOLON || symid==COMMA){	//è¯»åˆ°[ , ; è¯´æ˜æ˜¯å˜é‡è¯´æ˜
 					if(flag!=0){
-						//error:º¯Êı¶¨Òå½×¶ÎÖĞ»ìÓĞ±äÁ¿ËµÃ÷
+						//error:å‡½æ•°å®šä¹‰é˜¶æ®µä¸­æ··æœ‰å˜é‡è¯´æ˜
 						errormessage(VARDEF_ERROR,line,no);
 					}
-					variabledef();				//µ÷ÓÃ±äÁ¿¶¨Òå´¦Àí³ÌĞò
+					variabledef();				//è°ƒç”¨å˜é‡å®šä¹‰å¤„ç†ç¨‹åº
 					continue;
 				}
 				else{	
 
 					if(symid!=LPAR){
-						//error:È±ÉÙ(
+						//error:ç¼ºå°‘(
 						errormessage(LPAR_ERROR,line,no);
-						skip(3,LPAR,ID,RPAR);	//Ìøµ½( ,ID ,)
+						skip(3,LPAR,ID,RPAR);	//è·³åˆ°( ,ID ,)
 					}
 
 					flag=1;
-					hasretfunc();			//Ã»ÓĞ¶Áµ½[ , ;,ËµÃ÷ÊÇÓĞ·µ»ØÖµº¯Êı¶¨Òå
-											//¼ÈÈ»ÒÑ¾­¶Áµ½ ÓĞ·µ»ØÖµº¯Êı¶¨Òå ,ÄÇÃ´±äÁ¿ËµÃ÷ÒÑ¾­½áÊø,
-											//½ÓÏÂÀ´¿ÉÄÜÊÇÓĞ·µ»ØÖµº¯Êı¶¨Òå¡¢ÎŞ·µ»ØÖµº¯Êı¶¨Òå¡¢void main
+					hasretfunc();			//æ²¡æœ‰è¯»åˆ°[ , ;,è¯´æ˜æ˜¯æœ‰è¿”å›å€¼å‡½æ•°å®šä¹‰
+											//æ—¢ç„¶å·²ç»è¯»åˆ° æœ‰è¿”å›å€¼å‡½æ•°å®šä¹‰ ,é‚£ä¹ˆå˜é‡è¯´æ˜å·²ç»ç»“æŸ,
+											//æ¥ä¸‹æ¥å¯èƒ½æ˜¯æœ‰è¿”å›å€¼å‡½æ•°å®šä¹‰ã€æ— è¿”å›å€¼å‡½æ•°å®šä¹‰ã€void main
 				}
 			}
 			else{
-				//error:È±ÉÙ±êÊ¶·û
+				//error:ç¼ºå°‘æ ‡è¯†ç¬¦
 				errormessage(ID_ERROR,line,no);
 				skip(2,ID,MAINSYM);
 			}
 		}
-		else if(symid==VOIDSYM){				//¶Áµ½void
+		else if(symid==VOIDSYM){				//è¯»åˆ°void
 			getsym();
-			if(symid==MAINSYM){					//¶Áµ½main
+			if(symid==MAINSYM){					//è¯»åˆ°main
 				mainfunction();	
-				break;							//mainº¯Êı´¦Àíºó²»Ó¦ÔÙÓĞÈÎºÎ·ûºÅ
+				break;							//mainå‡½æ•°å¤„ç†åä¸åº”å†æœ‰ä»»ä½•ç¬¦å·
 			}
 			else if(symid==ID){		
-				noretfunc();					//µ÷ÓÃÎŞ·µ»ØÖµº¯Êı´¦Àí³ÌĞò
+				noretfunc();					//è°ƒç”¨æ— è¿”å›å€¼å‡½æ•°å¤„ç†ç¨‹åº
 			}
 			else{
-				//error: Ó¦ÓĞid»òmain
+				//error: åº”æœ‰idæˆ–main
 				errormessage(ID_ERROR,line,no);
 				skip(2,ID,MAINSYM);
 			}
 		}
 		else{
-			//error:Ó¦ÓĞchar int »òvoid
+			//error:åº”æœ‰char int æˆ–void
 			errormessage(FUNCTYPE_ERROR,line,no);
 			skip(3,VOIDSYM,INTSYM,CHARSYM);
 			//return;
