@@ -1,7 +1,12 @@
 # BUAA-C0-COMPILER
 A C0 COMPILER OF BUAA COMPILATION TECHNOLOGY
 
+学长只能帮你到这了。。。。。。。。。。。。
+
+
+
 文法：
+
 ＜加法运算符＞ ::= +｜-
 
 ＜乘法运算符＞  ::= *｜/
@@ -108,9 +113,6 @@ A C0 COMPILER OF BUAA COMPILATION TECHNOLOGY
 （5）数组的下标从0开始
 
 （6）for语句先执行一次循环体中的语句再进行循环变量是否越界的测试
-
-
-
 
 
 
