@@ -1,3 +1,10 @@
+/*
+ * getsym.h
+ *
+ *  Created on: 2018å¹´1æœˆ8æ—¥
+ *      Author: ChenShuwei
+ */
+
 #ifndef _GETSYM_H_
 #define _GETSYM_H_
 
@@ -8,7 +15,7 @@
 #include<stdlib.h>
 #include<stdarg.h>
 //*******************************************
-//±£Áô×Ö
+//ä¿ç•™å­—
 //*******************************************
 #define nrw 14//		number of reserved words
 #define CONSTSYM 0//	const
@@ -26,7 +33,7 @@
 #define PRINTFSYM 12//	printf
 #define MAINSYM 13//	main
 //*******************************************
-//µ¥¸ö×Ö·û
+//å•ä¸ªå­—ç¬¦
 //*******************************************
 #define PLUS 14//		+
 #define SUB 15//		-
@@ -47,17 +54,17 @@
 #define COLON 30//		:
 #define COMMA 31//		,
 //*******************************************
-//¶à¸ö×Ö·û×é³ÉµÄ²Ù×÷·û
+//å¤šä¸ªå­—ç¬¦ç»„æˆçš„æ“ä½œç¬¦
 //*******************************************
 #define BIGEQL 32//		>=
 #define SMALLEQL 33//	<=
 #define EQUAL 34//		==
 #define NOTEQL 35//		!=
 //*******************************************
-//ÀàĞÍ
+//ç±»å‹
 //*******************************************
 #define ID 36//			identify
-#define ANUMBER 37//	ÎŞ·ûºÅÕûÊı
+#define ANUMBER 37//	æ— ç¬¦å·æ•´æ•°
 #define ACHAR 38//		a char
 #define ASTRING 39//	string
 
@@ -83,15 +90,15 @@
 #define isspace(c)	c==' '?1:0		//space
 #define istab(c)	c==9?1:0		//tab
 #define isnewline(c) c=='\n'?1:0	//newline
-#define	isstrch(c)	(c==32 || c==33 || (c>=35 && c<=126))?1:0//×Ö·û´®ÖĞµÄºÏ·¨×Ö·û
-#define isletter(c)	(c=='_' || isalpha(c))?1:0				//×ÖÄ¸:'_','a'->'z','A'->'Z'
+#define	isstrch(c)	(c==32 || c==33 || (c>=35 && c<=126))?1:0//å­—ç¬¦ä¸²ä¸­çš„åˆæ³•å­—ç¬¦
+#define isletter(c)	(c=='_' || isalpha(c))?1:0				//å­—æ¯:'_','a'->'z','A'->'Z'
 
-#define tokensize 200				//tokenÊı×é´óĞ¡
-#define symsize 20					//symÊı×é´óĞ¡
+#define tokensize 200				//tokenæ•°ç»„å¤§å°
+#define symsize 20					//symæ•°ç»„å¤§å°
 
 
 
-//±£Áô×ÖÊı×é
+//ä¿ç•™å­—æ•°ç»„
 const char* resword[nrw]={
 	"const",	//0
 	"int",		//1
@@ -108,7 +115,7 @@ const char* resword[nrw]={
 	"printf",	//12
 	"main"		//13
 };
-//±£Áô×Ö¶ÔÓ¦Öú¼Ç·û
+//ä¿ç•™å­—å¯¹åº”åŠ©è®°ç¬¦
 const char* ressym[nrw]={
 	"CONSTSYM",		//0
 	"INTSYM",		//1
@@ -126,45 +133,45 @@ const char* ressym[nrw]={
 	"MAINSYM"		//13
 };
 
-char token[tokensize]={'\0'};		//´¢´æ¶Áµ½µÄ×Ö·û´®
-int tokenlen=0;						//tokenÖĞ×Ö·û´®³¤¶È
-int num=0;							//´¢´æ¶ÁÈ¡µÄÊı×Ö
-int line=1;							//µ±Ç°ĞĞÊı
-int	no=0;							//µ±Ç°×Ö·ûÎª±¾ĞĞÖĞµÚno¸ö×Ö·û
-char sym[symsize]={'\0'};			//´¢´ætokenµÄ·ûºÅÖú¼Ç·û
-int symid=0;						//´¢´ætokenµÄ·ûºÅ¶ÔÓ¦±àÂë
-char c;								//´¢´æÁÙÊ±¶Áµ½µÄ×Ö·û
-FILE *fp=NULL;						//Ô´´úÂëµÄÎÄ¼şÖ¸Õë
-FILE *grammarfile=NULL;				//Óï·¨·ÖÎöµÄÊä³ö½á¹û
-int count=1;						//¼ÇÂ¼ÕâÊÇµÚ¼¸¸ö·ûºÅ
-//int countinline=1;					//¼ÇÂ¼ÕâÊÇ±¾ĞĞµÚ¼¸¸ö·ûºÅ
+char token[tokensize]={'\0'};		//å‚¨å­˜è¯»åˆ°çš„å­—ç¬¦ä¸²
+int tokenlen=0;						//tokenä¸­å­—ç¬¦ä¸²é•¿åº¦
+int num=0;							//å‚¨å­˜è¯»å–çš„æ•°å­—
+int line=1;							//å½“å‰è¡Œæ•°
+int	no=0;							//å½“å‰å­—ç¬¦ä¸ºæœ¬è¡Œä¸­ç¬¬noä¸ªå­—ç¬¦
+char sym[symsize]={'\0'};			//å‚¨å­˜tokençš„ç¬¦å·åŠ©è®°ç¬¦
+int symid=0;						//å‚¨å­˜tokençš„ç¬¦å·å¯¹åº”ç¼–ç 
+char c;								//å‚¨å­˜ä¸´æ—¶è¯»åˆ°çš„å­—ç¬¦
+FILE *fp=NULL;						//æºä»£ç çš„æ–‡ä»¶æŒ‡é’ˆ
+FILE *grammarfile=NULL;				//è¯­æ³•åˆ†æçš„è¾“å‡ºç»“æœ
+int count=1;						//è®°å½•è¿™æ˜¯ç¬¬å‡ ä¸ªç¬¦å·
+//int countinline=1;					//è®°å½•è¿™æ˜¯æœ¬è¡Œç¬¬å‡ ä¸ªç¬¦å·
 
 
 
-//º¯ÊıÉùÃ÷
-int isreserve();		//ÊÇ·ñÎª±£Áô×Ö
-char getch();			//¶ÁÒ»¸ö×Ö·û
-void printtoken();		//´òÓ¡token
-void memsettoken();		//³õÊ¼»¯token
-void skip(int arg_num,...);		//Ìø¶Áµ½·ûºÅ...
-//void errormessage(int error,int line,int no); //Êä³ö´íÎóĞÅÏ¢
-void getsym();			//¶ÁÈ¡ÏÂÒ»¸ö·ûºÅ
+//å‡½æ•°å£°æ˜
+int isreserve();		//æ˜¯å¦ä¸ºä¿ç•™å­—
+char getch();			//è¯»ä¸€ä¸ªå­—ç¬¦
+void printtoken();		//æ‰“å°token
+void memsettoken();		//åˆå§‹åŒ–token
+void skip(int arg_num,...);		//è·³è¯»åˆ°ç¬¦å·...
+//void errormessage(int error,int line,int no); //è¾“å‡ºé”™è¯¯ä¿¡æ¯
+void getsym();			//è¯»å–ä¸‹ä¸€ä¸ªç¬¦å·
 
 
-//±ä²ÎÊıº¯Êı£¬Ìø¶Áµ½·ûºÅ...
+//å˜å‚æ•°å‡½æ•°ï¼Œè·³è¯»åˆ°ç¬¦å·...
 void skip(int arg_num,...){
 	int i=0;
-	int symbol_arr[50];	//´æ´¢²ÎÊı
-	va_list var_arg=NULL;      //ÉùÃ÷va_list±äÁ¿
-	va_start(var_arg, arg_num);//×¼±¸·ÃÎÊ¿É±ä²ÎÊı(´Óarg_num¿ªÊ¼)
+	int symbol_arr[50];	//å­˜å‚¨å‚æ•°
+	va_list var_arg=NULL;      //å£°æ˜va_listå˜é‡
+	va_start(var_arg, arg_num);//å‡†å¤‡è®¿é—®å¯å˜å‚æ•°(ä»arg_numå¼€å§‹)
 
 	for(i=0;i<arg_num;i++){
 		symbol_arr[i]=va_arg(var_arg,int);
 	}
-	va_end(var_arg);   //Íê³É¿É±ä²ÎÊıµÄ´¦Àí
+	va_end(var_arg);   //å®Œæˆå¯å˜å‚æ•°çš„å¤„ç†
 
 	while(true){
-		for(i=0;i<arg_num;i++){//±éÀú²ÎÊı
+		for(i=0;i<arg_num;i++){//éå†å‚æ•°
 			if(symid==symbol_arr[i] || c==EOF){
 				if(c==EOF){
 					exit(0);
@@ -179,10 +186,10 @@ void skip(int arg_num,...){
 
 
 
-int isreserve(){		//ÅĞ¶ÏtokenÊÇ·ñÊÇ±£Áô×Ö,²»ÊÇ·µ»Ø-1,ÊÇÔò·µ»ØÔÚ±£Áô×Ö±íµÄË÷Òı
+int isreserve(){		//åˆ¤æ–­tokenæ˜¯å¦æ˜¯ä¿ç•™å­—,ä¸æ˜¯è¿”å›-1,æ˜¯åˆ™è¿”å›åœ¨ä¿ç•™å­—è¡¨çš„ç´¢å¼•
 	int i=0;
 	for(i=0;i<nrw;i++){
-		if(strcmp(token,resword[i])==0){//±éÀúresword
+		if(strcmp(token,resword[i])==0){//éå†resword
 			return i;
 		}
 	}
@@ -190,19 +197,19 @@ int isreserve(){		//ÅĞ¶ÏtokenÊÇ·ñÊÇ±£Áô×Ö,²»ÊÇ·µ»Ø-1,ÊÇÔò·µ»ØÔÚ±£Áô×Ö±íµÄË÷Òı
 }
 
 
-char getch(){		//ÓÃÓÚ¶ÁÈ¡Ò»¸ö×Ö·û
+char getch(){		//ç”¨äºè¯»å–ä¸€ä¸ªå­—ç¬¦
 	c=getc(fp);
-	no++;					//¶ÁÒ»¸ö×Ö·û,no+1
+	no++;					//è¯»ä¸€ä¸ªå­—ç¬¦,no+1
 	return c;
 }
 
 
-void printtoken(){			//´òÓ¡token
+void printtoken(){			//æ‰“å°token
 	printf("%d: %s %s\n",count,sym,token);
 	count++;
 }
 
-void memsettoken(){			//token,sym,symid,tokenlen,num³õÊ¼»¯
+void memsettoken(){			//token,sym,symid,tokenlen,numåˆå§‹åŒ–
 	memset(token,0,tokensize);
 	tokenlen=0;
 	memset(sym,0,symsize);
@@ -217,194 +224,194 @@ void getsym(){
 	while((c=getch())!=EOF){
 		int error=0;
 		//printf("%c",c);
-		memsettoken();					//³õÊ¼»¯token,tokenlen,sym,symid,num
+		memsettoken();					//åˆå§‹åŒ–token,tokenlen,sym,symid,num
 
-		if(istab(c) || isspace(c)){		//tab,spaceÌø¹ı
+		if(istab(c) || isspace(c)){		//tab,spaceè·³è¿‡
 			continue;
 		}
-		else if(isnewline(c)){			//»»ĞĞ,Ôòline+1¼°no=0
+		else if(isnewline(c)){			//æ¢è¡Œ,åˆ™line+1åŠno=0
 			line++;
 			no=0;
 			//countinline=1;
 			continue;
 		}
-		else if(isletter(c)){			//¶Áµ½×ÖÄ¸
+		else if(isletter(c)){			//è¯»åˆ°å­—æ¯
 			while(isletter(c) || isdigit(c)){
 				token[tokenlen]=c;
-				tokenlen++;				//´æÈëtoken,ÇÒtokenlen+1
+				tokenlen++;				//å­˜å…¥token,ä¸”tokenlen+1
 				c=getch();				
 			}
-			token[tokenlen]='\0';		//ÒÑ¾­¶Áµ½²»ÊÇ×ÖÄ¸»òÊı×Ö
+			token[tokenlen]='\0';		//å·²ç»è¯»åˆ°ä¸æ˜¯å­—æ¯æˆ–æ•°å­—
 			if(c!=EOF){
-				fseek(fp,-1,1);			//Ã»ÓĞ¶Áµ½ÎÄ¼ş½áÎ²£¬¾Í´Óµ±Ç°Î»ÖÃÍËÒ»×Ö·û
-				no--;					//»ØÍËºóno-1
+				fseek(fp,-1,1);			//æ²¡æœ‰è¯»åˆ°æ–‡ä»¶ç»“å°¾ï¼Œå°±ä»å½“å‰ä½ç½®é€€ä¸€å­—ç¬¦
+				no--;					//å›é€€åno-1
 			}
 
-			if((i=isreserve())==-1){		//ËµÃ÷²»ÊÇ±£Áô×Ö
+			if((i=isreserve())==-1){		//è¯´æ˜ä¸æ˜¯ä¿ç•™å­—
 				strcpy(sym,"ID");
 				symid=ID;
 			}
 			else{
-				strcpy(sym,ressym[i]);		//ÊÇ±£Áô×Ö£¬Ôò½«±£Áô×ÖÖú¼Ç·û¿½µ½sym
+				strcpy(sym,ressym[i]);		//æ˜¯ä¿ç•™å­—ï¼Œåˆ™å°†ä¿ç•™å­—åŠ©è®°ç¬¦æ‹·åˆ°sym
 				symid=i;
 			}
 		}
-		else if(isdigit(c)){				//¶Áµ½Êı×Ö
-			int temp=no;					//¼ÇÂ¼Êı×ÖµÚÒ»¸ö×Ö·ûÎ»ÖÃ
+		else if(isdigit(c)){				//è¯»åˆ°æ•°å­—
+			int temp=no;					//è®°å½•æ•°å­—ç¬¬ä¸€ä¸ªå­—ç¬¦ä½ç½®
 			while(isdigit(c)){
-				token[tokenlen]=c;			//´æÈëtoken,ÇÒtokenlen+1
+				token[tokenlen]=c;			//å­˜å…¥token,ä¸”tokenlen+1
 				tokenlen++;
 				c=getch();
 			}
 			token[tokenlen]='\0';
 			if(c!=EOF){
-				fseek(fp,-1,1);				//Ã»ÓĞ¶Áµ½ÎÄ¼ş½áÎ²£¬¾Í´Óµ±Ç°Î»ÖÃÍËÒ»×Ö·û
+				fseek(fp,-1,1);				//æ²¡æœ‰è¯»åˆ°æ–‡ä»¶ç»“å°¾ï¼Œå°±ä»å½“å‰ä½ç½®é€€ä¸€å­—ç¬¦
 				no--;						//no-1
 			}
-			num=atoi(token);				//×Ö·û´®×ªÕûÊı
-			if(token[0]=='0' && num!=0){	//ÒÔ0¿ªÍ·µÄÊı×Ö,ÇÒ²»ÊÇ0
+			num=atoi(token);				//å­—ç¬¦ä¸²è½¬æ•´æ•°
+			if(token[0]=='0' && num!=0){	//ä»¥0å¼€å¤´çš„æ•°å­—,ä¸”ä¸æ˜¯0
 				//error
-				//Ó¦¸Ã±¨´í
+				//åº”è¯¥æŠ¥é”™
 				//
 				//
 				error=ZEROSTARTNUM_ERROR;
-				errormessage(error,line,temp);//µ÷ÓÃerrormessage
+				errormessage(error,line,temp);//è°ƒç”¨errormessage
 			}
 			strcpy(sym,"ANUMBER");
 			symid=ANUMBER;
 		}
 
-		else if(issingq(c)){				//¶Áµ½µ¥ÒıºÅ,Ó¦¸ÃÊÇ×Ö·û
-			c=getch();						//ÔÙ¶ÁÒ»¸ö×Ö·û
-			if(isplus(c) || issub(c) || ismul(c) || isdiv(c) || isletter(c) || isdigit(c)){	//×Ö·ûÖ»ÄÜÊÇ + - * / ×ÖÄ¸ Êı×Ö
-				num=(int)c;					//½«×Ö·û´æÔÚnum,tokenÖĞ
+		else if(issingq(c)){				//è¯»åˆ°å•å¼•å·,åº”è¯¥æ˜¯å­—ç¬¦
+			c=getch();						//å†è¯»ä¸€ä¸ªå­—ç¬¦
+			if(isplus(c) || issub(c) || ismul(c) || isdiv(c) || isletter(c) || isdigit(c)){	//å­—ç¬¦åªèƒ½æ˜¯ + - * / å­—æ¯ æ•°å­—
+				num=(int)c;					//å°†å­—ç¬¦å­˜åœ¨num,tokenä¸­
 				token[tokenlen]=c;
 				tokenlen++;
 			}
-			else{							//·Ç·¨×Ö·û
+			else{							//éæ³•å­—ç¬¦
 				//error
-				//Ó¦¸Ã±¨´í
+				//åº”è¯¥æŠ¥é”™
 				error=ILEGALCH_ERROR;
 				errormessage(error,line,no);
 			}
 			c=getch();
-			if(issingq(c)){					//ÓÖ¶Áµ½µ¥ÒıºÅ
+			if(issingq(c)){					//åˆè¯»åˆ°å•å¼•å·
 				strcpy(sym,"ACHAR");
 				symid=ACHAR;
 			}
-			else{							//·ñÔò±¨´í,»ØÍË
+			else{							//å¦åˆ™æŠ¥é”™,å›é€€
 				//error
-				//Ó¦¸Ã±¨´í
+				//åº”è¯¥æŠ¥é”™
 				error=SINGLEQ_ERROR;
 				errormessage(error,line,no);
 
 				if(c!=EOF){
-					fseek(fp,-1,1);				//Ã»ÓĞ¶Áµ½ÎÄ¼ş½áÎ²£¬¾Í´Óµ±Ç°Î»ÖÃÍËÒ»×Ö·û
+					fseek(fp,-1,1);				//æ²¡æœ‰è¯»åˆ°æ–‡ä»¶ç»“å°¾ï¼Œå°±ä»å½“å‰ä½ç½®é€€ä¸€å­—ç¬¦
 					no--;
 				}
 			}
 		}
 
-		else if(isdoubq(c)){				//¶Áµ½Ë«ÒıºÅ,Ó¦¸ÃÊÇ×Ö·û´®
+		else if(isdoubq(c)){				//è¯»åˆ°åŒå¼•å·,åº”è¯¥æ˜¯å­—ç¬¦ä¸²
 			c=getch();
-			while(isstrch(c)){				//×Ö·û´®ÖĞµÄ×Ö·ûÓ¦¸ÃºÏ·¨,Ê®½øÖÆ±àÂëÎª32,33,35-126µÄASCII×Ö·û,¿ÉÄÜÎª¿Õ´®
+			while(isstrch(c)){				//å­—ç¬¦ä¸²ä¸­çš„å­—ç¬¦åº”è¯¥åˆæ³•,åè¿›åˆ¶ç¼–ç ä¸º32,33,35-126çš„ASCIIå­—ç¬¦,å¯èƒ½ä¸ºç©ºä¸²
 				token[tokenlen]=c;
 				tokenlen++;
 				c=getch();
 			}
-			if(isdoubq(c)){					//¶Áµ½Ä©Î²ÊÇË«ÒıºÅ
+			if(isdoubq(c)){					//è¯»åˆ°æœ«å°¾æ˜¯åŒå¼•å·
 				strcpy(sym,"ASTRING");
 				symid=ASTRING;
 			}
-			else{							//·ñÔò±¨´í
+			else{							//å¦åˆ™æŠ¥é”™
 				//error
-				//Ó¦¸Ã±¨´í
+				//åº”è¯¥æŠ¥é”™
 				error=DOUBLEQ_ERROR;
 				errormessage(error,line,no);
 				if(c!=EOF){
-					fseek(fp,-1,1);				//Ã»ÓĞ¶Áµ½ÎÄ¼ş½áÎ²£¬¾Í´Óµ±Ç°Î»ÖÃÍËÒ»×Ö·û
+					fseek(fp,-1,1);				//æ²¡æœ‰è¯»åˆ°æ–‡ä»¶ç»“å°¾ï¼Œå°±ä»å½“å‰ä½ç½®é€€ä¸€å­—ç¬¦
 					no--;
 				}
 			}
 		}
 
-		else if(issmall(c)){					//¶Áµ½Ğ¡ÓÚºÅ,¿ÉÄÜÎª<»ò<=
+		else if(issmall(c)){					//è¯»åˆ°å°äºå·,å¯èƒ½ä¸º<æˆ–<=
 			token[tokenlen]=c;
 			tokenlen++;
 			c=getch();	
-			if(isassi(c)){						//ÓÖ¶Áµ½µÈÓÚºÅ,ËµÃ÷ÊÇ<=
+			if(isassi(c)){						//åˆè¯»åˆ°ç­‰äºå·,è¯´æ˜æ˜¯<=
 				token[tokenlen]=c;
 				tokenlen++;
 				strcpy(sym,"SMALLEQL");
 				symid=SMALLEQL;
 			}
-			else{								//·ñÔòÊÇ<,½øĞĞ»ØÍË
+			else{								//å¦åˆ™æ˜¯<,è¿›è¡Œå›é€€
 				strcpy(sym,"SMALL");
 				symid=SMALL;
 				if(c!=EOF){
-					fseek(fp,-1,1);				//Ã»ÓĞ¶Áµ½ÎÄ¼ş½áÎ²£¬¾Í´Óµ±Ç°Î»ÖÃÍËÒ»×Ö·û
+					fseek(fp,-1,1);				//æ²¡æœ‰è¯»åˆ°æ–‡ä»¶ç»“å°¾ï¼Œå°±ä»å½“å‰ä½ç½®é€€ä¸€å­—ç¬¦
 					no--;
 				}
 			}
 		}
 
-		else if(isbig(c)){					//¶Áµ½´óÓÚºÅ,¿ÉÄÜÎª>»ò>=
+		else if(isbig(c)){					//è¯»åˆ°å¤§äºå·,å¯èƒ½ä¸º>æˆ–>=
 			token[tokenlen]=c;
 			tokenlen++;
 			c=getch();	
-			if(isassi(c)){						//ÓÖ¶Áµ½µÈÓÚºÅ,ËµÃ÷ÊÇ>=
+			if(isassi(c)){						//åˆè¯»åˆ°ç­‰äºå·,è¯´æ˜æ˜¯>=
 				token[tokenlen]=c;
 				tokenlen++;
 				strcpy(sym,"BIGEQL");
 				symid=BIGEQL;
 			}
-			else{								//·ñÔòÊÇ>,½øĞĞ»ØÍË
+			else{								//å¦åˆ™æ˜¯>,è¿›è¡Œå›é€€
 				strcpy(sym,"BIG");
 				symid=BIG;
 				if(c!=EOF){
-					fseek(fp,-1,1);				//Ã»ÓĞ¶Áµ½ÎÄ¼ş½áÎ²£¬¾Í´Óµ±Ç°Î»ÖÃÍËÒ»×Ö·û
+					fseek(fp,-1,1);				//æ²¡æœ‰è¯»åˆ°æ–‡ä»¶ç»“å°¾ï¼Œå°±ä»å½“å‰ä½ç½®é€€ä¸€å­—ç¬¦
 					no--;
 				}
 			}
 		}
 
-		else if(isassi(c)){					//¶Áµ½µÈÓÚÓÚºÅ,¿ÉÄÜÎª=»ò==
+		else if(isassi(c)){					//è¯»åˆ°ç­‰äºäºå·,å¯èƒ½ä¸º=æˆ–==
 			token[tokenlen]=c;
 			tokenlen++;
 			c=getch();	
-			if(isassi(c)){						//ÓÖ¶Áµ½µÈÓÚºÅ,ËµÃ÷ÊÇ==
+			if(isassi(c)){						//åˆè¯»åˆ°ç­‰äºå·,è¯´æ˜æ˜¯==
 				token[tokenlen]=c;
 				tokenlen++;
 				strcpy(sym,"EQUAL");
 				symid=EQUAL;
 			}
-			else{								//·ñÔòÊÇ=,½øĞĞ»ØÍË
+			else{								//å¦åˆ™æ˜¯=,è¿›è¡Œå›é€€
 				strcpy(sym,"ASSIGN");
 				symid=ASSIGN;
 				if(c!=EOF){
-					fseek(fp,-1,1);				//Ã»ÓĞ¶Áµ½ÎÄ¼ş½áÎ²£¬¾Í´Óµ±Ç°Î»ÖÃÍËÒ»×Ö·û
+					fseek(fp,-1,1);				//æ²¡æœ‰è¯»åˆ°æ–‡ä»¶ç»“å°¾ï¼Œå°±ä»å½“å‰ä½ç½®é€€ä¸€å­—ç¬¦
 					no--;
 				}
 			}
 		}
 		
-		else if(isnot(c)){						//¶Áµ½!,Ó¦¸ÃÎª!=
+		else if(isnot(c)){						//è¯»åˆ°!,åº”è¯¥ä¸º!=
 			token[tokenlen]=c;
 			tokenlen++;
 			c=getch();	
-			if(isassi(c)){						//ÓÖ¶Áµ½µÈÓÚºÅ,ËµÃ÷ÊÇ!=
+			if(isassi(c)){						//åˆè¯»åˆ°ç­‰äºå·,è¯´æ˜æ˜¯!=
 				token[tokenlen]=c;
 				tokenlen++;
 				strcpy(sym,"NOTEQL");
 				symid=NOTEQL;
 			}
-			else{								//·ñÔò±¨´í,²¢»ØÍË
+			else{								//å¦åˆ™æŠ¥é”™,å¹¶å›é€€
 				//error
-				//±¨´í²¢»ØÍË
+				//æŠ¥é”™å¹¶å›é€€
 				error=ASSIGN_ERROR;
 				errormessage(error,line,no);
 				if(c!=EOF){
-					fseek(fp,-1,1);				//Ã»ÓĞ¶Áµ½ÎÄ¼ş½áÎ²£¬¾Í´Óµ±Ç°Î»ÖÃÍËÒ»×Ö·û
+					fseek(fp,-1,1);				//æ²¡æœ‰è¯»åˆ°æ–‡ä»¶ç»“å°¾ï¼Œå°±ä»å½“å‰ä½ç½®é€€ä¸€å­—ç¬¦
 					no--;
 				}
 			}
@@ -477,7 +484,7 @@ void getsym(){
 		}
 		else{
 			//error
-			//±¨´í
+			//æŠ¥é”™
 			error=ILEGALCH_ERROR;
 			errormessage(error,line,no);
 		}
@@ -488,14 +495,14 @@ void getsym(){
 		}
 		return;
 	}
-	//exit(0);	//¶ÁÍê´úÂëÎÄ¼şÖ±½Ó½áÊø³ÌĞò
+	//exit(0);	//è¯»å®Œä»£ç æ–‡ä»¶ç›´æ¥ç»“æŸç¨‹åº
 }
 
 /*
 int main(void){
 	int t;
 	char* path=(char *)malloc(50*sizeof(char));
-	printf("path of file:");			//ÊäÈë²âÊÔ³ÌĞòµÄ¾ø¶ÔÂ·¾¶
+	printf("path of file:");			//è¾“å…¥æµ‹è¯•ç¨‹åºçš„ç»å¯¹è·¯å¾„
 	scanf("%s",path);
 	fp=fopen(path,"r");
 	if(fp==NULL){
