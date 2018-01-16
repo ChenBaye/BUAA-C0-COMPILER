@@ -1,3 +1,11 @@
+/*
+ * midcode.h
+ *
+ *  Created on: 2018å¹´1æœˆ8æ—¥
+ *      Author: ChenShuwei
+ */
+
+
 #ifndef _MIDCODE_H_
 #define _MIDCODE_H_
 #include<stdio.h> 
@@ -5,37 +13,37 @@
 #include<string.h>
 #include<stdlib.h>
 
-#define ADDOP			1	//¼Ó²Ù×÷*			
-#define SUBOP			2	//¼õ²Ù×÷*			
-#define MULOP			3	//³Ë²Ù×÷*
-#define DIVOP			4	//³ı²Ù×÷*
-#define INTFUNCDEF		5	//intº¯Êı¶¨Òå*
-#define CHARFUNCDEF		6	//charº¯Êı¶¨Òå*
-#define VOIDFUNCDEF		7	//voidº¯Êı¶¨Òå*
+#define ADDOP			1	//åŠ æ“ä½œ*			
+#define SUBOP			2	//å‡æ“ä½œ*			
+#define MULOP			3	//ä¹˜æ“ä½œ*
+#define DIVOP			4	//é™¤æ“ä½œ*
+#define INTFUNCDEF		5	//intå‡½æ•°å®šä¹‰*
+#define CHARFUNCDEF		6	//charå‡½æ•°å®šä¹‰*
+#define VOIDFUNCDEF		7	//voidå‡½æ•°å®šä¹‰*
 	
-#define	FUNCCALL		8	//º¯Êıµ÷ÓÃ*
-#define PARAOP			9	//º¯Êı´«µİ²ÎÊı*
-#define	FUNCRET			10	//º¯Êı·µ»ØÖµ*
+#define	FUNCCALL		8	//å‡½æ•°è°ƒç”¨*
+#define PARAOP			9	//å‡½æ•°ä¼ é€’å‚æ•°*
+#define	FUNCRET			10	//å‡½æ•°è¿”å›å€¼*
 
-#define CONSTINTDEF		11	//int³£Á¿¶¨Òå*
-#define CONSTCHARDEF	12	//char³£Á¿¶¨Òå*
-#define VARINTDEF		13	//int±äÁ¿¶¨Òå*
-#define VARCHARDEF		14	//char±äÁ¿¶¨Òå*
-#define	INTARRDEF		15	//intÊı×é¶¨Òå*
-#define CHARARRDEF		16	//charÊı×é¶¨Òå*
-#define	VARASSIGN		17	//¸ø±äÁ¿¸³Öµ*
-#define	ARRASSIGN		18	//¸øÊı×éÔªËØ¸³Öµ*
-#define ARRUSE			19	//·ÃÎÊÊı×éÔªËØµÄÖµ*
+#define CONSTINTDEF		11	//intå¸¸é‡å®šä¹‰*
+#define CONSTCHARDEF	12	//charå¸¸é‡å®šä¹‰*
+#define VARINTDEF		13	//intå˜é‡å®šä¹‰*
+#define VARCHARDEF		14	//charå˜é‡å®šä¹‰*
+#define	INTARRDEF		15	//intæ•°ç»„å®šä¹‰*
+#define CHARARRDEF		16	//charæ•°ç»„å®šä¹‰*
+#define	VARASSIGN		17	//ç»™å˜é‡èµ‹å€¼*
+#define	ARRASSIGN		18	//ç»™æ•°ç»„å…ƒç´ èµ‹å€¼*
+#define ARRUSE			19	//è®¿é—®æ•°ç»„å…ƒç´ çš„å€¼*
 
 
-#define PRINTSTROP		20	//printf ×Ö·û´®*
+#define PRINTSTROP		20	//printf å­—ç¬¦ä¸²*
 #define PRINTINTOP		21	//printf integer*
 #define PRINTCHAROP		22	//printf char*
 #define	SCANINTOP		23	//scanf int
 #define SCANCHAROP		24	//scanf char
-#define RETEXPOP		25	//return ±í´ïÊ½*
-#define RETNULLOP		26	//return ¿Õ*
-#define	SETLABEL		27	//ÉèÖÃ±êÇ©*
+#define RETEXPOP		25	//return è¡¨è¾¾å¼*
+#define RETNULLOP		26	//return ç©º*
+#define	SETLABEL		27	//è®¾ç½®æ ‡ç­¾*
 #define BIGEQLOP		28	//		>=*
 #define SMALLEQLOP		29	//		<=*
 #define EQUALOP			30	//		==*
@@ -43,12 +51,12 @@
 #define BIGOP			32	//		>*
 #define SMALLOP			33	//		<*
 
-#define GOTOOP			34	//ÎŞÌõ¼şÌø×ª*
-#define BNZOP			35	//Âú×ãÌõ¼şÌø×ª not zero*
-#define BZOP			36	//²»Âú×ãÌõ¼şÌø×ª zero*
-#define INTPARA			37	//intĞÎ²Î*
-#define CHARPARA		38	//charĞÎ²Î*
-#define PRINTLINE		39	//»»ĞĞ
+#define GOTOOP			34	//æ— æ¡ä»¶è·³è½¬*
+#define BNZOP			35	//æ»¡è¶³æ¡ä»¶è·³è½¬ not zero*
+#define BZOP			36	//ä¸æ»¡è¶³æ¡ä»¶è·³è½¬ zero*
+#define INTPARA			37	//intå½¢å‚*
+#define CHARPARA		38	//charå½¢å‚*
+#define PRINTLINE		39	//æ¢è¡Œ
 
 #define opsize			200
 struct MIDCODE{
@@ -60,20 +68,20 @@ struct MIDCODE{
 
 
 
-struct MIDCODE mid[2048];	//ÓÃÓÚ´æ´¢ÖĞ¼ä´úÂë
-struct MIDCODE com[2048];	//ÓÃÓÚÓÅ»¯ÖĞ¼ä´úÂë
-int v[2048]={0};			//±ê¼ÇÉ¾³ıµÄÖĞ¼ä´úÂë(1´ú±íÉ¾³ı)
-int midlen=0;				//´æ´¢µÄÖĞ¼ä´úÂëµÄÊıÁ¿(³£Á¿¡¢±äÁ¿¶¨Òå£¬º¯Êı²ÎÊı²»´¢´æ£©				
+struct MIDCODE mid[2048];	//ç”¨äºå­˜å‚¨ä¸­é—´ä»£ç 
+struct MIDCODE com[2048];	//ç”¨äºä¼˜åŒ–ä¸­é—´ä»£ç 
+int v[2048]={0};			//æ ‡è®°åˆ é™¤çš„ä¸­é—´ä»£ç (1ä»£è¡¨åˆ é™¤)
+int midlen=0;				//å­˜å‚¨çš„ä¸­é—´ä»£ç çš„æ•°é‡(å¸¸é‡ã€å˜é‡å®šä¹‰ï¼Œå‡½æ•°å‚æ•°ä¸å‚¨å­˜ï¼‰				
 
 
 
-int tempmid_len=0;			//ÖĞ¼ä´úÂë³¤¶È
-FILE* midfile;			//±£´æÖĞ¼ä´úÂëµÄÎÄ¼şÖ¸Õë
-int tempvar_count=0;	//¼ÇÂ¼ÁÙÊ±±äÁ¿¸öÊı
-int label_count=0;		//¼ÇÂ¼label¸öÊı
+int tempmid_len=0;			//ä¸­é—´ä»£ç é•¿åº¦
+FILE* midfile;			//ä¿å­˜ä¸­é—´ä»£ç çš„æ–‡ä»¶æŒ‡é’ˆ
+int tempvar_count=0;	//è®°å½•ä¸´æ—¶å˜é‡ä¸ªæ•°
+int label_count=0;		//è®°å½•labelä¸ªæ•°
 
 
-//Êı×éÊÇ·ñÊÇÊı×Ö
+//æ•°ç»„æ˜¯å¦æ˜¯æ•°å­—
 int isrealnum(char *s){
 	if(isdigit(s[0]) || s[0]=='+' || s[0]=='-'){
 		return 1;
@@ -81,7 +89,7 @@ int isrealnum(char *s){
 	return 0;
 }
 
-//³£ÊıºÏ²¢ÓÅ»¯£¬Õë¶ÔcodeÒ»ÌõÖĞ¼ä´úÂë
+//å¸¸æ•°åˆå¹¶ä¼˜åŒ–ï¼Œé’ˆå¯¹codeä¸€æ¡ä¸­é—´ä»£ç 
 void constcombine(MIDCODE* code){
 	int i=0;
 	if(code->type<=4 && code->type>=1){
@@ -106,7 +114,7 @@ void constcombine(MIDCODE* code){
 }
 
 
-//¸´ÖÆ´«²¥ÓÅ»¯ Èôx=y,Ôò½«xÓÃy´úÌæ
+//å¤åˆ¶ä¼ æ’­ä¼˜åŒ– è‹¥x=y,åˆ™å°†xç”¨yä»£æ›¿
 void copyconv(){
 	int i=0;
 	int j=0;
@@ -115,101 +123,101 @@ void copyconv(){
 		char now[200]={'\0'};
 
 
-		//ÏÈµ÷ÓÃ³£ÊıºÏ²¢ÓÅ»¯º¯Êı
+		//å…ˆè°ƒç”¨å¸¸æ•°åˆå¹¶ä¼˜åŒ–å‡½æ•°
 		constcombine(&com[i]);
 
-		if(com[i].type==VARASSIGN){	//Óöµ½¸³Öµ
+		if(com[i].type==VARASSIGN){	//é‡åˆ°èµ‹å€¼
 			strcpy(before,com[i].op1);
 			strcpy(now,com[i].op2);
 			for(j=i+1;j<midlen;j++){
 				if((com[j].type>=INTFUNCDEF && com[j].type<=VOIDFUNCDEF) || j==midlen-1 || com[j].type==FUNCCALL || (com[j].type>=GOTOOP  && com[j].type<=BZOP) || com[j].type==SETLABEL){
-					//Óöµ½label »òÕß Ìø×ªÓï¾ä »òÕß º¯Êıµ÷ÓÃ »òÕß º¯Êı¿ªÍ· »òÕß ÖĞ¼ä´úÂëµÄ½áÎ²
-					//¸´ÖÆ´«²¥¾Í½áÊøÁË
-					//if(com[i].op1[0]=='$'){	//Èç¹û¸³ÖµµÄ×ó²¿ÊÇÖĞ¼ä±äÁ¿,Ôò¿ÉÉ¾³ı´úÂë
+					//é‡åˆ°label æˆ–è€… è·³è½¬è¯­å¥ æˆ–è€… å‡½æ•°è°ƒç”¨ æˆ–è€… å‡½æ•°å¼€å¤´ æˆ–è€… ä¸­é—´ä»£ç çš„ç»“å°¾
+					//å¤åˆ¶ä¼ æ’­å°±ç»“æŸäº†
+					//if(com[i].op1[0]=='$'){	//å¦‚æœèµ‹å€¼çš„å·¦éƒ¨æ˜¯ä¸­é—´å˜é‡,åˆ™å¯åˆ é™¤ä»£ç 
 					//	v[i]=1;
 					//}
 					break;
 				}
-				else if(com[j].type==VARASSIGN){								//Óöµ½±äÁ¿¸³Öµ£¬¼ì²ébefore»ònowÊÇ·ñ±»ÖØĞÂ¸³Öµ
+				else if(com[j].type==VARASSIGN){								//é‡åˆ°å˜é‡èµ‹å€¼ï¼Œæ£€æŸ¥beforeæˆ–nowæ˜¯å¦è¢«é‡æ–°èµ‹å€¼
 					if(strcmp(com[j].op2,before)==0){
 						memset(com[j].op2,0,200);
 						strcpy(com[j].op2,now);
-						if(com[i].op1[0]=='$'){									//Èç¹û¸³ÖµµÄ×ó²¿ÊÇÖĞ¼ä±äÁ¿,Ôò¿ÉÉ¾³ı´úÂë
+						if(com[i].op1[0]=='$'){									//å¦‚æœèµ‹å€¼çš„å·¦éƒ¨æ˜¯ä¸­é—´å˜é‡,åˆ™å¯åˆ é™¤ä»£ç 
 							v[i]=1;
 						}
 					}
-					if(strcmp(com[j].op1,before)==0 || strcmp(com[j].op1,now)==0){//before¡¢now±»ÖØĞÂ¸³Öµ
+					if(strcmp(com[j].op1,before)==0 || strcmp(com[j].op1,now)==0){//beforeã€nowè¢«é‡æ–°èµ‹å€¼
 						break;
 					}
 				}
-				else if(com[j].type<=DIVOP && com[j].type>=ADDOP){			//Óöµ½+ - * /,½øĞĞÌæ´ú
-					if(strcmp(com[j].op1,before)==0){					//op1ÊÇbefore
+				else if(com[j].type<=DIVOP && com[j].type>=ADDOP){			//é‡åˆ°+ - * /,è¿›è¡Œæ›¿ä»£
+					if(strcmp(com[j].op1,before)==0){					//op1æ˜¯before
 						memset(com[j].op1,0,200);
 						strcpy(com[j].op1,now);
-						if(com[i].op1[0]=='$'){	//Èç¹û¸³ÖµµÄ×ó²¿ÊÇÖĞ¼ä±äÁ¿,Ôò¿ÉÉ¾³ı´úÂë
+						if(com[i].op1[0]=='$'){	//å¦‚æœèµ‹å€¼çš„å·¦éƒ¨æ˜¯ä¸­é—´å˜é‡,åˆ™å¯åˆ é™¤ä»£ç 
 							v[i]=1;
 						}
 					}
-					if(strcmp(com[j].op2,before)==0){					//op2ÊÇbefore
+					if(strcmp(com[j].op2,before)==0){					//op2æ˜¯before
 						memset(com[j].op2,0,200);
 						strcpy(com[j].op2,now);
-						if(com[i].op1[0]=='$'){	//Èç¹û¸³ÖµµÄ×ó²¿ÊÇÖĞ¼ä±äÁ¿,Ôò¿ÉÉ¾³ı´úÂë
+						if(com[i].op1[0]=='$'){	//å¦‚æœèµ‹å€¼çš„å·¦éƒ¨æ˜¯ä¸­é—´å˜é‡,åˆ™å¯åˆ é™¤ä»£ç 
 							v[i]=1;
 						}
 					}
-					if(strcmp(com[j].result,before)==0 || strcmp(com[j].result,now)==0){//Èç¹ûbefore»ònow±»ÖØĞÂ¸³Öµ
+					if(strcmp(com[j].result,before)==0 || strcmp(com[j].result,now)==0){//å¦‚æœbeforeæˆ–nowè¢«é‡æ–°èµ‹å€¼
 						break;
 					}
 				}
-				else if(com[j].type==ARRASSIGN){				//Óöµ½¸øÊı×éÔªËØ¸³Öµ op1[op2] = result
-					if(strcmp(com[j].result,before)==0){					//resultÊÇbefore
+				else if(com[j].type==ARRASSIGN){				//é‡åˆ°ç»™æ•°ç»„å…ƒç´ èµ‹å€¼ op1[op2] = result
+					if(strcmp(com[j].result,before)==0){					//resultæ˜¯before
 						memset(com[j].result,0,200);
 						strcpy(com[j].result,now);
-						if(com[i].op1[0]=='$'){	//Èç¹û¸³ÖµµÄ×ó²¿ÊÇÖĞ¼ä±äÁ¿,Ôò¿ÉÉ¾³ı´úÂë
+						if(com[i].op1[0]=='$'){	//å¦‚æœèµ‹å€¼çš„å·¦éƒ¨æ˜¯ä¸­é—´å˜é‡,åˆ™å¯åˆ é™¤ä»£ç 
 							v[i]=1;
 						}
 					}
-					if(strcmp(com[j].op2,before)==0){					//op2ÊÇbefore
+					if(strcmp(com[j].op2,before)==0){					//op2æ˜¯before
 						memset(com[j].op2,0,200);
 						strcpy(com[j].op2,now);
-						if(com[i].op1[0]=='$'){	//Èç¹û¸³ÖµµÄ×ó²¿ÊÇÖĞ¼ä±äÁ¿,Ôò¿ÉÉ¾³ı´úÂë
+						if(com[i].op1[0]=='$'){	//å¦‚æœèµ‹å€¼çš„å·¦éƒ¨æ˜¯ä¸­é—´å˜é‡,åˆ™å¯åˆ é™¤ä»£ç 
 							v[i]=1;
 						}
 					}
 				}
 
-				else if(com[j].type>=BIGEQLOP && com[j].type<=SMALLOP){			//Óöµ½>= == <= != > <
-					if(strcmp(com[j].op1,before)==0){					//op1ÊÇbefore
+				else if(com[j].type>=BIGEQLOP && com[j].type<=SMALLOP){			//é‡åˆ°>= == <= != > <
+					if(strcmp(com[j].op1,before)==0){					//op1æ˜¯before
 						memset(com[j].op1,0,200);
 						strcpy(com[j].op1,now);
-						if(com[i].op1[0]=='$'){	//Èç¹û¸³ÖµµÄ×ó²¿ÊÇÖĞ¼ä±äÁ¿,Ôò¿ÉÉ¾³ı´úÂë
+						if(com[i].op1[0]=='$'){	//å¦‚æœèµ‹å€¼çš„å·¦éƒ¨æ˜¯ä¸­é—´å˜é‡,åˆ™å¯åˆ é™¤ä»£ç 
 							v[i]=1;
 						}
 					}
-					if(strcmp(com[j].op2,before)==0){					//op2ÊÇbefore
+					if(strcmp(com[j].op2,before)==0){					//op2æ˜¯before
 						memset(com[j].op2,0,200);
 						strcpy(com[j].op2,now);
-						if(com[i].op1[0]=='$'){	//Èç¹û¸³ÖµµÄ×ó²¿ÊÇÖĞ¼ä±äÁ¿,Ôò¿ÉÉ¾³ı´úÂë
+						if(com[i].op1[0]=='$'){	//å¦‚æœèµ‹å€¼çš„å·¦éƒ¨æ˜¯ä¸­é—´å˜é‡,åˆ™å¯åˆ é™¤ä»£ç 
 							v[i]=1;
 						}
 					}
 				}
 				else if(com[j].type==PARAOP || com[j].type==PRINTINTOP || com[j].type==PRINTCHAROP || com[j].type==RETEXPOP){
 					//printint, printchar ,push para,return value
-					if(strcmp(com[j].op1,before)==0){					//op1ÊÇbefore
+					if(strcmp(com[j].op1,before)==0){					//op1æ˜¯before
 						memset(com[j].op1,0,200);
 						strcpy(com[j].op1,now);
-						if(com[i].op1[0]=='$'){	//Èç¹û¸³ÖµµÄ×ó²¿ÊÇÖĞ¼ä±äÁ¿,Ôò¿ÉÉ¾³ı´úÂë
+						if(com[i].op1[0]=='$'){	//å¦‚æœèµ‹å€¼çš„å·¦éƒ¨æ˜¯ä¸­é—´å˜é‡,åˆ™å¯åˆ é™¤ä»£ç 
 							v[i]=1;
 						}
 					}
 				}
 
 				else if(com[j].type==ARRUSE){							//result = op1[op2]
-					if(strcmp(com[j].op2,before)==0){					//op2ÊÇbefore
+					if(strcmp(com[j].op2,before)==0){					//op2æ˜¯before
 						memset(com[j].op2,0,200);
 						strcpy(com[j].op2,now);
-						if(com[i].op1[0]=='$'){							//Èç¹û¸³ÖµµÄ×ó²¿ÊÇÖĞ¼ä±äÁ¿,Ôò¿ÉÉ¾³ı´úÂë
+						if(com[i].op1[0]=='$'){							//å¦‚æœèµ‹å€¼çš„å·¦éƒ¨æ˜¯ä¸­é—´å˜é‡,åˆ™å¯åˆ é™¤ä»£ç 
 							v[i]=1;
 						}
 					}
@@ -221,25 +229,25 @@ void copyconv(){
 }
 
 
-//»ñµÃÁÙÊ±±äÁ¿¶ÔÓ¦×Ö·û´®
+//è·å¾—ä¸´æ—¶å˜é‡å¯¹åº”å­—ç¬¦ä¸²
 void gettemp(char* str){		
 	tempvar_count++;
 	memset(str,0,200);
-	sprintf(str,"$t_%d",tempvar_count);	//½«×Ö·û´®Ğ´Èëstr
+	sprintf(str,"$t_%d",tempvar_count);	//å°†å­—ç¬¦ä¸²å†™å…¥str
 }
 
 
-//»ñµÃ±êÇ©¶ÔÓ¦×Ö·û´®
+//è·å¾—æ ‡ç­¾å¯¹åº”å­—ç¬¦ä¸²
 void getlabel(char * str){		
 	memset(str,0,200);
 	label_count++;
-	sprintf(str,"Label_%d",label_count);	//½«×Ö·û´®Ğ´Èëstr
+	sprintf(str,"Label_%d",label_count);	//å°†å­—ç¬¦ä¸²å†™å…¥str
 }
 
 
-//Éú³ÉÖĞ¼ä´úÂë
+//ç”Ÿæˆä¸­é—´ä»£ç 
 void midcode(int type,char* op1,char* op2,char* result){
-	//²»±£´æ±äÁ¿\³£Á¿\²ÎÊıÉùÃ÷¶¨Òå
+	//ä¸ä¿å­˜å˜é‡\å¸¸é‡\å‚æ•°å£°æ˜å®šä¹‰
 	/*if(!((type>=CONSTINTDEF && type<=CHARARRDEF) || type==INTPARA || type==CHARPARA)){
 		mid[midlen].type=type;
 		if(op1!=NULL){
@@ -270,17 +278,17 @@ void midcode(int type,char* op1,char* op2,char* result){
 }
 
 
-//½«comÖĞÓÅ»¯µÄÖĞ¼ä´úÂë¿½µ½midÖĞ²¢Ğ´Èëmidcode.txtÎÄ¼ş
+//å°†comä¸­ä¼˜åŒ–çš„ä¸­é—´ä»£ç æ‹·åˆ°midä¸­å¹¶å†™å…¥midcode.txtæ–‡ä»¶
 void writemidcode(){
 	int i=0;
 	int max=midlen;
-	//midlenÇåÁã
+	//midlenæ¸…é›¶
 	midlen=0;
 	for(i=0;i<max;i++){
-		if(v[i]==1){			//ÖĞ¼ä´úÂë±»É¾³ı
+		if(v[i]==1){			//ä¸­é—´ä»£ç è¢«åˆ é™¤
 			continue;
 		}
-		//²»±£´æ±äÁ¿\³£Á¿\²ÎÊıÉùÃ÷¶¨Òå
+		//ä¸ä¿å­˜å˜é‡\å¸¸é‡\å‚æ•°å£°æ˜å®šä¹‰
 		if(!((com[i].type>=CONSTINTDEF && com[i].type<=CHARARRDEF) || com[i].type==INTPARA || com[i].type==CHARPARA)){
 			mid[midlen].type=com[i].type;
 			if(com[i].op1!=NULL){
@@ -320,10 +328,10 @@ void writemidcode(){
 					fprintf(midfile,"call %s\n",com[i].op1);				//call op1
 					break;
 				case PARAOP:
-					fprintf(midfile,"push %s\n",com[i].op1);				//push op1(op1¿ÉÄÜÊÇÒ»¸öÊı×Ö¶ø·Çid)
+					fprintf(midfile,"push %s\n",com[i].op1);				//push op1(op1å¯èƒ½æ˜¯ä¸€ä¸ªæ•°å­—è€Œéid)
 					break;
 				case FUNCRET:
-					fprintf(midfile,"%s = RET\n",com[i].op1);				//op1=RET(op1½ÓÊÜÒ»¸öº¯ÊıµÄ·µ»ØÖµ)
+					fprintf(midfile,"%s = RET\n",com[i].op1);				//op1=RET(op1æ¥å—ä¸€ä¸ªå‡½æ•°çš„è¿”å›å€¼)
 					break;
 				case CONSTINTDEF:
 					fprintf(midfile,"const int %s = %s\n",com[i].op1,com[i].op2);	//const int op1 = op2
@@ -404,7 +412,7 @@ void writemidcode(){
 					fprintf(midfile,"BZ %s\n",com[i].op1);						//BZ op1
 					break;
 				case INTPARA:
-					fprintf(midfile,"para int %s\n",com[i].op1);				//para int op1²ÎÊı¶¨Òå
+					fprintf(midfile,"para int %s\n",com[i].op1);				//para int op1å‚æ•°å®šä¹‰
 					break;
 				case CHARPARA:
 					fprintf(midfile,"para char %s\n",com[i].op1);				//para char op1
