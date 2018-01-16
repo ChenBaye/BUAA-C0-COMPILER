@@ -1,3 +1,12 @@
+/*
+ * error.h
+ *
+ *  Created on: 2018å¹´1æœˆ8æ—¥
+ *      Author: ChenShuwei
+ */
+
+
+
 #ifndef _ERROR_H_
 #define _ERROR_H_
 #include<stdio.h> 
@@ -6,213 +15,213 @@
 #include<stdlib.h>
 
 //*******************************************
-//´íÎóÀàĞÍ±àÂë
+//é”™è¯¯ç±»å‹ç¼–ç 
 //*******************************************
-#define ZEROSTARTNUM_ERROR	1	//Êı×ÖÓĞÇ°Áã
-#define ILEGALCH_ERROR		2	//·Ç·¨×Ö·û
-#define SINGLEQ_ERROR		3	//È±ÉÙµ¥ÒıºÅ
-#define DOUBLEQ_ERROR		4	//È±ÉÙË«ÒıºÅ
-#define ASSIGN_ERROR		5	//È±ÉÙ¸³ÖµºÅ
-#define ID_ERROR			6	//È±ÉÙ±êÊ¶·û
-#define LPAR_ERROR			7	//È±ÉÙ(
-#define RPAR_ERROR			8	//È±ÉÙ)
-#define LBRACE_ERROR		9	//È±ÉÙ{
-#define RBRACE_ERROR		10	//È±ÉÙ}
-#define LBRACKET_ERROR		11	//È±ÉÙ[
-#define RBRACKET_ERROR		12	//È±ÉÙ]
-#define FUNCTYPE_ERROR		13	//È±ÉÙº¯ÊıÀàĞÍ±êÊ¶·û(int char void)
-#define STA_ERROR			14	//²»ÊÇÓï¾ä
-#define	SEMICOLON_ERROR		15	//È±ÉÙ;
-#define FACTOR_ERROR		16	//²»ÊÇÒò×Ó
-#define ARRLEN_ERROR		17	//Êı×é³¤¶È¶¨ÒåÊ±´íÎó
-#define PLUSZERO_ERROR		18	//0Ç°ÓĞ+ -
-#define INTEGER_ERROR		19	//È±ÉÙÕûÊı
-#define CHAR_ERROR			20	//È±ÉÙ×Ö·û
-#define TYPE_ERROR			21	//È±ÉÙÀàĞÍ±êÊ¶·û(int char)
-#define COLON_ERROR			22	//È±ÉÙ:
-#define CONSTVALUE_ERROR	23	//È±ÉÙ³£Á¿
-#define CASE_ERROR			24	//È±ÉÙcase
-#define ADDSUB_ERROR		25	//È±ÉÙ+ -
-#define STEP_ERROR			26	//²½³¤´íÎó
-#define REOP_ERROR			27	//È±ÉÙ¹ØÏµÔËËã·û(< > <= >= == !=)
-#define OUTOFBOUND_ERROR	28	//Êı×éÔ½½ç
-#define VARDEF_ERROR		29	//±äÁ¿¶¨ÒåÎ»ÖÃ´íÎó
-#define DEFAULT_ERROR		30	//È±ÉÙdefault
-#define OUTOFTAB_ERROR		31	//·ûºÅ±íÒç³ö
-#define GLOBALNAME_ERROR	32	//È«¾ÖÁ¿¡¢º¯ÊıÓëÈ«¾ÖÁ¿¡¢º¯Êı²»¿ÉÖØÃû
-#define LOCALNAME_ERROR		33	//¾Ö²¿³£¡¢±äÁ¿ÖØÃû	
-#define UNDEFID_ERROR		34	//Î´¶¨Òå±êÊ¶·û
-#define VARIABLE_ERROR		35	//Ó¦Îªchar int±äÁ¿
-#define NOTARR_ERROR		36	//Ó¦¸ÃÊı×éµÄµØ·½Ê¹ÓÃÁË·ÇÊı×é±äÁ¿
-#define HASRETFUNC_ERROR	37	//Ó¦ÎªÓĞ·µ»ØÖµº¯Êı
-#define DIFFVAR_ERROR		38	//Ñ­»·¿ØÖÆ±äÁ¿Ç°ºó²»Ò»
-#define PARACOUNT_ERROR		39	//²ÎÊıÊıÄ¿´íÎó
-#define TYPECONFL_ERROR		40	//ÀàĞÍ²»Ò»ÖÂ
+#define ZEROSTARTNUM_ERROR	1	//æ•°å­—æœ‰å‰é›¶
+#define ILEGALCH_ERROR		2	//éæ³•å­—ç¬¦
+#define SINGLEQ_ERROR		3	//ç¼ºå°‘å•å¼•å·
+#define DOUBLEQ_ERROR		4	//ç¼ºå°‘åŒå¼•å·
+#define ASSIGN_ERROR		5	//ç¼ºå°‘èµ‹å€¼å·
+#define ID_ERROR			6	//ç¼ºå°‘æ ‡è¯†ç¬¦
+#define LPAR_ERROR			7	//ç¼ºå°‘(
+#define RPAR_ERROR			8	//ç¼ºå°‘)
+#define LBRACE_ERROR		9	//ç¼ºå°‘{
+#define RBRACE_ERROR		10	//ç¼ºå°‘}
+#define LBRACKET_ERROR		11	//ç¼ºå°‘[
+#define RBRACKET_ERROR		12	//ç¼ºå°‘]
+#define FUNCTYPE_ERROR		13	//ç¼ºå°‘å‡½æ•°ç±»å‹æ ‡è¯†ç¬¦(int char void)
+#define STA_ERROR			14	//ä¸æ˜¯è¯­å¥
+#define	SEMICOLON_ERROR		15	//ç¼ºå°‘;
+#define FACTOR_ERROR		16	//ä¸æ˜¯å› å­
+#define ARRLEN_ERROR		17	//æ•°ç»„é•¿åº¦å®šä¹‰æ—¶é”™è¯¯
+#define PLUSZERO_ERROR		18	//0å‰æœ‰+ -
+#define INTEGER_ERROR		19	//ç¼ºå°‘æ•´æ•°
+#define CHAR_ERROR			20	//ç¼ºå°‘å­—ç¬¦
+#define TYPE_ERROR			21	//ç¼ºå°‘ç±»å‹æ ‡è¯†ç¬¦(int char)
+#define COLON_ERROR			22	//ç¼ºå°‘:
+#define CONSTVALUE_ERROR	23	//ç¼ºå°‘å¸¸é‡
+#define CASE_ERROR			24	//ç¼ºå°‘case
+#define ADDSUB_ERROR		25	//ç¼ºå°‘+ -
+#define STEP_ERROR			26	//æ­¥é•¿é”™è¯¯
+#define REOP_ERROR			27	//ç¼ºå°‘å…³ç³»è¿ç®—ç¬¦(< > <= >= == !=)
+#define OUTOFBOUND_ERROR	28	//æ•°ç»„è¶Šç•Œ
+#define VARDEF_ERROR		29	//å˜é‡å®šä¹‰ä½ç½®é”™è¯¯
+#define DEFAULT_ERROR		30	//ç¼ºå°‘default
+#define OUTOFTAB_ERROR		31	//ç¬¦å·è¡¨æº¢å‡º
+#define GLOBALNAME_ERROR	32	//å…¨å±€é‡ã€å‡½æ•°ä¸å…¨å±€é‡ã€å‡½æ•°ä¸å¯é‡å
+#define LOCALNAME_ERROR		33	//å±€éƒ¨å¸¸ã€å˜é‡é‡å	
+#define UNDEFID_ERROR		34	//æœªå®šä¹‰æ ‡è¯†ç¬¦
+#define VARIABLE_ERROR		35	//åº”ä¸ºchar intå˜é‡
+#define NOTARR_ERROR		36	//åº”è¯¥æ•°ç»„çš„åœ°æ–¹ä½¿ç”¨äº†éæ•°ç»„å˜é‡
+#define HASRETFUNC_ERROR	37	//åº”ä¸ºæœ‰è¿”å›å€¼å‡½æ•°
+#define DIFFVAR_ERROR		38	//å¾ªç¯æ§åˆ¶å˜é‡å‰åä¸ä¸€
+#define PARACOUNT_ERROR		39	//å‚æ•°æ•°ç›®é”™è¯¯
+#define TYPECONFL_ERROR		40	//ç±»å‹ä¸ä¸€è‡´
 
-FILE* errorfile;				//½ÓÊÕ´íÎóĞÅÏ¢µÄÎÄ¼ş
+FILE* errorfile;				//æ¥æ”¶é”™è¯¯ä¿¡æ¯çš„æ–‡ä»¶
 
 int iserror=0;
 
 
-void errormessage(int error,int line,int no){	//Êä³ö´íÎóĞÅÏ¢
+void errormessage(int error,int line,int no){	//è¾“å‡ºé”™è¯¯ä¿¡æ¯
 	iserror=1;
 	printf("************************************ERROR************************************\n");
 	char message[200]={'\0'};
 	switch(error){
-	case ZEROSTARTNUM_ERROR://Êı×ÖÓĞÇ°Áã 1
+	case ZEROSTARTNUM_ERROR://æ•°å­—æœ‰å‰é›¶ 1
 		sprintf(message,"(WARNING)\tline:%d char:%d a number start with zero\n",line,no);
 		break;
-	case ILEGALCH_ERROR://·Ç·¨×Ö·û 2
+	case ILEGALCH_ERROR://éæ³•å­—ç¬¦ 2
 		sprintf(message,"(ERROR)\tline:%d char:%d an ilegal char\n",line,no);
 		break;
-	case SINGLEQ_ERROR://È±ÉÙµ¥ÒıºÅ 3
+	case SINGLEQ_ERROR://ç¼ºå°‘å•å¼•å· 3
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \'\'\'\n",line,no);
-		//ÔÚgetsym.hÖĞ½øĞĞ»ØÍË
+		//åœ¨getsym.hä¸­è¿›è¡Œå›é€€
 		break;
-	case DOUBLEQ_ERROR://È±ÉÙË«ÒıºÅ 4
+	case DOUBLEQ_ERROR://ç¼ºå°‘åŒå¼•å· 4
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \'\"\'\n",line,no);
-		//ÔÚgetsym.hÖĞ½øĞĞ»ØÍË
+		//åœ¨getsym.hä¸­è¿›è¡Œå›é€€
 		break;
-	case ASSIGN_ERROR://È±ÉÙ¸³ÖµºÅ 5
+	case ASSIGN_ERROR://ç¼ºå°‘èµ‹å€¼å· 5
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \'=\'\n",line,no);
 		break;
-	case ID_ERROR://È±ÉÙ±êÊ¶·û 6
+	case ID_ERROR://ç¼ºå°‘æ ‡è¯†ç¬¦ 6
 		sprintf(message,"(ERROR)\tline:%d char:%d lost an id\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case LPAR_ERROR://È±ÉÙ( 7
+	case LPAR_ERROR://ç¼ºå°‘( 7
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \'(\'\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case RPAR_ERROR://È±ÉÙ) 8
+	case RPAR_ERROR://ç¼ºå°‘) 8
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \')\'\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case LBRACE_ERROR://È±ÉÙ{ 9
+	case LBRACE_ERROR://ç¼ºå°‘{ 9
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \'{\'\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case RBRACE_ERROR://È±ÉÙ} 10
+	case RBRACE_ERROR://ç¼ºå°‘} 10
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \'}\'\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case LBRACKET_ERROR://È±ÉÙ[ 11
+	case LBRACKET_ERROR://ç¼ºå°‘[ 11
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \'[\'\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case RBRACKET_ERROR://È±ÉÙ] 12
+	case RBRACKET_ERROR://ç¼ºå°‘] 12
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \']\'\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case FUNCTYPE_ERROR://È±ÉÙº¯ÊıÀàĞÍ±êÊ¶·û(int char void) 13
+	case FUNCTYPE_ERROR://ç¼ºå°‘å‡½æ•°ç±»å‹æ ‡è¯†ç¬¦(int char void) 13
 		sprintf(message,"(ERROR)\tline:%d char:%d lost int/char/void at the head of a function\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case STA_ERROR://¶Áµ½µÄ·ûºÅ²»·ûºÏÈÎºÎ<Óï¾ä>µÄ¿ªÊ¼·ûºÅ 14
+	case STA_ERROR://è¯»åˆ°çš„ç¬¦å·ä¸ç¬¦åˆä»»ä½•<è¯­å¥>çš„å¼€å§‹ç¬¦å· 14
 		sprintf(message,"(ERROR)\tline:%d char:%d read an ilegal symbol at the head of a sta\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case SEMICOLON_ERROR://È±ÉÙ; 15
+	case SEMICOLON_ERROR://ç¼ºå°‘; 15
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \';\'\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case FACTOR_ERROR://¶Áµ½µÄ·ûºÅ²»·ûºÏÈÎºÎÒò×ÓµÄ¿ªÊ¼·ûºÅ 16
+	case FACTOR_ERROR://è¯»åˆ°çš„ç¬¦å·ä¸ç¬¦åˆä»»ä½•å› å­çš„å¼€å§‹ç¬¦å· 16
 		sprintf(message,"(ERROR)\tline:%d char:%d read an ilegal symbol at the head of a factor\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case ARRLEN_ERROR://Êı×é³¤¶È¶¨ÒåÊ±´íÎó 17
+	case ARRLEN_ERROR://æ•°ç»„é•¿åº¦å®šä¹‰æ—¶é”™è¯¯ 17
 		sprintf(message,"(ERROR)\tline:%d char:%d the lenth of an array must be a no-symbol-integer(>0) \n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case PLUSZERO_ERROR://0Ç°ÓĞ+ - 18
+	case PLUSZERO_ERROR://0å‰æœ‰+ - 18
 		sprintf(message,"(ERROR)\tline:%d char:%d zero can not start with \'+\'/\'-\' \n",line,no);
-		////skip(SEMICOLON);//Ìø¶Áµ½;
+		////skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case INTEGER_ERROR://È±ÉÙÕûÊı 19
+	case INTEGER_ERROR://ç¼ºå°‘æ•´æ•° 19
 		sprintf(message,"(ERROR)\tline:%d char:%d lost an integer\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case CHAR_ERROR://È±ÉÙ×Ö·û 20
+	case CHAR_ERROR://ç¼ºå°‘å­—ç¬¦ 20
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a char\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case TYPE_ERROR://È±ÉÙÀàĞÍ±êÊ¶·û(int char) 21
+	case TYPE_ERROR://ç¼ºå°‘ç±»å‹æ ‡è¯†ç¬¦(int char) 21
 		sprintf(message,"(ERROR)\tline:%d char:%d lost an \"int\" or \"char\"\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case COLON_ERROR://È±ÉÙ: 22
+	case COLON_ERROR://ç¼ºå°‘: 22
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \';\'\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case CONSTVALUE_ERROR://È±ÉÙ³£Á¿ 23
+	case CONSTVALUE_ERROR://ç¼ºå°‘å¸¸é‡ 23
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a const-value(an integer or a char)\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case CASE_ERROR://È±ÉÙcase 24
+	case CASE_ERROR://ç¼ºå°‘case 24
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \"case\"\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case ADDSUB_ERROR://È±ÉÙ+ - 25
+	case ADDSUB_ERROR://ç¼ºå°‘+ - 25
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \'+\'/\'-\'\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case STEP_ERROR://²½³¤´íÎó 26
+	case STEP_ERROR://æ­¥é•¿é”™è¯¯ 26
 		sprintf(message,"(ERROR)\tline:%d char:%d step must be an no-symbol-integer(>0)\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case REOP_ERROR://È±ÉÙ¹ØÏµÔËËã·û(< > <= >= == !=) 27
+	case REOP_ERROR://ç¼ºå°‘å…³ç³»è¿ç®—ç¬¦(< > <= >= == !=) 27
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \'<\'/\'>\'/\"<=\"/\">=\"/\"==\"/\"!=\"\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case OUTOFBOUND_ERROR://Êı×éÔ½½ç 28
+	case OUTOFBOUND_ERROR://æ•°ç»„è¶Šç•Œ 28
 		sprintf(message,"(ERROR)\tline:%d char:%d the index is out of the bound of array\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case VARDEF_ERROR://±äÁ¿¶¨ÒåÎ»ÖÃ´íÎó 29
+	case VARDEF_ERROR://å˜é‡å®šä¹‰ä½ç½®é”™è¯¯ 29
 		sprintf(message,"(WARNING)\tline:%d char:%d variable define should not be here\n",line,no);
-		////skip(SEMICOLON);//Ìø¶Áµ½;
+		////skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case DEFAULT_ERROR://È±ÉÙdefault 30
+	case DEFAULT_ERROR://ç¼ºå°‘default 30
 		sprintf(message,"(ERROR)\tline:%d char:%d lost a \"default\"\n",line,no);
-		//skip(SEMICOLON);//Ìø¶Áµ½;
+		//skip(SEMICOLON);//è·³è¯»åˆ°;
 		break;
-	case OUTOFTAB_ERROR://·ûºÅ±íÒç³ö 31
+	case OUTOFTAB_ERROR://ç¬¦å·è¡¨æº¢å‡º 31
 		sprintf(message,"(FATA ERROR)\ttoo much symbol\n",line,no);
-		exit(0);		//ÑÏÖØ´íÎó£¬Ö±½Ó½áÊø³ÌĞò
+		exit(0);		//ä¸¥é‡é”™è¯¯ï¼Œç›´æ¥ç»“æŸç¨‹åº
 		break;
-	case GLOBALNAME_ERROR:		//È«¾ÖÁ¿¡¢º¯ÊıÓëÈ«¾ÖÁ¿¡¢º¯Êı²»¿ÉÖØÃû 32
+	case GLOBALNAME_ERROR:		//å…¨å±€é‡ã€å‡½æ•°ä¸å…¨å±€é‡ã€å‡½æ•°ä¸å¯é‡å 32
 		sprintf(message,"(ERROR)\tline:%d char:%global name complict \"default\"\n",line,no);
 		break;
-	case LOCALNAME_ERROR:	//¾Ö²¿³£¡¢±äÁ¿ÖØÃû 33
+	case LOCALNAME_ERROR:	//å±€éƒ¨å¸¸ã€å˜é‡é‡å 33
 		sprintf(message,"(ERROR)\tline:%d char:%local name complict \n",line,no);
 		break;
-	case UNDEFID_ERROR:		//Î´¶¨Òå±êÊ¶·û 34
+	case UNDEFID_ERROR:		//æœªå®šä¹‰æ ‡è¯†ç¬¦ 34
 		sprintf(message,"(ERROR)\tline:%d char:%d the ID is not defined \n",line,no);
 		break;
-	case VARIABLE_ERROR:	//Ó¦Îªchar int±äÁ¿ 35
+	case VARIABLE_ERROR:	//åº”ä¸ºchar intå˜é‡ 35
 		sprintf(message,"(ERROR)\tline:%d char:%d should be a variable \n",line,no);
 		break;
-	case NOTARR_ERROR:		//Ó¦¸ÃÊı×éµÄµØ·½Ê¹ÓÃÁË·ÇÊı×é±äÁ¿ 36
+	case NOTARR_ERROR:		//åº”è¯¥æ•°ç»„çš„åœ°æ–¹ä½¿ç”¨äº†éæ•°ç»„å˜é‡ 36
 		sprintf(message,"(ERROR)\tline:%d char:%d should be an array\n",line,no);
 		break;
-	case HASRETFUNC_ERROR:	//Ó¦ÎªÓĞ·µ»ØÖµº¯Êı 37
+	case HASRETFUNC_ERROR:	//åº”ä¸ºæœ‰è¿”å›å€¼å‡½æ•° 37
 		sprintf(message,"(ERROR)\tline:%d char:%d should be a function with return-value\n",line,no);
 		break;
-	case DIFFVAR_ERROR:		//Ñ­»·¿ØÖÆ±äÁ¿Ç°ºó²»Ò» 38
+	case DIFFVAR_ERROR:		//å¾ªç¯æ§åˆ¶å˜é‡å‰åä¸ä¸€ 38
 		sprintf(message,"(ERROR)\tline:%d char:%d the id of for-loop-control is different\n",line,no);
 		break;
-	case PARACOUNT_ERROR:	//²ÎÊıÊıÄ¿´íÎó 39
+	case PARACOUNT_ERROR:	//å‚æ•°æ•°ç›®é”™è¯¯ 39
 		sprintf(message,"(ERROR)\tline:%d char:%d the number of para is fault\n",line,no);
 		break;
-	case TYPECONFL_ERROR:	//ÀàĞÍ²»Ò»ÖÂ
+	case TYPECONFL_ERROR:	//ç±»å‹ä¸ä¸€è‡´
 		sprintf(message,"(WARNING)\tline:%d char:%d types are conflicting \n",line,no);
 		break;
 	default:
 		break;
 	}
 
-	printf(message);			//´òÓ¡µ½¿ØÖÆÌ¨
-	fprintf(errorfile,message);	//´òÓ¡µ½ÎÄ¼şerror.txt
+	printf(message);			//æ‰“å°åˆ°æ§åˆ¶å°
+	fprintf(errorfile,message);	//æ‰“å°åˆ°æ–‡ä»¶error.txt
 }
 
 
