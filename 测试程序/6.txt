@@ -1,0 +1,19 @@
+int exp(int x,int y,char c){
+	int result;
+	result=0;
+	switch(c){	
+		case '+':{;result=x+y;}
+		case '-':{;result=x-y;}
+		case '*':{;result=x*y;}
+		case '/':{;result=x/y;}
+		:printf("not + - * /");
+	}
+	return (result);
+
+}
+
+
+void main(){
+
+printf(exp(1,exp(2,exp(3,exp(4,5,'/'),'-'),'*'),'+'));
+}

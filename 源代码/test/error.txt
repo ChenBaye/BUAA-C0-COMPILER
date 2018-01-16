@@ -1,0 +1,2 @@
+(ERROR)	line:6 char:9 lost a ';'
+(ERROR)	line:16 char:19 lost a ';'

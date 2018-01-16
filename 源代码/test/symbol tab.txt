@@ -1,0 +1,12 @@
+#define tabsize 256
+
+//符号表表项结构体
+struct tabentry{
+	char id[tokensize];//取前tokensize个字符
+	int type;	//0-int, 1-char ,2-const int, 3-const char,4-int数组,5-char数组,
+				//6-返回int的函数,7-返回char的函数,8-返回void的函数,9-int型参数,10-char型参数
+	int len;	//数组长度或函数参数个数或常量的值
+	int lev;	//只可能为0(全局标识符:函数、全局常量、全局变量)或1(局部标识符:局部常量，局部变量)
+	int size;	//常变量所占字节大小或函数中参数及常变量所占字节大小之和
+	int addr;	//标识符存储地址偏移(距离函数开头)
+};

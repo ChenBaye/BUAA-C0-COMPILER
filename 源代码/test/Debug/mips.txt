@@ -1,0 +1,279 @@
+.data
+	$string_0:.asciiz "OVERFLOW! "
+	$string_1:.asciiz "complete number: "
+	$string_2:.asciiz "  "
+	$string_3:.asciiz "  "
+	$string_4:.asciiz "---------------------------------------------------------------\n"
+	$string_5:.asciiz " "
+	$string_6:.asciiz "  "
+	$string_7:.asciiz "The total is "
+.text
+	add $fp $0 $sp
+	subi $sp $sp 12
+	subi $sp $sp 0
+	j main
+complete_num:
+	sw $ra -8($fp)
+	sw $0 -12($fp)
+	li $t0 2
+	sw $t0 4100($sp)
+	j Label_2
+Label_1:
+	lw $t0 4100($sp)
+	li $t1 1024
+	bge $t0 $t1 Label_3
+Label_2:
+	li $t0 -1
+	sw $t0 4104($sp)
+	lw $t0 4100($sp)
+	sw $t0 4108($sp)
+	li $t0 1
+	sw $t0 4096($sp)
+	j Label_5
+Label_4:
+	lw $t0 4096($sp)
+	lw $t1 4100($sp)
+	bge $t0 $t1 Label_6
+Label_5:
+	lw $t0 4100($sp)
+	lw $t1 4096($sp)
+	div $t0 $t1
+	mflo $t0
+	sw $t0 4136($sp)
+	lw $t1 4096($sp)
+	mult $t0 $t1
+	mflo $t0
+	sw $t0 4140($sp)
+	sw $t0 4112($sp)
+	lw $t0 4140($sp)
+	lw $t1 4100($sp)
+	bne $t0 $t1 Label_7
+	lw $t0 4104($sp)
+	li $t1 1
+	add $t0 $t0 $t1
+	sw $t0 4144($sp)
+	sw $t0 4104($sp)
+	lw $t0 4108($sp)
+	lw $t1 4096($sp)
+	sub $t0 $t0 $t1
+	sw $t0 4148($sp)
+	sw $t0 4108($sp)
+	lw $t0 4144($sp)
+	li $t1 1024
+	blt $t0 $t1 Label_9
+	li $v0 4
+	la $a0 $string_0
+	syscall
+	li $v0 11
+	li $a0 10
+	syscall
+	j Label_10
+Label_9:
+	la $t0 0($sp)
+	lw $t1 4104($sp)
+	li $t2 4
+	mul $t1 $t1 $t2
+	lw $t2 4096($sp)
+	add $t1 $t1 $t0
+	sw $t2 0($t1)
+Label_10:
+	j Label_8
+Label_7:
+Label_8:
+	lw $t0 4096($sp)
+	li $t1 1
+	add $t0 $t0 $t1
+	sw $t0 4152($sp)
+	sw $t0 4096($sp)
+	j Label_4
+Label_6:
+	lw $t0 4108($sp)
+	li $t1 0
+	bne $t0 $t1 Label_11
+	li $v0 4
+	la $a0 $string_1
+	syscall
+	li $v0 1
+	lw $a0 4100($sp)
+	syscall
+	li $v0 11
+	li $a0 10
+	syscall
+	li $t0 0
+	sw $t0 4096($sp)
+	j Label_14
+Label_13:
+	lw $t0 4096($sp)
+	lw $t1 4104($sp)
+	bgt $t0 $t1 Label_15
+Label_14:
+	li $v0 4
+	la $a0 $string_2
+	syscall
+	lw $t0 4096($sp)
+	sw $t0 4156($sp)
+	la $t0 0($sp)
+	lw $t1 4156($sp)
+	li $t2 4
+	mul $t1 $t1 $t2
+	add $t1 $t1 $t0
+	lw $t0 0($t1)
+	sw $t0 4160($sp)
+	li $v0 1
+	lw $a0 4160($sp)
+	syscall
+	li $v0 11
+	li $a0 10
+	syscall
+	lw $t0 4096($sp)
+	li $t1 1
+	add $t0 $t0 $t1
+	sw $t0 4164($sp)
+	sw $t0 4096($sp)
+	j Label_13
+Label_15:
+	li $v0 4
+	la $a0 $string_2
+	syscall
+	li $v0 11
+	li $a0 10
+	syscall
+	j Label_12
+Label_11:
+Label_12:
+	lw $t0 4100($sp)
+	li $t1 1
+	add $t0 $t0 $t1
+	sw $t0 4168($sp)
+	sw $t0 4100($sp)
+	j Label_1
+Label_3:
+	li $v0 4
+	la $a0 $string_4
+	syscall
+	li $v0 11
+	li $a0 10
+	syscall
+	li $t0 0
+	sw $t0 4124($sp)
+	li $t0 1
+	sw $t0 4128($sp)
+	li $t0 2
+	sw $t0 4116($sp)
+	j Label_17
+Label_16:
+	lw $t0 4116($sp)
+	li $t1 1024
+	bgt $t0 $t1 Label_18
+Label_17:
+	lw $t0 4116($sp)
+	li $t1 1
+	sub $t0 $t0 $t1
+	sw $t0 4172($sp)
+	sw $t0 4120($sp)
+	li $t0 2
+	sw $t0 4096($sp)
+	j Label_20
+Label_19:
+	lw $t0 4096($sp)
+	lw $t1 4120($sp)
+	bgt $t0 $t1 Label_21
+Label_20:
+	lw $t0 4116($sp)
+	lw $t1 4096($sp)
+	div $t0 $t1
+	mflo $t0
+	sw $t0 4176($sp)
+	lw $t1 4096($sp)
+	mult $t0 $t1
+	mflo $t0
+	sw $t0 4180($sp)
+	sw $t0 4132($sp)
+	lw $t0 4180($sp)
+	lw $t1 4116($sp)
+	bne $t0 $t1 Label_22
+	li $t0 0
+	sw $t0 4128($sp)
+	j Label_23
+Label_22:
+Label_23:
+	lw $t0 4096($sp)
+	li $t1 1
+	add $t0 $t0 $t1
+	sw $t0 4184($sp)
+	sw $t0 4096($sp)
+	j Label_19
+Label_21:
+	lw $t0 4128($sp)
+	li $t1 1
+	bne $t0 $t1 Label_24
+	li $v0 4
+	la $a0 $string_5
+	syscall
+	li $v0 1
+	lw $a0 4116($sp)
+	syscall
+	li $v0 11
+	li $a0 10
+	syscall
+	lw $t0 4124($sp)
+	li $t1 1
+	add $t0 $t0 $t1
+	sw $t0 4188($sp)
+	sw $t0 4124($sp)
+	lw $t0 4188($sp)
+	li $t1 10
+	div $t0 $t1
+	mflo $t0
+	sw $t0 4192($sp)
+	li $t1 10
+	mult $t0 $t1
+	mflo $t0
+	sw $t0 4196($sp)
+	sw $t0 4132($sp)
+	lw $t0 4196($sp)
+	lw $t1 4188($sp)
+	bne $t0 $t1 Label_26
+	li $v0 4
+	la $a0 $string_2
+	syscall
+	li $v0 11
+	li $a0 10
+	syscall
+	j Label_27
+Label_26:
+Label_27:
+	j Label_25
+Label_24:
+Label_25:
+	li $t0 1
+	sw $t0 4128($sp)
+	lw $t0 4116($sp)
+	li $t1 1
+	add $t0 $t0 $t1
+	sw $t0 4200($sp)
+	sw $t0 4116($sp)
+	j Label_16
+Label_18:
+	li $v0 4
+	la $a0 $string_7
+	syscall
+	li $v0 1
+	lw $a0 4124($sp)
+	syscall
+	li $v0 11
+	li $a0 10
+	syscall
+	li $t0 0
+	sw $t0 -12($fp)
+	move $sp $fp
+	lw $ra -8($fp)
+	lw $fp -4($fp)
+	jr $ra
+main:
+	sw $fp -4($sp)
+	move $fp $sp
+	subi $sp $sp 12
+	subi $sp $sp 4204
+	jal complete_num
+Label_end:
