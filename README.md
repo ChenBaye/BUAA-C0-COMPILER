@@ -1,7 +1,6 @@
 # BUAA-C0-COMPILER
 A C0 COMPILER OF BUAA COMPILATION TECHNOLOGY
 
-学长只能帮你到这了。。。。。。。。。。。。
 
 
 
